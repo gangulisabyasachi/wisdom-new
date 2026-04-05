@@ -235,6 +235,13 @@ section {
   line-height: 1.7;
 }
 
+.hero-btns {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
 .issn-box {
   display: flex;
   gap: 1.5rem;
