@@ -1,28 +1,59 @@
 'use client';
 import { useState, useEffect } from 'react';
-export default function Typewriter({ text, speed = 150, delay = 1000 }) {
-  const [displayedText, setDisplayedText] = useState('');
+
+export default function Typewriter({ text, speed = 150, delay = 3500, deleteSpeed = 80 }) {
+  const [mounted, setMounted] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [index, setIndex] = useState(0);
-  const [start, setStart] = useState(false);
+
+  // Ensure hydration stability by only running animations on the client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setStart(true), delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
+    if (!mounted) return;
 
-  useEffect(() => {
-    if (start && index < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText((prev) => prev + text[index]);
+    let timer;
+
+    if (!isDeleting && index < text.length) {
+      // Typing Phase
+      timer = setTimeout(() => {
         setIndex((prev) => prev + 1);
       }, speed);
-      return () => clearTimeout(timeout);
+    } else if (!isDeleting && index === text.length) {
+      // Completed Phase - Long Pause
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, delay);
+    } else if (isDeleting && index > 0) {
+      // Deletion Phase
+      timer = setTimeout(() => {
+        setIndex((prev) => prev - 1);
+      }, deleteSpeed);
+    } else if (isDeleting && index === 0) {
+      // Reset Phase - Pause before typing again
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+      }, speed * 2);
     }
-  }, [index, text, speed, start]);
+
+    return () => clearTimeout(timer);
+  }, [index, isDeleting, text, speed, delay, deleteSpeed, mounted]);
+
+  // SSR-safe fallback
+  if (!mounted) {
+    return (
+      <span className="typewriter-text" style={{ color: 'var(--accent)' }}>
+        {/* Server renders nothing or a static version to prevent layout shift */}
+      </span>
+    );
+  }
 
   return (
-    <span className="typewriter-text" style={{ color: 'var(--accent)' }}>
-      {displayedText}
+    <span className="typewriter-text" style={{ color: 'var(--accent)', position: 'relative' }}>
+      {text.substring(0, index)}
+      <span className="typewriter-cursor"></span>
     </span>
   );
 }

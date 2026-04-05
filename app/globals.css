@@ -214,6 +214,135 @@ section {
   text-align: center;
   overflow: hidden;
   background: var(--bg);
+  position: relative;
+  min-height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background-color: var(--accent);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Scroll Indicator */
+.scroll-indicator-wrapper {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  animation: floating 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes floating {
+  0% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 15px); }
+  100% { transform: translate(-50%, 0); }
+}
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.mouse {
+  width: 22px;
+  height: 36px;
+  border: 2px solid var(--text-secondary);
+  border-radius: 20px;
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.wheel {
+  width: 3px;
+  height: 6px;
+  background-color: var(--accent);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollWheel {
+  0% { transform: translate(-50%, 0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(-50%, 15px); opacity: 0; }
+}
+
+.scroll-arrow-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-arrow-icon span {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-bottom: 3px solid var(--accent);
+  border-right: 3px solid var(--accent);
+  transform: rotate(45deg);
+  margin: -5px;
+  animation: arrowBounce 2s infinite;
+  transition: border-color 0.3s ease;
+}
+
+.scroll-arrow-icon span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.scroll-arrow-icon span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes arrowBounce {
+  0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
+}
+
+.scroll-indicator:hover .mouse {
+  border-color: var(--accent);
+}
+
+.scroll-indicator:hover .scroll-arrow-icon span {
+  border-color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .scroll-indicator-wrapper {
+    bottom: 2rem;
+  }
 }
 
 .hero-content {

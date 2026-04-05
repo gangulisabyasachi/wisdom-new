@@ -88,10 +88,26 @@ export default async function Home() {
                         <Link href="/archives" className="btn btn-primary">Browse Archives</Link>
                         <Link href="/current-issue" className="btn" style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)', fontWeight: 600 }}>Explore Latest Issue</Link>
                     </div>
+
+                </div>
+
+                {/* Highly Professional Animated Scroll Indicator */}
+                <div className="scroll-indicator-wrapper">
+                    <a href="#academic-advancements" className="scroll-indicator" aria-label="Scroll to discover more">
+                        <span className="scroll-text">DISCOVER MORE</span>
+                        <div className="mouse">
+                            <div className="wheel"></div>
+                        </div>
+                        <div className="scroll-arrow-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
                 </div>
             </section>
 
-            <section className="publisher-info">
+            <section id="academic-advancements" className="publisher-info">
                 <div className="container">
                     <div className="publisher-grid">
                         <div className="publisher-text reveal">
