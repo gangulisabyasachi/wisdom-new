@@ -44,7 +44,7 @@ export default async function Home() {
                 <div className="container hero-content reveal">
                     <h1 className="hero-title">
                         {/* Unlocking <span style={{ color: 'var(--accent)' }}>Wisdom</span> through Global Research. */}
-                        Unlocking <Typewriter text="WISDOM" /> through Global Research.
+                        Unlocking <Typewriter text="WISDOM" /> <br></br>through Global Research.
 
                     </h1>
                     <p className="hero-description">
