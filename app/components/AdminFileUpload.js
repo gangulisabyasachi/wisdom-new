@@ -4,22 +4,25 @@ import { useState } from 'react';
 
 /**
  * A premium, stateful file upload component for the WISDOM Admin Portal.
- * Provides instant visual feedback when a manuscript PDF is selected.
+ * Simplified for manual-entry only.
  */
 export default function AdminFileUpload({ name, required = false }) {
+  const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [fileSize, setFileSize] = useState(null);
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFileName(file.name);
-      // Convert bytes to MB or KB
-      const size = file.size > 1024 * 1024 
-        ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` 
-        : `${(file.size / 1024).toFixed(1)} KB`;
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setFileName(selectedFile.name);
+      
+      const size = selectedFile.size > 1024 * 1024 
+        ? `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB` 
+        : `${(selectedFile.size / 1024).toFixed(1)} KB`;
       setFileSize(size);
     } else {
+      setFile(null);
       setFileName(null);
       setFileSize(null);
     }
@@ -45,7 +48,7 @@ export default function AdminFileUpload({ name, required = false }) {
           </svg>
           <span style={{ fontWeight: 800 }}>Select Manuscript PDF</span>
           <p style={{ fontSize: '0.75rem', opacity: 0.7, fontWeight: 600 }}>
-            PDF files only (Journal formatting required)
+            PDF files only
           </p>
         </div>
       ) : (
@@ -67,24 +70,16 @@ export default function AdminFileUpload({ name, required = false }) {
           <p style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 700, marginTop: '0.5rem' }}>
             File size: {fileSize} • Staged for final publish
           </p>
-          <button 
-            type="button" 
-            onClick={() => { setFileName(null); setFileSize(null); }}
-            style={{ 
-              marginTop: '1.5rem', 
-              background: 'none', 
-              border: 'none', 
-              color: '#ef4444', 
-              fontSize: '0.75rem', 
-              fontWeight: 800, 
-              cursor: 'pointer',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              textDecoration: 'underline'
-            }}
-          >
-            Change Manuscript
-          </button>
+          
+          <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+            <button 
+                type="button" 
+                onClick={() => { setFile(null); setFileName(null); setFileSize(null); }}
+                style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.75rem', fontWeight: 800, cursor: 'pointer', textTransform: 'uppercase', textDecoration: 'underline' }}
+            >
+                Change Manuscript
+            </button>
+          </div>
         </div>
       )}
     </div>
