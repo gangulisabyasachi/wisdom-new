@@ -10,7 +10,6 @@ export const metadata = {
 export default async function AdminLayout({ children }) {
   const session = await verifySession();
 
-  // If this is the login page (or some other public admin route)
   if (!session) {
     return (
       <div className="admin-mode admin-login-wrapper">
@@ -19,7 +18,6 @@ export default async function AdminLayout({ children }) {
     );
   }
 
-  // If logged in, render the full Dashboard shell
   return (
     <div className="admin-mode admin-layout-wrapper">
       <aside className="admin-sidebar">

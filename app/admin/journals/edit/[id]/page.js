@@ -23,7 +23,7 @@ export default async function EditJournalPage({ params }) {
     const topic = formData.get('topic');
     const slug = formData.get('slug');
     const pdfFile = formData.get('pdf_file');
-    let pdfPath = formData.get('pdf_path'); // Existing path fallback
+    let pdfPath = formData.get('pdf_header_path') || formData.get('pdf_path'); // Fallback
 
     // 📂 Handle Optional PDF Re-upload
     if (pdfFile && pdfFile.size > 0) {
@@ -39,7 +39,6 @@ export default async function EditJournalPage({ params }) {
         await writeFile(path, buffer);
         
         pdfPath = `/uploads/${fileName}`;
-        console.log(`[Update] New PDF saved to ${pdfPath}`);
       } catch (err) {
         console.error("PDF Re-upload Failed:", err);
       }
@@ -53,12 +52,12 @@ export default async function EditJournalPage({ params }) {
       body: formData.get('body'),
       citation: formData.get('citation'),
       keywords: formData.get('keywords'),
-      doi: formData.get('doi'), // 🔍 MODIFIED: Added DOI
+      doi: formData.get('doi'), 
       slug,
       volume: formData.get('volume'),
       issue: formData.get('issue'),
       page: formData.get('page'),
-      pdf_path: pdfPath, // 📄 MODIFIED: Uses new or existing path
+      pdf_path: pdfPath, 
       published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
     };
 
@@ -80,7 +79,6 @@ export default async function EditJournalPage({ params }) {
       <div className="admin-card">
         <form action={updateJournal} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          {/* TOPIC & SLUG */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Topic / Title (Required)</label>
@@ -93,7 +91,6 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          {/* AUTHORS & AFFILIATIONS */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Authors</label>
@@ -106,7 +103,6 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          {/* VOLUME, ISSUE, PAGE */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Volume</label>
@@ -124,7 +120,6 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          {/* METADATA: DATE & KEYWORDS */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Published Date</label>
@@ -137,7 +132,6 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          {/* DOI & CITATION */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">DOI String (Unique)</label>
@@ -152,7 +146,6 @@ export default async function EditJournalPage({ params }) {
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--admin-border)', margin: '1rem 0' }} />
 
-          {/* PDF UPLOAD / CURRENT PATH */}
           <div>
             <label className="admin-label">Replace Manuscript PDF (Optional)</label>
             <div className="admin-file-wrapper">
@@ -163,27 +156,21 @@ export default async function EditJournalPage({ params }) {
                   <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>Current: <code style={{ color: 'var(--admin-primary)' }}>{journal.pdf_path || 'None indexed'}</code></span>
                </div>
             </div>
-            {/* Hidden field to keep old path if no new file is uploaded */}
             <input type="hidden" name="pdf_path" defaultValue={journal.pdf_path} />
           </div>
 
-          {/* ABSTRACT */}
           <div>
             <label className="admin-label">Abstract</label>
             <textarea name="abstract" defaultValue={journal.abstract} className="admin-input" style={{ minHeight: '150px', resize: 'vertical' }}></textarea>
           </div>
 
-          {/* FULL BODY EDITOR */}
           <div>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <label className="admin-label">Full Manuscript Body / Preview</label>
-             </div>
+             <label className="admin-label">Full Manuscript Body / Preview</label>
              <div style={{ marginTop: '0.75rem' }}>
                 <RichTextEditor name="body" initialValue={journal.body} />
              </div>
           </div>
 
-          {/* SUBMIT */}
           <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--admin-border)', paddingTop: '2.5rem' }}>
              <button type="submit" className="admin-btn admin-btn-primary" style={{ padding: '1rem 4rem', fontSize: '1.1rem' }}>
                Save Scholarly Changes

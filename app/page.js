@@ -147,9 +147,9 @@ export default async function Home() {
                                   No active announcements.
                               </p>
                           )}
-                          <Link href="/archives" className="btn" style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)', width: '100%', textAlign: 'center' }}>
+                          {/* <Link href="/archives" className="btn" style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)', width: '100%', textAlign: 'center' }}>
                             Browse News Archive
-                          </Link>
+                          </Link> */}
                       </div>
                   </div>
 

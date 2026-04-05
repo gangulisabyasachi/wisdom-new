@@ -18,21 +18,33 @@ export default async function AdminDashboard() {
     <div>
       <h1 className="admin-page-title">Dashboard Overview</h1>
       
-      <div className="admin-dashboard-grid">
+      <div className="admin-dashboard-grid reveal">
         
         <div className="admin-stat-card blue">
-          <h3 className="admin-stat-title">Journals Published</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <h3 className="admin-stat-title">Published Journals</h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </div>
           <div className="admin-stat-value">{journalCount}</div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--admin-text-secondary)', fontWeight: 700 }}>Total scholarly manuscripts</p>
         </div>
 
         <div className="admin-stat-card green">
-          <h3 className="admin-stat-title">Announcements</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <h3 className="admin-stat-title">Active News</h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.5"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2z"></path><path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"></path></svg>
+          </div>
           <div className="admin-stat-value">{announcementCount}</div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--admin-text-secondary)', fontWeight: 700 }}>Public editorial announcements</p>
         </div>
 
-        <div className="admin-stat-card purple">
-          <h3 className="admin-stat-title">Registered Users</h3>
+        <div className="admin-stat-card crimson">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <h3 className="admin-stat-title">System Editors</h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9f1239" strokeWidth="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
           <div className="admin-stat-value">{userCount}</div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--admin-text-secondary)', fontWeight: 700 }}>Authorized portal accounts</p>
         </div>
       </div>
 

@@ -72,7 +72,7 @@ export default async function AdminJournalsPage() {
               {journals.length === 0 && (
                 <tr>
                   <td colSpan="4" style={{ textAlign: 'center', padding: '4rem', color: 'var(--admin-text-secondary)' }}>
-                     No scholarly manuscripts detected in the repository.
+                     No scholarly manuscripts detected.
                   </td>
                 </tr>
               )}

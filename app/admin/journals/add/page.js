@@ -3,6 +3,7 @@ import Journal from '../../../../lib/models/Journal';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import RichTextEditor from '@/app/components/RichTextEditor';
+import AdminFileUpload from '@/app/components/AdminFileUpload';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
@@ -10,54 +11,78 @@ export default async function AddJournalPage() {
 
   async function createJournal(formData) {
     'use server';
-    await connectDB();
+    console.log("[Upload Trace] 🚀 createJournal Action Started");
+    
+    try {
+      await connectDB();
+      console.log("[Upload Trace] ✅ DB Connected");
 
-    const topic = formData.get('topic');
-    const slug = formData.get('slug');
-    const pdfFile = formData.get('pdf_file');
-    let pdfPath = formData.get('pdf_path'); // Fallback to manual path if provided
+      const topic = formData.get('topic');
+      const slug = formData.get('slug');
+      const pdfFile = formData.get('pdf_file');
+      
+      console.log(`[Upload Trace] 📄 Metadata: Topic=${topic}, Slug=${slug}`);
 
-    // 📂 Handle PDF File Upload
-    if (pdfFile && pdfFile.size > 0) {
-      try {
-        const bytes = await pdfFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+      let pdfPath = '';
+
+      // 📂 Robust PDF File Upload
+      if (pdfFile && pdfFile.size > 0) {
+        console.log(`[Upload Trace] 📥 PDF Detected: Name=${pdfFile.name}, Size=${pdfFile.size} bytes`);
         
-        // Ensure uploads directory exists
-        const uploadDir = join(process.cwd(), 'public', 'uploads');
-        await mkdir(uploadDir, { recursive: true });
+        try {
+          const bytes = await pdfFile.arrayBuffer();
+          const buffer = Buffer.from(bytes);
+          
+          // Use absolute pathing for main website/public/uploads
+          const uploadDir = join(process.cwd(), 'public', 'uploads');
+          console.log(`[Upload Trace] 📂 Target Directory: ${uploadDir}`);
+          
+          await mkdir(uploadDir, { recursive: true });
+          console.log("[Upload Trace] ✅ Directory Verified/Created");
 
-        // Clean filename: manuscript-slug.pdf
-        const fileName = `${slug || 'manuscript'}-${Date.now()}.pdf`;
-        const path = join(uploadDir, fileName);
-        await writeFile(path, buffer);
-        
-        pdfPath = `/uploads/${fileName}`;
-        console.log(`[Upload] PDF saved to ${pdfPath}`);
-      } catch (err) {
-        console.error("PDF Upload Failed:", err);
+          const fileName = `${slug || 'manuscript'}-${Date.now()}.pdf`;
+          const filePath = join(uploadDir, fileName);
+          console.log(`[Upload Trace] 💾 Writing File: ${filePath}`);
+          
+          await writeFile(filePath, buffer);
+          console.log("[Upload Trace] ✅ File Written Success");
+          
+          pdfPath = `/uploads/${fileName}`;
+        } catch (err) {
+          console.error("[Upload Trace] ❌ PDF Persistence Failed:", err);
+          // If file fails, we'll continue but pdfPath will be empty.
+        }
+      } else {
+        console.log("[Upload Trace] ⚠️ No PDF file detected or file is empty.");
       }
+
+      const newJournalData = {
+        topic,
+        authors: formData.get('authors'),
+        affiliations: formData.get('affiliations'),
+        abstract: formData.get('abstract'),
+        body: formData.get('body'),
+        citation: formData.get('citation'),
+        keywords: formData.get('keywords'),
+        doi: formData.get('doi'),
+        slug,
+        volume: formData.get('volume'),
+        issue: formData.get('issue'),
+        page: formData.get('page'),
+        pdf_path: pdfPath,
+        published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
+        status: 'published'
+      };
+
+      console.log("[Upload Trace] 💾 Saving to MongoDB...");
+      const created = await Journal.create(newJournalData);
+      console.log(`[Upload Trace] ✅ Record Created: ID=${created._id}`);
+
+    } catch (error) {
+      console.error("[Upload Trace] ❌ Global Action Error:", error);
     }
-
-    const newJournalData = {
-      topic,
-      authors: formData.get('authors'),
-      affiliations: formData.get('affiliations'),
-      abstract: formData.get('abstract'),
-      body: formData.get('body'),
-      citation: formData.get('citation'),
-      keywords: formData.get('keywords'),
-      doi: formData.get('doi'), // 🔍 MODIFIED: Added DOI
-      slug,
-      volume: formData.get('volume'),
-      issue: formData.get('issue'),
-      page: formData.get('page'),
-      pdf_path: pdfPath, // 📄 MODIFIED: Uses uploaded path
-      published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
-      status: 'published'
-    };
-
-    await Journal.create(newJournalData);
+    
+    console.log("[Upload Trace] 🏎️ Redirecting to Journals List");
     redirect('/admin/journals');
   }
 
@@ -71,7 +96,6 @@ export default async function AddJournalPage() {
       <div className="admin-card">
         <form action={createJournal} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          {/* TOPIC & SLUG */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Topic / Title (Required)</label>
@@ -84,7 +108,6 @@ export default async function AddJournalPage() {
             </div>
           </div>
 
-          {/* AUTHORS & AFFILIATIONS */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Authors</label>
@@ -97,7 +120,6 @@ export default async function AddJournalPage() {
             </div>
           </div>
 
-          {/* VOLUME, ISSUE, PAGE */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Volume</label>
@@ -115,7 +137,6 @@ export default async function AddJournalPage() {
             </div>
           </div>
 
-          {/* METADATA: DATE & KEYWORDS */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Published Date</label>
@@ -128,11 +149,10 @@ export default async function AddJournalPage() {
             </div>
           </div>
 
-          {/* DOI & CITATION */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">DOI String (Unique)</label>
-              <input type="text" name="doi" className="admin-input" placeholder="e.g. 10.1234/wisdom-2026-v1-i1" />
+              <input type="text" name="doi" className="admin-input" placeholder="e.g. 10.1234/..." />
             </div>
 
             <div>
@@ -143,26 +163,16 @@ export default async function AddJournalPage() {
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--admin-border)', margin: '1rem 0' }} />
 
-          {/* PDF UPLOAD */}
           <div>
-            <label className="admin-label">Upload Manuscript PDF</label>
-            <div className="admin-file-wrapper">
-               <input type="file" name="pdf_file" accept=".pdf" className="admin-file-input" />
-               <div className="admin-file-label">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                  <span>Click to select PDF or drag and drop</span>
-                  <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>File will be auto-indexed to scholarly repository</span>
-               </div>
-            </div>
+            <label className="admin-label">Upload Manuscript PDF (Required for link)</label>
+            <AdminFileUpload name="pdf_file" required={true} />
           </div>
 
-          {/* ABSTRACT */}
           <div>
             <label className="admin-label">Abstract</label>
             <textarea name="abstract" className="admin-input" style={{ minHeight: '150px', resize: 'vertical' }} placeholder="Enter manuscript abstract..."></textarea>
           </div>
 
-          {/* FULL BODY EDITOR */}
           <div>
              <label className="admin-label">Full Manuscript Body / Preview</label>
              <div style={{ marginTop: '0.75rem' }}>
@@ -170,7 +180,6 @@ export default async function AddJournalPage() {
              </div>
           </div>
 
-          {/* SUBMIT */}
           <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--admin-border)', paddingTop: '2.5rem' }}>
              <button type="submit" className="admin-btn admin-btn-primary" style={{ padding: '1rem 4rem', fontSize: '1.1rem' }}>
                Create Full Record
