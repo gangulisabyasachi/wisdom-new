@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Terms & Conditions - WISDOM Journal',
-  description: 'Official Terms & Conditions of WISDOM Journal governing website use, manuscript submission, publication, and content access.',
+  description: 'Official Terms & Conditions of WISDOM Journal governing website use, manuscript submission, publication, and content access. CC BY 4.0 licensed. Operated from Kolkata, India.',
+  keywords: 'WISDOM journal terms and conditions, legal terms, website terms of use, submission terms, CC BY 4.0, academic publishing terms India',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/terms-conditions',
+  },
+  openGraph: {
+    title: 'Terms & Conditions – WISDOM Journal',
+    description: 'Read the official Terms & Conditions of WISDOM Journal governing website use, submissions, publication, and content access.',
+    url: 'https://www.wisdomj.in/terms-conditions',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function TermsConditionsPage() {
@@ -15,7 +39,7 @@ export default function TermsConditionsPage() {
           <h2>1. Introduction</h2>
           <p>
               Welcome to **WISDOM** (“the Journal,” “we,” “our,” or “us”). These Terms and Conditions 
-              govern your use of our website [www.wisdomj.in](http://www.wisdomj.in) and all associated 
+              govern your use of our website [www.wisdomj.in](https://www.wisdomj.in) and all associated 
               services, including manuscript submission, double-blinded peer review, and content access. 
               By using this site, you agree to be bound by these Terms.
           </p>

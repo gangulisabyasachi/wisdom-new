@@ -12,11 +12,11 @@ export const metadata = {
     title: 'WISDOM – A Multidisciplinary Research Journal',
     description: 'WISDOM is a double-blinded peer-reviewed, open access multidisciplinary journal published by Jayasree Publications, fostering global scholarly excellence across sciences, social sciences, law, management, and more.',
     type: 'website',
-    url: 'http://www.wisdomj.in/',
+    url: 'https://www.wisdomj.in/',
     siteName: 'WISDOM Journal',
     images: [
       {
-        url: 'http://www.wisdomj.in/images/logo.jpeg',
+        url: '/images/logo.jpeg',
         width: 1200,
         height: 630,
         alt: 'WISDOM Journal – Multidisciplinary Academic Excellence',

@@ -2,7 +2,36 @@ import Link from 'next/link';
 
 export const metadata = {
     title: 'About WISDOM | Multidisciplinary Double-Blinded Peer-Reviewed Journal',
-    description: 'WISDOM is a double-blinded peer-reviewed multidisciplinary journal published by Jayasree Publications, promoting high-quality research.',
+    description: 'WISDOM is a double-blinded peer-reviewed multidisciplinary journal published by Jayasree Publications, promoting high-quality research in law, social sciences, humanities, management, science, and technology.',
+    keywords: 'WISDOM journal, multidisciplinary research journal, double-blinded peer-reviewed journal, academic publishing, Jayasree Publications, open access journal, interdisciplinary research, scholarly journal',
+    authors: [{ name: 'Jayasree Publications' }],
+    alternates: {
+        canonical: 'https://www.wisdomj.in/about',
+    },
+    openGraph: {
+        title: 'About WISDOM | Multidisciplinary Double-Blinded Peer-Reviewed Journal',
+        description: 'Discover WISDOM — a double-blinded peer-reviewed journal dedicated to advancing interdisciplinary scholarship in law, humanities, social sciences, management, science, and technology.',
+        url: 'https://www.wisdomj.in/about',
+        siteName: 'WISDOM Journal',
+        images: [
+            {
+                url: '/images/logo.jpeg',
+                alt: 'WISDOM Journal - Multidisciplinary Academic Excellence',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'About WISDOM | Multidisciplinary Double-Blinded Peer-Reviewed Journal',
+        description: 'WISDOM is a global platform for high-quality, interdisciplinary research across law, social sciences, humanities, management, science & technology.',
+        images: ['/images/logo.jpeg'],
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
 export default function AboutPage() {

@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Disclaimer - WISDOM Journal',
-  description: "Official disclaimer of WISDOM Journal: Published content reflects authors' views only.",
+  description: "Official disclaimer of WISDOM Journal: Published content reflects authors' views only. The journal, editors, and publisher assume no liability for accuracy, errors, or use of information.",
+  keywords: 'WISDOM journal disclaimer, legal disclaimer, author responsibility, no liability, academic publishing disclaimer, editorial@wisdomj.in',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/disclaimer',
+  },
+  openGraph: {
+    title: 'Disclaimer – WISDOM Journal',
+    description: "Official disclaimer of WISDOM Journal. Published content reflects authors' views only. The journal, editors, and publisher assume no liability.",
+    url: 'https://www.wisdomj.in/disclaimer',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function DisclaimerPage() {

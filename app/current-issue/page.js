@@ -4,7 +4,31 @@ import Journal from '../../lib/models/Journal';
 
 export const metadata = {
   title: 'Current Issue - WISDOM Journal',
-  description: 'Latest double-blinded peer-reviewed research articles published in WISDOM Journal.',
+  description: 'Current issue of WISDOM Journal - Volume 2, Issue 1. Latest double-blinded peer-reviewed research articles.',
+  keywords: 'current issue, research articles, volume 2, issue 1, wisdom journal, multidisciplinary research',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/current-issue',
+  },
+  openGraph: {
+    title: 'Current Issue – WISDOM Journal | Volume 2, Issue 1',
+    description: 'Latest double-blinded peer-reviewed research articles published in WISDOM Journal. Volume 2, Issue 1.',
+    url: 'https://www.wisdomj.in/current-issue',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal - Current Issue',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const revalidate = 60;

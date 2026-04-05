@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Peer Review Policy - WISDOM Journal',
-  description: 'WISDOM Journal follows a rigorous double-blinded peer review process. At least two expert reviewers. Fully COPE-compliant.',
+  description: 'WISDOM Journal follows a rigorous double-blinded peer review process. At least two expert reviewers. Fully COPE-compliant. 4–8 week turnaround. Transparent, ethical, and author-friendly.',
+  keywords: 'WISDOM journal double-blinded peer review, double-blinded review, COPE guidelines, peer review policy, academic publishing ethics, 4-8 weeks review, transparent double-blinded peer review',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/peer-review-policy',
+  },
+  openGraph: {
+    title: 'Peer Review Policy – WISDOM Journal',
+    description: 'WISDOM Journal follows a rigorous double-blinded peer review process with at least two expert reviewers. Fully COPE-compliant, ethical, transparent, and completed within 4–8 weeks.',
+    url: 'https://www.wisdomj.in/peer-review-policy',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Double-Blinded Peer Review Policy',
+      },
+    ],
+    locale: 'en_US',
+    type: 'article',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function PeerReviewPolicyPage() {

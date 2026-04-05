@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Payment Terms & Conditions - WISDOM Journal',
-  description: 'Official APC payment terms for WISDOM Journal. No submission fees. Transparent, secure payment via official channels only.',
+  description: 'Official APC payment terms for WISDOM Journal. Nominal Article Processing Charge applicable only after acceptance. No submission fees. Transparent, secure payment via official channels only.',
+  keywords: 'WISDOM journal APC, article processing charge, payment terms, publication fees India, no submission fee, editorial@wisdomj.in, transparent journal payment',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/payment-terms',
+  },
+  openGraph: {
+    title: 'Payment Terms & Conditions – WISDOM Journal',
+    description: 'Official Article Processing Charge (APC) payment policy of WISDOM Journal. No submission fees. APC applicable only after acceptance. Secure and transparent payments via official channels only.',
+    url: 'https://www.wisdomj.in/payment-terms',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Payment Terms and APC Policy',
+      },
+    ],
+    locale: 'en_US',
+    type: 'article',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function PaymentTermsPage() {

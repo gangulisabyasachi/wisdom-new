@@ -2,7 +2,31 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Call for Papers - WISDOM Journal',
-  description: 'Submit to WISDOM Journal: Double-blinded peer review, multidisciplinary submissions.',
+  description: 'Submit to WISDOM Journal: Double-blinded peer review, 6–10 weeks decision, CC BY 4.0, APC ₹599 only after acceptance. Research articles, case notes, book reviews, and multidisciplinary submissions.',
+  keywords: 'WISDOM journal submission guidelines, author guidelines, submit paper WISDOM, call for papers, multidisciplinary journal India, OSCOLA format, APC ₹599',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/call-for-papers',
+  },
+  openGraph: {
+    title: 'Call for Papers – WISDOM Journal',
+    description: 'WISDOM Journal invites original, unpublished research papers for its multidisciplinary double-blinded peer-reviewed publication. APC payable only after acceptance.',
+    url: 'https://www.wisdomj.in/call-for-papers',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Call for Papers – WISDOM Journal | Multidisciplinary Peer-Reviewed Publication',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function CallForPapersPage() {

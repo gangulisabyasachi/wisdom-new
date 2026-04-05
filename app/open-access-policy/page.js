@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Open Access Policy - WISDOM Journal',
-  description: 'WISDOM is a fully open-access journal. All articles are freely available under Creative Commons CC BY 4.0 license.',
+  description: 'WISDOM is a fully open-access journal. All articles are freely available under Creative Commons CC BY 4.0 license. Authors retain copyright. No APCs. Immediate global access.',
+  keywords: 'WISDOM journal open access, CC BY 4.0, fully open access journal, no article processing charges, author retains copyright, open access policy India, DOAJ compliant',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/open-access-policy',
+  },
+  openGraph: {
+    title: 'Open Access Policy – WISDOM Journal',
+    description: 'WISDOM is a fully open-access, double-blinded peer-reviewed journal. All articles are freely available under the Creative Commons CC BY 4.0 license with no article processing charges.',
+    url: 'https://www.wisdomj.in/open-access-policy',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Open Access Policy (CC BY 4.0)',
+      },
+    ],
+    locale: 'en_US',
+    type: 'article',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function OpenAccessPolicyPage() {

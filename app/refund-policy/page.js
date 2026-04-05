@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Refund Policy - WISDOM Journal',
-  description: 'WISDOM Journal refund policy: APC is non-refundable after acceptance, except in rare cases where an accepted article is not published.',
+  description: 'WISDOM Journal refund policy: APC is non-refundable after acceptance, except in rare cases where an accepted article is not published. Transparent, fair, and author-friendly policy.',
+  keywords: 'WISDOM journal refund policy, APC refund, article processing charge refund, publication fee refund, no refund after acceptance, transparent journal policy',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/refund-policy',
+  },
+  openGraph: {
+    title: 'Refund Policy – WISDOM Journal',
+    description: 'WISDOM Journal APC refund policy: Non-refundable after acceptance, except if an accepted article is not published. Transparent, fair, and author-friendly.',
+    url: 'https://www.wisdomj.in/refund-policy',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Refund Policy',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RefundPolicyPage() {

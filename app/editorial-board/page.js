@@ -2,7 +2,31 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Editorial Board - WISDOM Journal',
-  description: 'Meet the distinguished Editorial Board of WISDOM Journal — led by Prof (Dr.) Subhrangsu Shekhar Chatterji. Includes top academics from global institutions.',
+  description: 'Meet the distinguished Editorial Board of WISDOM Journal — led by Prof (Dr.) Subhrangsu Shekhar Chatterji. Includes top academics from ISI Kolkata, IIT ISM Dhanbad, MUN Canada, and more.',
+  keywords: 'WISDOM journal editorial board, editor-in-chief, Prof Subhrangsu Shekhar Chatterji, ISI Kolkata, Calcutta University, double-blinded peer review board, multidisciplinary journal editors',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/editorial-board',
+  },
+  openGraph: {
+    title: 'Editorial Board – WISDOM Journal',
+    description: 'Meet the distinguished Editorial Board of WISDOM Journal, led by Prof (Dr.) Subhrangsu Shekhar Chatterji. Scholars from ISI Kolkata, IIT ISM Dhanbad, MUN Canada, and leading institutions.',
+    url: 'https://www.wisdomj.in/editorial-board',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal - Editorial Board',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function EditorialBoardPage() {

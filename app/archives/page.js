@@ -3,8 +3,40 @@ import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
 
 export const metadata = {
-  title: 'Digital Archives - WISDOM Journal',
-  description: 'Complete digital repository of all research papers published in WISDOM Journal.',
+  title: 'Archives | All Volumes & Issues - WISDOM Journal',
+  description: 'Browse all published volumes and issues of WISDOM Journal. Access double-blinded peer-reviewed research articles from multidisciplinary fields in law, social sciences, humanities, management, science, and technology.',
+  keywords: 'WISDOM journal archives, past issues, research articles by volume, academic journal archives, multidisciplinary research papers, WISDOM published issues',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/archives',
+  },
+  openGraph: {
+    title: 'Archives | WISDOM Journal',
+    description: 'Explore the complete archive of WISDOM Journal, including all published volumes, issues, and multidisciplinary peer-reviewed research articles.',
+    url: 'https://www.wisdomj.in/archives',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal Archives – Volumes, Issues, and Peer-Reviewed Research',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  other: {
+    'citation_journal_title': 'WISDOM',
+    'citation_publisher': 'Jayasree Publications',
+    'dc.title': 'Archives - WISDOM Journal',
+    'dc.description': 'Complete archive of all published volumes and issues of WISDOM multidisciplinary double-blinded peer-reviewed journal.',
+    'dc.publisher': 'Jayasree Publications',
+    'dc.language': 'en',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const revalidate = 60;

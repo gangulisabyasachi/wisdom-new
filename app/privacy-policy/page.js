@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Privacy Policy - WISDOM Journal',
-  description: 'WISDOM Journal privacy policy: We collect only necessary academic data for manuscript handling and publication.',
+  description: 'WISDOM Journal privacy policy: We collect only necessary academic data for manuscript handling and publication. GDPR-compliant. No commercial sharing. Secure storage. Contact: editorial@wisdomj.in',
+  keywords: 'WISDOM journal privacy policy, GDPR compliance, data protection, author privacy, reviewer confidentiality, academic publishing privacy',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/privacy-policy',
+  },
+  openGraph: {
+    title: 'Privacy Policy – WISDOM Journal',
+    description: 'WISDOM Journal protects author, reviewer, and reader data. GDPR-compliant, secure, and used only for academic purposes. No commercial sharing.',
+    url: 'https://www.wisdomj.in/privacy-policy',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Privacy Policy',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function PrivacyPolicyPage() {

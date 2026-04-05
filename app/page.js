@@ -5,6 +5,38 @@ import Announcement from '../lib/models/Announcement';
 import Typewriter from './components/Typewriter';
 import TiltImage from './components/TiltImage';
 
+export const metadata = {
+  title: 'WISDOM – A Multidisciplinary Research Journal',
+  description: 'WISDOM is an international double-blinded peer-reviewed open access journal published by Jayasree Publications. Editor-in-Chief: Prof (Dr.) Subhrangsu Shekhar Chatterji. ISSN under process.',
+  keywords: 'WISDOM journal, multidisciplinary journal India, double-blinded peer reviewed journal, open access journal, Jayasree Publications, Prof Subhrangsu Shekhar Chatterji, law journal, social sciences, management research, science journal',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/',
+  },
+  openGraph: {
+    title: 'WISDOM – A Multidisciplinary Research Journal',
+    description: 'WISDOM is a double-blinded peer-reviewed, open access multidisciplinary journal published by Jayasree Publications, fostering global scholarly excellence.',
+    url: 'https://www.wisdomj.in/',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'WISDOM Journal – Multidisciplinary Academic Excellence',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/images/logo.jpeg',
+  },
+};
+
 export const revalidate = 60;
 
 export default async function Home() {

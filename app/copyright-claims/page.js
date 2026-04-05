@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'Copyright Infringement Claims Policy - WISDOM Journal',
-  description: 'Official copyright infringement claims policy for WISDOM Journal. How to report unauthorized use of published articles.',
+  description: 'Official copyright infringement claims policy for WISDOM Journal. How to report unauthorized use of published articles. Licensed under CC BY 4.0. Contact: editorial@wisdomj.in',
+  keywords: 'WISDOM journal copyright policy, copyright infringement claim, DMCA notice, CC BY 4.0, report plagiarism, academic copyright, editorial@wisdomj.in',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/copyright-claims',
+  },
+  openGraph: {
+    title: 'Copyright Infringement Claims Policy - WISDOM Journal',
+    description: 'Learn how to report copyright infringement and unauthorized use of content published in WISDOM Journal. Licensed under CC BY 4.0.',
+    url: 'https://www.wisdomj.in/copyright-claims',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Copyright Infringement Claims Policy - WISDOM Journal',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function CopyrightClaimsPage() {

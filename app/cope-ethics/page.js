@@ -2,7 +2,31 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export const metadata = {
   title: 'COPE Ethics and Malpractice Statement - WISDOM Journal',
-  description: "WISDOM Journal's publication ethics and malpractice statement aligned with COPE guidelines.",
+  description: "WISDOM Journal's publication ethics and malpractice statement aligned with COPE (Committee on Publication Ethics) guidelines. Responsibilities of authors, editors, reviewers, and publisher.",
+  keywords: 'COPE ethics, publication ethics, malpractice statement, research integrity, WISDOM journal ethics, double-blinded peer review ethics, academic publishing standards, COPE guidelines',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/cope-ethics',
+  },
+  openGraph: {
+    title: 'COPE Ethics and Malpractice Statement - WISDOM Journal',
+    description: 'WISDOM Journal’s publication ethics and malpractice statement aligned with COPE guidelines. Ethical responsibilities of authors, editors, reviewers, and publisher.',
+    url: 'https://www.wisdomj.in/cope-ethics',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'COPE Ethics and Malpractice Statement - WISDOM Journal',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function CopeEthicsPage() {

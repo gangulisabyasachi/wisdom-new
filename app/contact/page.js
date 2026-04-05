@@ -1,8 +1,32 @@
 import React from 'react';
 
 export const metadata = {
-  title: 'Contact WISDOM Journal - Editorial Support & Inquiries',
-  description: 'Reach out to WISDOM Journal for submission help, editorial inquiries, or institutional collaborations. HQ in Salt Lake, Kolkata.',
+  title: 'Contact Us - WISDOM Journal',
+  description: 'Contact the editorial team of WISDOM Journal for manuscript submissions, inquiries, double-blinded peer review support, and general assistance. Email: editorial@wisdomj.in | Phone: +91-89100 10980',
+  keywords: 'WISDOM journal contact, editorial office, manuscript submission, double-blinded peer review inquiry, journal support, editorial@wisdomj.in, Jayasree Publications',
+  alternates: {
+    canonical: 'https://www.wisdomj.in/contact',
+  },
+  openGraph: {
+    title: 'Contact Us - WISDOM Journal',
+    description: 'Contact the editorial team of WISDOM Journal for manuscript submissions, inquiries, and editorial support.',
+    url: 'https://www.wisdomj.in/contact',
+    siteName: 'WISDOM Journal',
+    images: [
+      {
+        url: '/images/logo.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact Us - WISDOM Journal',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function ContactPage() {
