@@ -179,7 +179,7 @@ export default function ClientLayout({ children }) {
 
           <div className="footer-bottom">
             <div className="copyright">
-              &copy; 2026 Jayasree Publications. All scholarly content is preserved for worldwide academic exchange.
+              &copy; {new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', year: 'numeric' }).format(new Date())} Jayasree Publications. All scholarly content is preserved for worldwide academic exchange.
             </div>
             <div className="license" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style={{ color: 'var(--accent)', fontWeight: 600 }}>CC BY 4.0</a>
