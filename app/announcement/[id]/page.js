@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { connectDB } from '../../../lib/db';
 import Announcement from '../../../lib/models/Announcement';
 import mongoose from 'mongoose';
-import PageHero from '../../../components/PageHero';
+import PageHero from '../../components/PageHero';
 
 export default async function AnnouncementPage({ params }) {
   const { id } = await params;
