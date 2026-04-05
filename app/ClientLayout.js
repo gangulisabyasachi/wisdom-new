@@ -156,11 +156,11 @@ export default function ClientLayout({ children }) {
               <h4>Journal Menu</h4>
               <ul>
                 <li><Link href="/about">About WISDOM</Link></li>
-                <li><Link href="/editorial-board">Editorial Leadership</Link></li>
+                <li><Link href="/editorial-board">Editorial Board</Link></li>
                 <li><Link href="/current-issue">Current Issue</Link></li>
-                <li><Link href="/archives">Digital Archives</Link></li>
-                <li><Link href="/call-for-papers">Submissions</Link></li>
-                <li><Link href="/contact">Support Center</Link></li>
+                <li><Link href="/archives">Archives</Link></li>
+                <li><Link href="/call-for-papers">Submit Your Paper</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
               </ul>
             </div>
 
