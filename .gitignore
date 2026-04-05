@@ -32,9 +32,28 @@ yarn-error.log*
 .env*
 .env.local
 
+# restoration & data files
+scripts/restoration_data.json
+scripts/wisdom_data.json
+wisdom_export.json
+wisdom_restoration.sql
+wisdom (1).json
+*.sql
+*.json
+!package.json
+!package-lock.json
+!jsconfig.json
+!next.config.mjs
+!postcss.config.mjs
+!eslint.config.mjs
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temp/logs
+/tmp
+*.log

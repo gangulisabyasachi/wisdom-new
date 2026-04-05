@@ -1,207 +1,194 @@
-/**
- * WISDOM Database Import Script
- * Reads phpMyAdmin JSON export and imports ALL tables into MongoDB Atlas
- * Tables: announcements, journals, users, publication_certificates, password_resets
- *
- * Usage: npm run import-data
- */
-
 import mongoose from 'mongoose';
-import { readFileSync } from 'fs';
+import fs from 'fs';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 
-// ── Schemas ─────────────────────────────────────────────────────────────────
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 1. Setup Models (Standalone)
+const UserSchema = new mongoose.Schema({
+  legacy_id:           Number,
+  name:                { type: String, required: true },
+  email:               { type: String, required: true, unique: true },
+  password:            { type: String },
+  role:                { type: String, default: 'admin' },
+  original_created_at: Date,
+}, { timestamps: true });
 
 const JournalSchema = new mongoose.Schema({
-  legacy_id:           Number,
-  user_id:             Number,
-  topic:               String,
-  slug:                String,
-  authors:             String,
-  affiliations:        String,
-  published_date:      Date,
-  volume:              Number,
-  issue:               Number,
-  page:                String,
-  abstract:            String,
-  body:                String,
-  pdf_path:            String,
-  citation:            String,
-  doi:                 String,
-  keywords:            String,
-  original_created_at: Date,
+  topic:          { type: String, required: true },
+  authors:        { type: String, required: true },
+  affiliations:   { type: String, default: '' },
+  doi:            { type: String, default: '' },
+  keywords:       { type: String, default: '' },
+  published_date: { type: Date, required: true },
+  volume:         { type: Number, required: true },
+  issue:          { type: Number, required: true },
+  page:           { type: String, default: '' },
+  abstract:       { type: String, default: '' },
+  body:           { type: String, default: '' },
+  pdf_path:       { type: String, default: '' },
+  slug:           { type: String, unique: true },
 }, { timestamps: true });
 
 const AnnouncementSchema = new mongoose.Schema({
-  legacy_id:           Number,
-  title:               String,
-  body:                String,
-  announcement_date:   Date,
-  link:                String,
+  title:             { type: String, required: true },
+  body:              { type: String, default: '' },
+  announcement_date: { type: Date, required: true },
+  link:              { type: String, default: '' },
+}, { timestamps: true });
+
+const CertificateSchema = new mongoose.Schema({
+  recipient_name:     { type: String, required: true },
+  designation:        { type: String, default: '' },
+  institution:        { type: String, default: '' },
+  book_title:         { type: String, default: '' },
+  isbn:               { type: String, default: '' },
+  issn:               { type: String, default: '' },
+  chapter_title:      { type: String, default: '' },
+  certificate_code:   { type: String, required: true, unique: true },
+  issue_date:         { type: Date, required: true },
+  details:            { type: String, default: null },
+  legacy_id:          Number,
   original_created_at: Date,
 }, { timestamps: true });
 
-const UserSchema = new mongoose.Schema({
-  legacy_id:           Number,
-  name:                String,
-  email:               String,
-  password:            String,   // hashed — kept as-is
-  role:                String,
-  email_verified_at:   Date,
-  remember_token:      String,
-  original_created_at: Date,
-}, { timestamps: true });
+const User = mongoose.model('User', UserSchema);
+const Journal = mongoose.model('Journal', JournalSchema);
+const Announcement = mongoose.model('Announcement', AnnouncementSchema);
+const Certificate = mongoose.model('PublicationCertificate', CertificateSchema);
 
-const PublicationCertificateSchema = new mongoose.Schema({
-  legacy_id:           Number,
-  user_id:             Number,
-  journal_id:          Number,
-  certificate_number:  String,
-  author_name:         String,
-  issued_date:         Date,
-  pdf_path:            String,
-  original_created_at: Date,
-}, { timestamps: true });
-
-// Flexible schema — password_resets can have varied columns
-const PasswordResetSchema = new mongoose.Schema({
-  email:      String,
-  token:      String,
-  created_at: Date,
-}, { timestamps: false });
-
-// ── Models ───────────────────────────────────────────────────────────────────
-
-const Journal                = mongoose.models.Journal                || mongoose.model('Journal',                JournalSchema);
-const Announcement           = mongoose.models.Announcement           || mongoose.model('Announcement',           AnnouncementSchema);
-const User                   = mongoose.models.User                   || mongoose.model('User',                   UserSchema);
-const PublicationCertificate = mongoose.models.PublicationCertificate || mongoose.model('PublicationCertificate', PublicationCertificateSchema);
-const PasswordReset          = mongoose.models.PasswordReset          || mongoose.model('PasswordReset',          PasswordResetSchema);
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-const toDate = (str) => (str ? new Date(str) : null);
-const toInt  = (val) => (val !== undefined && val !== null && val !== '' ? parseInt(val) : null);
-
-// Generic importer — maps ALL fields from a row dynamically
-async function importTable(Model, rows, mapFn, label) {
-  if (!rows || rows.length === 0) {
-    console.log(`   ⚠️  No data found for ${label}, skipping.\n`);
-    return;
-  }
-  console.log(`📦 Importing ${label}...`);
-  await Model.deleteMany({});
-  const docs = rows.map(mapFn);
-  await Model.insertMany(docs, { ordered: false });
-  console.log(`   ✅ Imported ${docs.length} ${label} record(s)\n`);
+function safeDate(dateStr) {
+    if (!dateStr || 
+        dateStr === 'NULL' || 
+        dateStr === '0000-00-00 00:00:00' || 
+        dateStr === '0000-00-00' || 
+        dateStr === 'Invalid Date'
+    ) return null;
+    const d = new Date(dateStr);
+    return isNaN(d.getTime()) ? null : d;
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
+async function run() {
+    const uri = process.env.MONGODB_URI;
+    if (!uri) throw new Error("MONGODB_URI missing from .env.local");
 
-async function main() {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-  const exportPath = join(__dirname, '..', 'wisdom_export.json');
+    try {
+        await mongoose.connect(uri);
+        console.log("✅ Connected to MongoDB.");
 
-  console.log('\n─────────────────────────────────────────────');
-  console.log('  WISDOM MongoDB Import Script');
-  console.log('─────────────────────────────────────────────\n');
+        // 1. Load Extracted Data
+        const dataPath = path.join(__dirname, 'restoration_data.json');
+        if (!fs.existsSync(dataPath)) throw new Error("restoration_data.json not found. Run prepare-migration.js first!");
+        const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
-  // 1. Read file
-  console.log('📂 Reading wisdom_export.json...');
-  let raw;
-  try {
-    raw = readFileSync(exportPath, 'utf-8');
-  } catch (e) {
-    console.error('❌ Could not find wisdom_export.json in the project root.');
-    process.exit(1);
-  }
+        // 🧹 PURGE (Danger Zone)
+        console.log("🧹 Purging existing data...");
+        await User.deleteMany({});
+        await Journal.deleteMany({});
+        await Announcement.deleteMany({});
+        await Certificate.deleteMany({});
+        console.log("✅ Collections Wiped.");
 
-  const parsed = JSON.parse(raw);
-  const tables = parsed.filter(item => item.type === 'table');
+        // 📥 IMPORT USERS
+        if (data.users && data.users.length > 0) {
+            console.log(`👤 Importing ${data.users.length} users...`);
+            const userOps = data.users.map(u => ({
+                legacy_id: Number(u.id),
+                name: u.name || (u.email ? u.email.split('@')[0] : 'Admin'),
+                email: u.email,
+                password: u.password,
+                role: 'admin',
+                original_created_at: safeDate(u.created_at) || new Date()
+            }));
+            await User.insertMany(userOps);
+            console.log("   ✅ Users Imported.");
+        }
 
-  const find = (name) => tables.find(t => t.name === name)?.data ?? [];
+        // 📥 IMPORT ANNOUNCEMENTS
+        if (data.announcements && data.announcements.length > 0) {
+            console.log(`📢 Importing ${data.announcements.length} announcements...`);
+            for (const a of data.announcements) {
+                try {
+                    await Announcement.create({
+                        title: a.title,
+                        body: a.body,
+                        announcement_date: safeDate(a.announcement_date) || new Date(),
+                        link: a.link || ''
+                    });
+                } catch (e) {
+                    console.warn(`⚠️ Failed to import announcement ID ${a.id}: ${e.message}`);
+                }
+            }
+            console.log("   ✅ Announcements Imported.");
+        }
 
-  console.log('   Tables found in export:');
-  tables.forEach(t => console.log(`   - ${t.name} (${t.data?.length ?? 0} rows)`));
-  console.log('');
+        // 📥 IMPORT JOURNALS
+        if (data.journals && data.journals.length > 0) {
+            console.log(`📚 Importing ${data.journals.length} journals...`);
+            let count = 0;
+            for (const j of data.journals) {
+                try {
+                    await Journal.create({
+                        topic: j.topic,
+                        slug: j.slug || `journal-${j.id}-${Date.now()}`,
+                        authors: j.authors || 'Unknown',
+                        affiliations: j.affiliations || '',
+                        published_date: safeDate(j.published_date) || new Date(),
+                        volume: Number(j.volume) || 1,
+                        issue: Number(j.issue) || 1,
+                        page: j.page || '',
+                        abstract: j.abstract || '',
+                        body: j.body || '',
+                        pdf_path: j.pdf_path || '',
+                        doi: j.doi || '',
+                        keywords: j.keywords || ''
+                    });
+                    count++;
+                } catch (e) {
+                    console.warn(`⚠️ Failed to import journal ID ${j.id} (${j.topic.substring(0, 30)}...): ${e.message}`);
+                }
+            }
+            console.log(`   ✅ ${count} Journals Imported.`);
+        }
 
-  // 2. Connect
-  console.log('🔌 Connecting to MongoDB Atlas...');
-  await mongoose.connect(process.env.MONGODB_URI);
-  console.log('   ✅ Connected!\n');
+        // 📥 IMPORT CERTIFICATES
+        if (data.publication_certificates && data.publication_certificates.length > 0) {
+            console.log(`📜 Importing ${data.publication_certificates.length} certificates...`);
+            let count = 0;
+            for (const c of data.publication_certificates) {
+                try {
+                    await Certificate.create({
+                        recipient_name: c.recipient_name,
+                        designation: c.designation || '',
+                        institution: c.institution || '',
+                        book_title: c.book_title || '',
+                        isbn: c.isbn || '',
+                        issn: c.issn || '',
+                        chapter_title: c.chapter_title || '',
+                        certificate_code: c.certificate_code,
+                        issue_date: safeDate(c.issue_date) || new Date(),
+                        details: c.details || null,
+                        legacy_id: Number(c.id),
+                        original_created_at: safeDate(c.created_at) || new Date()
+                    });
+                    count++;
+                } catch (e) {
+                    // console.warn(`⚠️ Failed to import certificate ID ${c.id}: ${e.message}`);
+                }
+            }
+            console.log(`   ✅ ${count} Certificates Imported.`);
+        }
 
-  // 3. Import each table
-
-  await importTable(Announcement, find('announcements'), (row) => ({
-    legacy_id:           toInt(row.id),
-    title:               row.title               || '',
-    body:                row.body                || '',
-    announcement_date:   toDate(row.announcement_date),
-    link:                row.link                || '',
-    original_created_at: toDate(row.created_at),
-  }), 'Announcements');
-
-  await importTable(Journal, find('journals'), (row) => ({
-    legacy_id:           toInt(row.id),
-    user_id:             toInt(row.user_id),
-    topic:               row.topic               || '',
-    slug:                row.slug                || '',
-    authors:             row.authors             || '',
-    affiliations:        row.affiliations        || '',
-    published_date:      toDate(row.published_date),
-    volume:              toInt(row.volume),
-    issue:               toInt(row.issue),
-    page:                row.page                || '',
-    abstract:            row.abstract            || '',
-    body:                row.body                || '',
-    pdf_path:            row.pdf_path            || '',
-    citation:            row.citation            || '',
-    doi:                 row.doi                 || '',
-    keywords:            row.keywords            || '',
-    original_created_at: toDate(row.created_at),
-  }), 'Journals');
-
-  await importTable(User, find('users'), (row) => ({
-    legacy_id:           toInt(row.id),
-    name:                row.name                || '',
-    email:               row.email               || '',
-    password:            row.password            || '',
-    role:                row.role                || 'user',
-    email_verified_at:   toDate(row.email_verified_at),
-    remember_token:      row.remember_token      || '',
-    original_created_at: toDate(row.created_at),
-  }), 'Users');
-
-  await importTable(PublicationCertificate, find('publication_certificates'), (row) => ({
-    legacy_id:           toInt(row.id),
-    user_id:             toInt(row.user_id),
-    journal_id:          toInt(row.journal_id),
-    certificate_number:  row.certificate_number  || '',
-    author_name:         row.author_name         || '',
-    issued_date:         toDate(row.issued_date),
-    pdf_path:            row.pdf_path            || '',
-    original_created_at: toDate(row.created_at),
-  }), 'Publication Certificates');
-
-  await importTable(PasswordReset, find('password_resets'), (row) => ({
-    email:      row.email || '',
-    token:      row.token || '',
-    created_at: toDate(row.created_at),
-  }), 'Password Resets');
-
-  // 4. Done
-  console.log('─────────────────────────────────────────────');
-  console.log('  ✅ All tables imported successfully!');
-  console.log('─────────────────────────────────────────────');
-  console.log('\nGo to MongoDB Atlas → Browse Collections → wisdomDB to verify.\n');
-
-  await mongoose.disconnect();
-  process.exit(0);
+        console.log("✨ RESTORATION COMPLETE!");
+        console.log("🚀 You can now log in with your original email and password.");
+    } catch (err) {
+        console.error("❌ FAILED:", err);
+    } finally {
+        await mongoose.disconnect();
+        process.exit();
+    }
 }
 
-main().catch(err => {
-  console.error('\n❌ Import failed:', err.message);
-  console.error(err);
-  process.exit(1);
-});
+run();
