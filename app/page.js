@@ -10,9 +10,13 @@ export const revalidate = 60;
 export default async function Home() {
     let recent_articles = [];
     let announcements = [];
+    let paperCount = 0;
 
     try {
         await connectDB();
+
+        // Fetch actual paper count
+        paperCount = await Journal.countDocuments({});
 
         // Fetch latest 2 articles
         const rawArticles = await Journal.find({}).sort({ published_date: -1 }).limit(2).lean();
@@ -73,7 +77,7 @@ export default async function Home() {
                                 <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '1.5rem 0' }} />
                                 <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                                     <div style={{ textAlign: 'center' }}>
-                                        <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>80+</div>
+                                        <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{paperCount}</div>
                                         <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Papers Published</div>
                                     </div>
                                     <div style={{ textAlign: 'center' }}>
