@@ -39,7 +39,9 @@
     --text-muted: #64748b;
     --border: #374151;
     --border-hover: #4b5563;
-    --accent-light: rgba(147, 10, 23, 0.2);
+    --accent: #ec727d; /* Whitish red for better dark mode visibility */
+    --accent-hover: #ff4d5a;
+    --accent-light: rgba(236, 114, 125, 0.2);
     --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 20px 40px -4px rgba(0, 0, 0, 0.5);
   }
