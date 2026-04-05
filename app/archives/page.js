@@ -141,7 +141,7 @@ export default async function ArchivesPage({ searchParams }) {
                                 <Link href={`/${art.slug}`} style={{ fontSize: '1.4rem' }}>{art.topic}</Link>
                             </h3>
                             <div style={{ color: 'var(--accent)', fontWeight: 700, marginBottom: '1.5rem' }}>{art.authors}</div>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.7', marginBottom: '2rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.7', marginBottom: '2rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
                                {art.abstract}
                             </p>
                             <Link href={`/${art.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 800, fontSize: '0.9rem' }}>

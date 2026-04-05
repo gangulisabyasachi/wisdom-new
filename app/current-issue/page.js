@@ -119,7 +119,7 @@ export default async function CurrentIssuePage() {
                                     <div style={{ color: 'var(--text-secondary)', fontWeight: 700, fontSize: '1rem', marginBottom: '1.5rem' }}>
                                         {art.authors}
                                     </div>
-                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
                                         {art.abstract}
                                     </p>
                                     <Link href={`/${art.slug}`} className="btn" style={{ fontSize: '0.85rem', fontWeight: 800, padding: '0.8rem 1.5rem', background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>

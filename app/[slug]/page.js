@@ -101,14 +101,14 @@ export default async function ArticlePage({ params }) {
                     </div>
 
                     <div className="article-teaser-container shadow-sm">
-                        <div className="article-body">
+                        <div className="article-body" style={{ textAlign: 'justify', fontSize: '1.05rem', lineHeight: '1.8' }}>
                            <div dangerouslySetInnerHTML={{ __html: article.body }} />
                         </div>
                     </div>
 
                     <div className="manuscript-access-card reveal">
                         <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Limited Preview - Full Access via PDF</h3>
-                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: '600px', margin: '0 auto 2.5rem', fontSize: '1rem' }}>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: '600px', margin: '0 auto 2.5rem', fontSize: '1rem', textAlign: 'justify' }}>
                             You are reading a partial preview of this research manuscript. To view the complete peer-reviewed 
                             publication including full references, equations, and supplementary data, please download the official PDF.
                         </p>
