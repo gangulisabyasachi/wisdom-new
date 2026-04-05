@@ -9,6 +9,26 @@ export default function ClientLayout({ children }) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [targetPos, setTargetPos] = useState({ x: 0, y: 0 });
+  
+  // Smoothly interpolate spotlight position
+  useEffect(() => {
+    let animationFrameId;
+    const updatePosition = () => {
+      setMousePos(prev => ({
+        x: prev.x + (targetPos.x - prev.x) * 0.15,
+        y: prev.y + (targetPos.y - prev.y) * 0.15
+      }));
+      animationFrameId = requestAnimationFrame(updatePosition);
+    };
+    animationFrameId = requestAnimationFrame(updatePosition);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [targetPos]);
+
+  const handleMouseMove = (e) => {
+    setTargetPos({ x: e.clientX, y: e.clientY });
+  };
   
   const isAdmin = pathname?.startsWith('/admin');
 
@@ -42,7 +62,22 @@ export default function ClientLayout({ children }) {
   ];
 
   return (
-    <>
+    <div onMouseMove={handleMouseMove} style={{ position: 'relative', minHeight: '100vh' }}>
+      <div 
+        className="global-spotlight"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          pointerEvents: 'none',
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, var(--accent-light), transparent 80%)`,
+          zIndex: 9999,
+          opacity: 0.15,
+          transition: 'opacity 0.3s ease',
+        }}
+      />
       <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <nav className="nav-container container">
           <Link href="/" className="nav-logo">
@@ -155,6 +190,6 @@ export default function ClientLayout({ children }) {
         </div>
       </footer>
       <ScrollToTop />
-    </>
+    </div>
   );
 }

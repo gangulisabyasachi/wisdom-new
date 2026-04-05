@@ -3,6 +3,7 @@ import { connectDB } from '../lib/db';
 import Journal from '../lib/models/Journal';
 import Announcement from '../lib/models/Announcement';
 import Typewriter from './components/Typewriter';
+import TiltImage from './components/TiltImage';
 
 export const revalidate = 60;
 
@@ -45,19 +46,10 @@ export default async function Home() {
                     <h1 className="hero-title">
                         {/* Unlocking <span style={{ color: 'var(--accent)' }}>Wisdom</span> through Global Research. */}
                         Unlocking <Typewriter text="WISDOM" /> <br></br>through Global Research.
-
                     </h1>
-                    <p className="hero-description">
-                        A premier multidisciplinary research journal fostering scholarly excellence across sciences, law, management, and social impact research.
-                    </p>
-
-                    <div className="issn-box">
-                        <div className="issn-placeholder">ISSN (P): 3108-0499</div>
-                        <div className="issn-placeholder">ISSN (E): 3108-351X</div>
-                    </div>
-
-                    <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                        <Link href="/call-for-papers" className="btn btn-primary">Submit Original Paper</Link>
+                    <p className="hero-subtitle">Celebrating over 15 years of academic excellence and multidisciplinary knowledge exchange.</p>
+                    <div className="hero-btns">
+                        <Link href="/archives" className="btn btn-primary">Browse Archives</Link>
                         <Link href="/current-issue" className="btn" style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)', fontWeight: 600 }}>Explore Latest Issue</Link>
                     </div>
                 </div>
@@ -96,7 +88,7 @@ export default async function Home() {
                             </div>
                         </div>
                         <div className="publisher-image reveal" style={{ animationDelay: '0.2s' }}>
-                            <img src="/images/logo.jpeg" alt="Wisdom Journal Academic Building" />
+                            <TiltImage src="/images/logo.jpeg" alt="Wisdom Journal Academic Building" />
                         </div>
                     </div>
                 </div>

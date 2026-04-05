@@ -212,7 +212,8 @@ section {
 .hero {
   padding: calc(var(--nav-height) + 6rem) 0 8rem;
   text-align: center;
-  background: radial-gradient(circle at top right, var(--accent-light), transparent);
+  overflow: hidden;
+  background: var(--bg);
 }
 
 .hero-content {
