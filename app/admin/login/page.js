@@ -2,8 +2,10 @@ import { connectDB } from '../../../lib/db';
 import User from '../../../lib/models/User';
 import { createSession } from '../../../lib/session';
 import { redirect } from 'next/navigation';
+import NextLink from 'next/link';
 
 export default function LoginPage() {
+  console.log('🚀 DEBUG: Rendering LoginPage component in app/admin/login/page.js');
   
   async function handleLogin(formData) {
     'use server';
@@ -15,8 +17,6 @@ export default function LoginPage() {
     const user = await User.findOne({ email }).lean();
 
     if (!user || user.password !== password) {
-      // In a real sophisticated app, we'd use useActionState to return errors.
-      // For this isolated admin portal, redirecting back with a query param works nicely.
       redirect('/admin/login?error=Invalid credentials');
     }
 
@@ -83,9 +83,9 @@ export default function LoginPage() {
         </form>
 
         <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
-          <Link href="/" style={{ color: 'var(--admin-text-secondary)', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700 }}>
+          <NextLink href="/" style={{ color: 'var(--admin-text-secondary)', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700 }}>
             ← Return to Website
-          </Link>
+          </NextLink>
         </div>
       </div>
     </div>
