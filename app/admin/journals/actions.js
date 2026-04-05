@@ -40,6 +40,7 @@ export async function createJournal(formData) {
       }
     }
 
+    const pubDate = formData.get('published_date');
     const newJournalData = {
       topic: formData.get('topic'),
       authors: formData.get('authors'),
@@ -50,21 +51,28 @@ export async function createJournal(formData) {
       keywords: formData.get('keywords'),
       doi: formData.get('doi'),
       slug,
-      volume: formData.get('volume'),
-      issue: formData.get('issue'),
+      volume: Number(formData.get('volume')),
+      issue: Number(formData.get('issue')),
       page: formData.get('page'),
       pdf_path: pdfPath,
-      published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
+      published_date: pubDate ? new Date(pubDate) : new Date(),
       status: 'published'
     };
 
+    console.log("[Create Action] 📝 Data Prepared:", newJournalData.topic);
+
     const created = await Journal.create(newJournalData);
+    console.log("[Create Action] ✅ Record Saved:", created._id);
+
     revalidatePath('/admin/journals');
     
     return { success: true, id: created._id.toString() };
   } catch (error) {
-    console.error("[Create Action] ❌ Global Failure:", error);
-    return { success: false, error: error.message };
+    console.error("[Create Action] ❌ ERROR:", error);
+    return { 
+      success: false, 
+      error: error.name + ": " + error.message 
+    };
   }
 }
 
@@ -74,7 +82,33 @@ export async function createJournal(formData) {
 export async function deleteJournal(id) {
   try {
     await connectDB();
+    
+    // 🔍 Find the record first to get the PDF path
+    const journal = await Journal.findById(id);
+    if (!journal) {
+      return { success: false, error: "Journal not found" };
+    }
+
+    const pdfPath = journal.pdf_path;
+    
+    // 🗑️ Delete from Database
     await Journal.findByIdAndDelete(id);
+
+    // 📂 Delete from Filesystem if exists
+    if (pdfPath && pdfPath.startsWith('/uploads/')) {
+      try {
+        const { join } = await import('path');
+        const { unlink } = await import('fs/promises');
+        const fullDiskPath = join(process.cwd(), 'public', pdfPath);
+        
+        await unlink(fullDiskPath);
+        console.log(`[Delete Action] ✅ File Deleted: ${fullDiskPath}`);
+      } catch (fileErr) {
+        console.error("[Delete Action] ⚠️ Database deleted but file cleanup failed:", fileErr.message);
+        // We still return success: true because the DB record IS gone.
+      }
+    }
+
     revalidatePath('/admin/journals');
     return { success: true };
   } catch (error) {

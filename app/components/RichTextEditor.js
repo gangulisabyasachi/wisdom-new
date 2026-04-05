@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 
-export default function RichTextEditor({ name, initialValue = '' }) {
+export default function RichTextEditor({ name, initialValue = '', onChange }) {
   const editorRef = useRef(null);
   const hiddenInputRef = useRef(null);
 

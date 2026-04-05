@@ -39,7 +39,8 @@ export default function AddJournalPage() {
     
     const rawForm = e.target;
     const submissionData = new FormData(rawForm);
-    submissionData.set('body', formData.body);
+    // Note: 'body' is already in submissionData from the hidden input 
+    // inside RichTextEditor, so we don't need to manually set it from state.
 
     try {
       const result = await createJournal(submissionData);
@@ -228,11 +229,10 @@ export default function AddJournalPage() {
           <div>
              <label className="admin-label">Full Manuscript Body / Preview</label>
              <div style={{ marginTop: '0.75rem' }}>
-                <RichTextEditor 
-                   name="body" 
-                   value={formData.body} 
-                   onChange={(val) => setFormData(prev => ({ ...prev, body: val }))} 
-                />
+                 <RichTextEditor 
+                    name="body" 
+                    initialValue={formData.body} 
+                 />
              </div>
           </div>
 
