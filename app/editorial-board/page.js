@@ -82,7 +82,7 @@ export default function EditorialBoardPage() {
     name: "Prithwish Ganguli, Advocate",
     image: "/images/prithwish-ganguli.jpg",
     role: "Managing Editor",
-    credentials: "LLM (CU), MA in Criminology (NALSAR), MA in Sociology (SRU)",
+    credentials: "LLM (CU), MA in Criminology & Forensic Sc (NALSAR), MA in Sociology (SRU), MA in Psychology (SGVU), Dip in Cyber Law (ASCL)",
     affiliation: "Legal Advocate & Scholar"
   };
 
