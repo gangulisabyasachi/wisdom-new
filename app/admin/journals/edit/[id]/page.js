@@ -3,6 +3,8 @@ import Journal from '../../../../../lib/models/Journal';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import RichTextEditor from '@/app/components/RichTextEditor';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 
 export default async function EditJournalPage({ params }) {
   const { id } = await params;
@@ -11,26 +13,52 @@ export default async function EditJournalPage({ params }) {
   const journal = await Journal.findById(id).lean();
 
   if (!journal) {
-    return <div style={{ padding: '2rem' }}>Journal not found.</div>;
+    return <div className="admin-card" style={{ padding: '4rem', textAlign: 'center' }}>Manuscript Record Not Found.</div>;
   }
 
   async function updateJournal(formData) {
     'use server';
     await connectDB();
 
+    const topic = formData.get('topic');
+    const slug = formData.get('slug');
+    const pdfFile = formData.get('pdf_file');
+    let pdfPath = formData.get('pdf_path'); // Existing path fallback
+
+    // 📂 Handle Optional PDF Re-upload
+    if (pdfFile && pdfFile.size > 0) {
+      try {
+        const bytes = await pdfFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        
+        const uploadDir = join(process.cwd(), 'public', 'uploads');
+        await mkdir(uploadDir, { recursive: true });
+
+        const fileName = `${slug || 'manuscript'}-${Date.now()}.pdf`;
+        const path = join(uploadDir, fileName);
+        await writeFile(path, buffer);
+        
+        pdfPath = `/uploads/${fileName}`;
+        console.log(`[Update] New PDF saved to ${pdfPath}`);
+      } catch (err) {
+        console.error("PDF Re-upload Failed:", err);
+      }
+    }
+
     const updateData = {
-      topic: formData.get('topic'),
+      topic,
       authors: formData.get('authors'),
       affiliations: formData.get('affiliations'),
       abstract: formData.get('abstract'),
       body: formData.get('body'),
       citation: formData.get('citation'),
       keywords: formData.get('keywords'),
-      slug: formData.get('slug'),
+      doi: formData.get('doi'), // 🔍 MODIFIED: Added DOI
+      slug,
       volume: formData.get('volume'),
       issue: formData.get('issue'),
       page: formData.get('page'),
-      pdf_path: formData.get('pdf_path'),
+      pdf_path: pdfPath, // 📄 MODIFIED: Uses new or existing path
       published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
     };
 
@@ -38,22 +66,22 @@ export default async function EditJournalPage({ params }) {
     redirect('/admin/journals');
   }
 
-  // Format date for the HTML date input if it exists
   const publishedDateValue = journal.published_date 
     ? new Date(journal.published_date).toISOString().split('T')[0] 
     : '';
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', gap: '1rem' }}>
+    <div className="reveal" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem', gap: '1.5rem' }}>
         <Link href="/admin/journals" className="admin-btn admin-btn-outline">← Back</Link>
-        <h1 className="admin-page-title" style={{ margin: 0 }}>Edit Journal: {journal.topic?.substring(0, 40)}...</h1>
+        <h1 className="admin-page-title" style={{ margin: 0 }}>Edit Manuscript: {journal.topic?.substring(0, 30)}...</h1>
       </div>
 
       <div className="admin-card">
-        <form action={updateJournal} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form action={updateJournal} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          {/* TOPIC & SLUG */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Topic / Title (Required)</label>
               <input type="text" name="topic" defaultValue={journal.topic} className="admin-input" required />
@@ -65,7 +93,8 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          {/* AUTHORS & AFFILIATIONS */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Authors</label>
               <input type="text" name="authors" defaultValue={journal.authors} className="admin-input" />
@@ -77,7 +106,8 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+          {/* VOLUME, ISSUE, PAGE */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Volume</label>
               <input type="number" name="volume" defaultValue={journal.volume} className="admin-input" />
@@ -89,12 +119,13 @@ export default async function EditJournalPage({ params }) {
             </div>
 
             <div>
-              <label className="admin-label">Pages</label>
-              <input type="text" name="page" defaultValue={journal.page} className="admin-input" placeholder="e.g. 15-27" />
+              <label className="admin-label">Pagination Range</label>
+              <input type="text" name="page" defaultValue={journal.page} className="admin-input" />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          {/* METADATA: DATE & KEYWORDS */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
             <div>
               <label className="admin-label">Published Date</label>
               <input type="date" name="published_date" defaultValue={publishedDateValue} className="admin-input" />
@@ -106,35 +137,56 @@ export default async function EditJournalPage({ params }) {
             </div>
           </div>
 
-          <div>
-             <label className="admin-label">Citation Format</label>
-             <input type="text" name="citation" defaultValue={journal.citation} className="admin-input" />
-          </div>
+          {/* DOI & CITATION */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+            <div>
+              <label className="admin-label">DOI String (Unique)</label>
+              <input type="text" name="doi" defaultValue={journal.doi} className="admin-input" placeholder="e.g. 10.1234/..." />
+            </div>
 
-          <div>
-            <label className="admin-label">PDF Path</label>
-            <input type="text" name="pdf_path" defaultValue={journal.pdf_path} className="admin-input" placeholder="e.g. uploads/journal_xyz.pdf" />
+            <div>
+              <label className="admin-label">Manual Citation (Optional)</label>
+              <input type="text" name="citation" defaultValue={journal.citation} className="admin-input" />
+            </div>
           </div>
 
           <hr style={{ border: 'none', borderTop: '1px solid var(--admin-border)', margin: '1rem 0' }} />
 
+          {/* PDF UPLOAD / CURRENT PATH */}
           <div>
-            <label className="admin-label">Abstract</label>
-            <textarea name="abstract" defaultValue={journal.abstract} className="admin-input" style={{ minHeight: '120px', resize: 'vertical' }}></textarea>
+            <label className="admin-label">Replace Manuscript PDF (Optional)</label>
+            <div className="admin-file-wrapper">
+               <input type="file" name="pdf_file" accept=".pdf" className="admin-file-input" />
+               <div className="admin-file-label">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  <span>Click to replace current PDF</span>
+                  <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>Current: <code style={{ color: 'var(--admin-primary)' }}>{journal.pdf_path || 'None indexed'}</code></span>
+               </div>
+            </div>
+            {/* Hidden field to keep old path if no new file is uploaded */}
+            <input type="hidden" name="pdf_path" defaultValue={journal.pdf_path} />
           </div>
 
+          {/* ABSTRACT */}
+          <div>
+            <label className="admin-label">Abstract</label>
+            <textarea name="abstract" defaultValue={journal.abstract} className="admin-input" style={{ minHeight: '150px', resize: 'vertical' }}></textarea>
+          </div>
+
+          {/* FULL BODY EDITOR */}
           <div>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <label className="admin-label">Full Body</label>
+                <label className="admin-label">Full Manuscript Body / Preview</label>
              </div>
-             <div style={{ marginTop: '0.5rem' }}>
+             <div style={{ marginTop: '0.75rem' }}>
                 <RichTextEditor name="body" initialValue={journal.body} />
              </div>
           </div>
 
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
-             <button type="submit" className="admin-btn admin-btn-primary" style={{ padding: '0.75rem 2.5rem', fontSize: '1rem' }}>
-               Save Changes
+          {/* SUBMIT */}
+          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--admin-border)', paddingTop: '2.5rem' }}>
+             <button type="submit" className="admin-btn admin-btn-primary" style={{ padding: '1rem 4rem', fontSize: '1.1rem' }}>
+               Save Scholarly Changes
              </button>
           </div>
         </form>
