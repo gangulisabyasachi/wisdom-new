@@ -1,6 +1,6 @@
-import { connectDB } from '../../../../lib/db';
-import Journal from '../../../../lib/models/Journal';
-import { verifySession } from '../../../../lib/session';
+import { connectDB } from '../../../../../lib/db';
+import Journal from '../../../../../lib/models/Journal';
+import { verifySession } from '../../../../../lib/session';
 import { redirect } from 'next/navigation';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
