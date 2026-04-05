@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import PageHero from './PageHero';
 
 export default function PolicyLayout({ title, subtitle, children }) {
   const policies = [
@@ -17,13 +17,13 @@ export default function PolicyLayout({ title, subtitle, children }) {
   return (
     <main className="reveal">
         {/* POLICY HEADER */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container">
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Legal & Ethical Framework</div>
                 <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>{title}</h1>
                 <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>{subtitle}</p>
             </div>
-        </section>
+        </PageHero>
 
         {/* POLICY CONTENT */}
         <section style={{ padding: '6rem 0' }}>

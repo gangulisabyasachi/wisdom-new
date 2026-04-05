@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import PageHero from '../components/PageHero';
 
 export const metadata = {
   title: 'Call for Papers - WISDOM Journal',
@@ -40,7 +41,7 @@ export default function CallForPapersPage() {
   return (
     <main className="reveal">
         {/* HEADER */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container">
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Open Submission Portal</div>
                 <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>Call for Scholarly Papers</h1>
@@ -55,7 +56,7 @@ export default function CallForPapersPage() {
                     </a>
                 </div>
             </div>
-        </section>
+        </PageHero>
 
         {/* ROADMAP SECTION */}
         <section style={{ padding: '6rem 0' }}>

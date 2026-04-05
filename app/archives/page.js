@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
+import PageHero from '../components/PageHero';
 
 export const metadata = {
   title: 'Archives | All Volumes & Issues - WISDOM Journal',
@@ -104,7 +105,7 @@ export default async function ArchivesPage({ searchParams }) {
 
   return (
     <main className="reveal">
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container">
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Electronic Repository</div>
                 <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>Scholarly Archives</h1>
@@ -112,7 +113,7 @@ export default async function ArchivesPage({ searchParams }) {
                     Browse our complete history of peer-reviewed multidisciplinary research by Volume and Issue.
                 </p>
             </div>
-        </section>
+        </PageHero>
 
         <section style={{ padding: '4rem 0' }}>
             <div className="container" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '4rem' }}>

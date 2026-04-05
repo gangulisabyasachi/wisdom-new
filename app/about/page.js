@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import PageHero from '../components/PageHero';
 
 export const metadata = {
     title: 'About WISDOM | Multidisciplinary Double-Blinded Peer-Reviewed Journal',
@@ -37,7 +38,7 @@ export const metadata = {
 export default function AboutPage() {
     return (
         <main className="reveal">
-            <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+            <PageHero>
                 <div className="container" style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Journal Profile</div>
                     <h1 style={{ fontSize: '4rem', marginBottom: '1.5rem', letterSpacing: '-2px' }}>About WISDOM</h1>
@@ -46,7 +47,7 @@ export default function AboutPage() {
                         through rigorous double-blinded peer review and evidence-based scholarship.
                     </p>
                 </div>
-            </section>
+            </PageHero>
 
             <section style={{ padding: '6rem 0' }}>
                 <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '4rem' }}>

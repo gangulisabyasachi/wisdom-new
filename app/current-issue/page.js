@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import PageHero from '../components/PageHero';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
 
@@ -77,7 +78,7 @@ export default async function CurrentIssuePage() {
   return (
     <main className="reveal">
         {/* PRESTIGE HEADER */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 6rem) 0 6rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '4rem', alignItems: 'center' }}>
                 <div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Active Publication</div>
@@ -109,10 +110,10 @@ export default async function CurrentIssuePage() {
                       <div style={{ flex: 1 }}></div>
                       <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', fontWeight: 'normal', textTransform: 'uppercase' }}>Current Issue</div>
                       <div style={{ color: 'white', fontSize: '1rem', fontWeight: 'normal', marginTop: '5px' }}>Vol {current_volume}, Iss {current_issue}</div>
-                   </div>
-                </div>
-            </div>
-        </section>
+                    </div>
+                 </div>
+             </div>
+        </PageHero>
 
         {/* TABLE OF CONTENTS */}
         <section style={{ padding: '8rem 0' }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import PageHero from '../components/PageHero';
 
 export const metadata = {
   title: 'Contact Us - WISDOM Journal',
@@ -33,7 +33,7 @@ export default function ContactPage() {
   return (
     <main className="reveal">
         {/* HEADER SECTION */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container" style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Support Hub</div>
                 <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>Connect with WISDOM</h1>
@@ -41,7 +41,7 @@ export default function ContactPage() {
                     Need help with your submission or have an editorial inquiry? Our team is available for global scholarly support.
                 </p>
             </div>
-        </section>
+        </PageHero>
 
         {/* CONTACT CONTENT */}
         <section style={{ padding: '6rem 0' }}>

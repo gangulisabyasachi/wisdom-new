@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
+import PageHero from '../components/PageHero';
 
 export default async function ArticlePage({ params }) {
   const { slug } = await params;
@@ -61,7 +62,7 @@ export default async function ArticlePage({ params }) {
 
   return (
     <main className="reveal">
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container">
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '2rem', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)' }}>
                   <Link href="/current-issue" style={{ color: 'var(--accent)' }}>Current Issue</Link>
@@ -90,7 +91,7 @@ export default async function ArticlePage({ params }) {
                    )}
                 </div>
             </div>
-        </section>
+        </PageHero>
 
         <section style={{ padding: '4rem 0 8rem' }}>
             <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '4rem' }}>

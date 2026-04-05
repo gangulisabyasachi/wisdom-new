@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import PageHero from '../components/PageHero';
+
 export const metadata = {
   title: 'Editorial Board - WISDOM Journal',
   description: 'Meet the distinguished Editorial Board of WISDOM Journal — led by Prof (Dr.) Subhrangsu Shekhar Chatterji. Includes top academics from ISI Kolkata, IIT ISM Dhanbad, MUN Canada, and more.',
@@ -111,80 +113,140 @@ export default function EditorialBoardPage() {
   };
 
   return (
-    <main className="reveal">
-        {/* HEADER SECTION */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 6rem', borderBottom: '1px solid var(--border)' }}>
-            <div className="container" style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Editorial Excellence</div>
-                <h1 style={{ fontSize: '4rem', marginBottom: '1rem' }}>Leadership & Board</h1>
-                <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto' }}>
-                    A distinguished assembly of global scholars overseeing rigorous multidisciplinary review and scientific integrity.
-                </p>
-            </div>
-        </section>
-
-        {/* EDITOR-IN-CHIEF SECTION */}
-        <section style={{ padding: '6rem 0' }}>
-            <div className="container">
-                <div className="leader-card reveal" style={{ background: 'var(--bg-card)', borderRadius: 'var(--radius-lg)', padding: '4rem', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '4rem', alignItems: 'center', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border)' }}>
-                    <div style={{ overflow: 'hidden', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-md)' }}>
-                        <img src="/images/s-s-chatterjee.jpeg" alt="Prof (Dr.) Subhrangsu Shekhar Chatterji" style={{ width: '100%', display: 'block' }} />
+    <main style={{ background: 'var(--bg)', minHeight: '100vh', position: 'relative' }}>
+        {/* ✨ MODERN HERO SECTION */}
+        <PageHero>
+            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+                <div className="stagger-in" style={{ animationDelay: '0.1s' }}>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '1.5rem' }}>
+                        Editorial Stewardship
                     </div>
-                    <div className="leader-info">
-                        <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px' }}>Leadership</span>
-                        <h2 style={{ fontSize: '2.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }}>Prof (Dr.) Subhrangsu Shekhar Chatterji</h2>
-                        <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Editor-in-Chief | PhD (BHU)</div>
-                        <div style={{ fontSize: '1rem', lineHeight: '1.8', color: 'var(--text-primary)' }}>
-                           <p style={{ marginBottom: '1rem' }}><strong>Ex Dean Head and Secretary,</strong> Department of Law, University of Calcutta</p>
-                           <p style={{ marginBottom: '1rem' }}><strong>Ex Vice Chancellor,</strong> Panchanan Barma University</p>
-                           <p><strong>Ex Chairman,</strong> West Bengal Public Service Commission (WBPSC)</p>
+                    <h1 style={{ fontSize: 'clamp(3rem, 8vw, 5rem)', marginBottom: '1.5rem', lineHeight: 1.1 }}>
+                        Scholarly <span className="signature-accent">Leadership</span>
+                    </h1>
+                    <div style={{ height: '4px', width: '80px', background: 'var(--accent)', margin: '2rem auto' }}></div>
+                    <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
+                        A distinguished assembly of global scholars overseeing rigorous multidisciplinary review and scientific integrity.
+                    </p>
+                </div>
+            </div>
+        </PageHero>
+
+        {/* 👑 TIER 1: EDITOR-IN-CHIEF (THE CROWN) */}
+        <section style={{ padding: '10rem 0', position: 'relative', zIndex: 2, marginTop: '-5rem' }}>
+            <div className="container">
+                <div className="stagger-in" style={{ animationDelay: '0.3s' }}>
+                    <div className="profile-card-premium" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 2fr', gap: '5rem', alignItems: 'center', padding: '5rem' }}>
+                        <div className="leader-portrait-wrap">
+                            <img src="/images/s-s-chatterjee.jpeg" alt="Prof (Dr.) Subhrangsu Shekhar Chatterji" />
+                            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem', background: 'linear-gradient(to top, rgba(147, 10, 23, 0.9), transparent)', color: 'white', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                Editor-in-Chief
+                            </div>
+                        </div>
+                        <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                                <div style={{ height: '1px', flex: 1, background: 'var(--border)' }}></div>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px' }}>Leadership Profile</span>
+                            </div>
+                            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Prof (Dr.) <span className="signature-accent">Subhrangsu Shekhar</span> Chatterji</h2>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                <span style={{ padding: '4px 12px', background: 'var(--accent-light)', color: 'var(--accent)', borderRadius: '4px', fontSize: '0.9rem' }}>PhD (BHU)</span>
+                                <span>Distinguished Scholar & Jurist</span>
+                            </div>
+                            
+                            <div style={{ display: 'grid', gap: '1.5rem' }}>
+                                {[
+                                    { label: "Ex Dean Head & Secretary", val: "Department of Law, University of Calcutta" },
+                                    { label: "Ex Vice Chancellor", val: "Panchanan Barma University" },
+                                    { label: "Ex Chairman", val: "West Bengal Public Service Commission (WBPSC)" }
+                                ].map((item, i) => (
+                                    <div key={i} style={{ display: 'flex', gap: '20px' }}>
+                                        <div style={{ width: '12px', height: '12px', background: 'var(--accent)', borderRadius: '50%', marginTop: '8px', flexShrink: 0 }}></div>
+                                        <div>
+                                            <div style={{ fontWeight: 800, fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '2px' }}>{item.label}</div>
+                                            <div style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>{item.val}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        {/* MANAGING EDITOR SECTION */}
-        <section style={{ background: 'var(--bg-subtle)', padding: '6rem 0' }}>
-            <div className="container" style={{ textAlign: 'center' }}>
-                <h2 style={{ fontSize: '2rem', marginBottom: '4rem' }}>Managing Editor</h2>
-                <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-                    <div className="beauty-card" style={{ padding: '3rem' }}>
-                        <img src={managingEditor.image} alt={managingEditor.name} style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1.5rem', border: '5px solid var(--border)' }} />
-                        <h3 style={{ fontSize: '1.25rem' }}>{managingEditor.name}</h3>
-                        <p style={{ color: 'var(--accent)', fontWeight: 700, margin: '1rem 0' }}>{managingEditor.role}</p>
-                        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>{managingEditor.credentials}</p>
+        {/* 📋 TIER 2: MANAGING EDITOR */}
+        <section style={{ padding: '6rem 0', background: 'var(--bg-subtle)' }}>
+            <div className="container">
+                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Operational Excellence</div>
+                    <h2 style={{ fontSize: '2.5rem' }}>Core Coordination</h2>
+                </div>
+                
+                <div className="stagger-in" style={{ animationDelay: '0.4s', maxWidth: '900px', margin: '0 auto' }}>
+                    <div className="profile-card-premium" style={{ display: 'flex', flexDirection: 'row', gap: '3rem', alignItems: 'center', background: 'var(--bg-card)' }}>
+                        <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '8px solid var(--bg-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                            <img src={managingEditor.image} alt={managingEditor.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Managing Editor</div>
+                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>{managingEditor.name}</h3>
+                            <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>{managingEditor.credentials}</p>
+                            <div style={{ padding: '1rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', borderLeft: '3px solid var(--accent)' }}>
+                                {managingEditor.affiliation}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        {/* BOARD MEMBERS GRID */}
-        <section style={{ padding: '8rem 0' }}>
+        {/* 🎓 TIER 3: DISTINGUISHED MEMBERS */}
+        <section style={{ padding: '10rem 0' }}>
             <div className="container">
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '5rem', textAlign: 'center' }}>Distinguished Members</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2.5rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>The Board</div>
+                    <h2 style={{ fontSize: '3rem' }}>Distinguished <span className="signature-accent">Members</span></h2>
+                    <p style={{ color: 'var(--text-secondary)', marginTop: '1rem' }}>Global experts from leading research institutions and universities.</p>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '3rem' }}>
                     {boardMembers.map((member, idx) => (
-                        <div key={idx} className="beauty-card" style={{ margin: 0, padding: '2.5rem', display: 'flex', flexDirection: 'column' }}>
-                            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', marginBottom: '2rem' }}>
-                                <img src={member.image} alt={member.name} style={{ width: '80px', height: '80px', borderRadius: 'var(--radius-sm)', objectFit: 'cover' }} />
-                                <div>
-                                   <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase' }}>{member.role}</div>
-                                   <h3 style={{ fontSize: '1.1rem', marginTop: '5px' }}>{member.name}</h3>
+                        <div key={idx} className="stagger-in" style={{ animationDelay: `${0.5 + (idx * 0.1)}s` }}>
+                            <div className="profile-card-premium">
+                                <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
+                                    <div style={{ width: '100px', height: '100px', borderRadius: 'var(--radius-md)', overflow: 'hidden', flexShrink: 0, boxShadow: 'var(--shadow-sm)' }}>
+                                        <img src={member.image} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '1px' }}>{member.role}</div>
+                                        <h3 style={{ fontSize: '1.25rem', marginTop: '4px', lineHeight: 1.3 }}>{member.name}</h3>
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>{member.credentials}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontStyle: 'italic', marginBottom: '1rem' }}>{member.credentials}</p>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>{member.affiliation}</p>
-                            </div>
-                            <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                               {member.profile ? (
-                                  <a href={member.profile} target="_blank" style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                     Scholarly Profile <span>&rarr;</span>
-                                  </a>
-                               ) : (
-                                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{member.location}</span>
-                               )}
+                                
+                                <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, flex: 1 }}>
+                                    {member.affiliation}
+                                </p>
+                                
+                                <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    {member.profile ? (
+                                        <a href={member.profile} target="_blank" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            SCHOLARLY PROFILE 
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                        </a>
+                                    ) : (
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                            {member.location}
+                                        </div>
+                                    )}
+                                    {member.email && (
+                                        <a href={`mailto:${member.email}`} title={member.email} style={{ color: 'var(--text-muted)', transition: 'color 0.3s' }}>
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                        </a>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -192,26 +254,34 @@ export default function EditorialBoardPage() {
             </div>
         </section>
 
-        {/* RESPONSIBILITIES SECTION */}
-        <section style={{ background: 'var(--bg-subtle)', padding: '6rem 0 10rem' }}>
+        {/* 🛡️ RESPONSIBILITIES: THE PROMISE */}
+        <section style={{ padding: '0 0 10rem' }}>
             <div className="container">
-               <div style={{ maxWidth: '850px', margin: '0 auto', background: 'var(--bg-card)', padding: '4rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
-                  <h2 style={{ fontSize: '1.5rem', marginBottom: '3rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', textAlign: 'center' }}>Editorial Stewardship</h2>
-                  <div className="article-body" style={{ fontSize: '1.05rem' }}>
-                      <ul className="guideline-list" style={{ listStyle: 'none' }}>
-                         {[
+               <div className="stagger-in" style={{ animationDelay: '1.5s', background: 'var(--bg-card)', padding: '5rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at top right, var(--accent-light), transparent)', opacity: 0.5 }}></div>
+                  
+                  <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <h2 style={{ fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--accent)' }}>Editorial Stewardship</h2>
+                        <div style={{ height: '2px', width: '40px', background: 'var(--accent)', margin: '1.5rem auto' }}></div>
+                    </div>
+
+                    <div style={{ display: 'grid', gap: '2rem' }}>
+                        {[
                             "Ensuring original, double-blinded peer-reviewed content under strict academic independence.",
                             "Reviewing journal aims, scope, and editorial policies for disciplinary coherence.",
                             "Overseeing a transparent, fair, and timely review process for all manuscripts.",
                             "Upholding COPE guidelines and managing scientific integrity effectively.",
                             "Maintaining metadata accuracy and indexing compliance for global discoverability."
-                         ].map((item, i) => (
-                            <li key={i} style={{ display: 'flex', gap: '20px', marginBottom: '1.5rem', alignItems: 'baseline' }}>
-                               <svg width="20" height="20" fill="var(--accent)" viewBox="0 0 24 24" style={{ flexShrink: 0 }}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                               <span>{item}</span>
-                            </li>
-                         ))}
-                      </ul>
+                        ].map((item, i) => (
+                            <div key={i} style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
+                                <div style={{ width: '40px', height: '40px', background: 'var(--bg-subtle)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </div>
+                                <span style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 500 }}>{item}</span>
+                            </div>
+                        ))}
+                    </div>
                   </div>
                </div>
             </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import PageHero from '../components/PageHero';
 import { searchArticles, getDistinctFilters } from './actions';
 
 export default function SearchPage() {
@@ -79,7 +80,7 @@ export default function SearchPage() {
   return (
     <main className="reveal">
         {/* HEADER SECTION */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 6rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container" style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Global Manuscript Repository</div>
                 <h1 style={{ fontSize: '4.5rem', marginBottom: '3rem', letterSpacing: '-3px' }}>Discovery Engine</h1>
@@ -114,7 +115,7 @@ export default function SearchPage() {
                    </div>
                 </form>
             </div>
-        </section>
+        </PageHero>
 
         {/* RESULTS SECTION */}
         <section style={{ padding: '4rem 0 10rem' }}>

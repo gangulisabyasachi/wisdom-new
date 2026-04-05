@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { connectDB } from '../../../lib/db';
 import Announcement from '../../../lib/models/Announcement';
 import mongoose from 'mongoose';
+import PageHero from '../../../components/PageHero';
 
 export default async function AnnouncementPage({ params }) {
   const { id } = await params;
@@ -48,7 +49,7 @@ export default async function AnnouncementPage({ params }) {
   return (
     <main className="reveal">
         {/* Header Section */}
-        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+        <PageHero>
             <div className="container">
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '2rem', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)' }}>
                   <Link href="/" style={{ color: 'var(--accent)' }}>Home</Link>
@@ -65,7 +66,7 @@ export default async function AnnouncementPage({ params }) {
                     </div>
                 </div>
             </div>
-        </section>
+        </PageHero>
 
         {/* Content Section */}
         <section style={{ padding: '4rem 0 8rem' }}>
