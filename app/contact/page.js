@@ -97,35 +97,36 @@ export default function ContactPage() {
                       <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
                          <div style={{ fontSize: '1.5rem' }}>✉️</div>
                          <div>
-                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Draft Submissions</div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Email</div>
                             <div style={{ fontWeight: 700, color: 'var(--accent)' }}>wisdomjournal25@gmail.com</div>
+                            <div style={{ fontWeight: 700, color: 'var(--accent)' }}>editorial@wisdomj.in</div>
                          </div>
                       </div>
 
-                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
+                      {/* <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
                          <div style={{ fontSize: '1.5rem' }}>📞</div>
                          <div>
                             <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Global Support</div>
                             <div style={{ fontWeight: 700 }}>+91-89100 10980</div>
                          </div>
-                      </div>
+                      </div> */}
 
                       <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3rem' }}>
                          <div style={{ fontSize: '1.5rem' }}>📍</div>
                          <div>
-                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>HQ Address</div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Address</div>
                             <div style={{ fontWeight: 700, lineHeight: '1.6' }}>
                                 EE 73/5, Salt Lake, Kolkata 700091<br/>West Bengal, India
                             </div>
                          </div>
                       </div>
 
-                      <div style={{ paddingTop: '2.5rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+                      {/* <div style={{ paddingTop: '2.5rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
                          <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>A publishing wing of Jayasree Publications.</div>
                          <div style={{ width: '100%', height: '150px', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>[ Academic Map Interface ]</span>
                          </div>
-                      </div>
+                      </div> */}
                    </div>
                 </aside>
 
