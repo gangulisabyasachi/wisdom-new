@@ -86,10 +86,10 @@ export default async function CurrentIssuePage() {
                        <div style={{ fontSize: '1.5rem', fontWeight: 700, fontStyle: 'italic', fontFamily: 'var(--font-serif)', color: 'var(--text-secondary)' }}>
                           Volume {current_volume}, Issue {current_issue}
                        </div>
-                       <div style={{ height: '30px', width: '1px', background: 'var(--border)' }}></div>
-                       <div style={{ fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                       {/* <div style={{ height: '30px', width: '1px', background: 'var(--border)' }}></div> */}
+                       {/* <div style={{ fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                           Released {published_month}
-                       </div>
+                       </div> */}
                     </div>
                     <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
                        <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, background: 'var(--bg-card)' }}>
@@ -102,13 +102,13 @@ export default async function CurrentIssuePage() {
                 </div>
 
                 {/* 📔 JOURNAL COVER VISUAL */}
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                   <div style={{ width: '240px', height: '320px', background: 'var(--accent)', borderRadius: '4px 12px 12px 4px', boxShadow: '20px 20px 60px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', padding: '2rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', perspective: '2000px' }}>
+                   <div className="journal-cover-swirl" style={{ width: '240px', height: '320px', background: '#930a17', borderRadius: '4px 12px 12px 4px', boxShadow: '20px 20px 60px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', padding: '2rem', fontFamily: '"Times New Roman", Times, serif', position: 'relative', overflow: 'hidden' }}>
                       <div style={{ height: '2px', background: 'white', width: '40px', marginBottom: '1rem' }}></div>
-                      <div style={{ color: 'white', fontSize: '1.5rem', fontWeight: 800, lineHeight: 1, letterSpacing: '2px', marginBottom: '2rem' }}>WISDOM</div>
+                      <div style={{ color: 'white', fontSize: '1.5rem', fontWeight: 'normal', lineHeight: 1, letterSpacing: '2px', marginBottom: '2rem' }}>WISDOM</div>
                       <div style={{ flex: 1 }}></div>
-                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase' }}>Current Issue</div>
-                      <div style={{ color: 'white', fontSize: '1rem', fontWeight: 700, marginTop: '5px' }}>Vol {current_volume}, Iss {current_issue}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', fontWeight: 'normal', textTransform: 'uppercase' }}>Current Issue</div>
+                      <div style={{ color: 'white', fontSize: '1rem', fontWeight: 'normal', marginTop: '5px' }}>Vol {current_volume}, Iss {current_issue}</div>
                    </div>
                 </div>
             </div>

@@ -615,6 +615,42 @@ footer {
   }
 }
 
+.journal-cover-swirl {
+  transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  cursor: pointer;
+  animation: journal-chaotic-motion 5s ease-in-out infinite;
+}
+
+.journal-cover-swirl:hover {
+  animation: journal-chaotic-motion 1.5s ease-in-out infinite;
+  transform: perspective(2000px) scale(1.05);
+  box-shadow: -20px 40px 80px rgba(0,0,0,0.3);
+}
+
+@keyframes journal-chaotic-motion {
+  0% { transform: perspective(1500px) translateY(0) rotateX(0) rotateY(0) rotateZ(0) translateX(0); }
+  20% { transform: perspective(1500px) translateY(-15px) rotateX(2deg) rotateY(-3deg) rotateZ(1deg) translateX(3px); }
+  40% { transform: perspective(1500px) translateY(-5px) rotateX(-2deg) rotateY(4deg) rotateZ(-1.5deg) translateX(-2px); }
+  60% { transform: perspective(1500px) translateY(-20px) rotateX(3deg) rotateY(-2deg) rotateZ(0.5deg) translateX(4px); }
+  80% { transform: perspective(1500px) translateY(-8px) rotateX(-3deg) rotateY(1deg) rotateZ(-1deg) translateX(-3px); }
+  100% { transform: perspective(1500px) translateY(0) rotateX(0) rotateY(0) rotateZ(0) translateX(0); }
+}
+
+.journal-cover-swirl::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -150%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.8s ease;
+  pointer-events: none;
+}
+
+.journal-cover-swirl:hover::after {
+  left: 150%;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
