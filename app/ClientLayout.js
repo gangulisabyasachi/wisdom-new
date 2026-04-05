@@ -1,92 +1,156 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
   const isAdmin = pathname?.startsWith('/admin');
+
+  // Handle scroll effect for glassmorphic header
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   if (isAdmin) {
     return <main>{children}</main>;
   }
 
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Editorial Board', href: '/editorial-board' },
+    { name: 'Current Issue', href: '/current-issue' },
+    { name: 'Archives', href: '/archives' },
+    { name: 'Call for Papers', href: '/call-for-papers' },
+    { name: 'Contact', href: '/contact' },
+    { name: 'Search', href: '/search' },
+  ];
+
   return (
     <>
-      <header>
-        <nav className="navbar">
-          <div className="nav-container">
-            <div className="nav-logo">
-              <h1>WISDOM</h1>
-            </div>
-            <div className="nav-menu" id="nav-menu">
-              <Link href="/" className="nav-link" data-testid="link-nav-home">Home</Link>
-              <Link href="/about" className="nav-link" data-testid="link-nav-about">About</Link>
-              <Link href="/editorial-board" className="nav-link" data-testid="link-nav-editorial-board">Editorial Board</Link>
-              <Link href="/current-issue" className="nav-link" data-testid="link-nav-current-issue">Current Issue</Link>
-              <Link href="/archives" className="nav-link" data-testid="link-nav-archives">Archives</Link>
-              <Link href="/call-for-papers" className="nav-link" data-testid="link-nav-submission">Call for Papers</Link>
-              <Link href="/contact" className="nav-link" data-testid="link-nav-contact">Contact</Link>
-              <Link href="/search" className="nav-link" data-testid="link-nav-search">Search</Link>
-            </div>
-            <div className="nav-toggle" id="nav-toggle" data-testid="button-mobile-menu">
-              <span className="bar"></span>
-              <span className="bar"></span>
-              <span className="bar"></span>
-            </div>
+      <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav className="nav-container container">
+          <Link href="/" className="nav-logo">
+            <h1>WISDOM</h1>
+          </Link>
+
+          <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            {navLinks.map((link) => (
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className={`nav-link ${pathname === link.href ? 'active' : ''}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link href="/call-for-papers" className="btn btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.8rem', marginLeft: '1rem' }}>
+              Submit Paper
+            </Link>
           </div>
+
+          <button 
+            className="nav-toggle" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            <span className="bar" style={{ transform: isMenuOpen ? 'rotate(45deg) translate(5px, 6px)' : '' }}></span>
+            <span className="bar" style={{ opacity: isMenuOpen ? 0 : 1 }}></span>
+            <span className="bar" style={{ transform: isMenuOpen ? 'rotate(-45deg) translate(5px, -6px)' : '' }}></span>
+          </button>
         </nav>
+        
+        <style jsx>{`
+          @media (max-width: 968px) {
+            .nav-menu {
+              position: fixed;
+              top: var(--nav-height);
+              left: 0;
+              width: 100%;
+              height: calc(100vh - var(--nav-height));
+              background: var(--bg);
+              display: ${isMenuOpen ? 'flex' : 'none'};
+              flex-direction: column;
+              padding: 2rem;
+              gap: 1.5rem;
+              overflow-y: auto;
+              border-top: 1px solid var(--border);
+            }
+            .nav-menu.active {
+              display: flex;
+            }
+          }
+        `}</style>
       </header>
 
-      <main>{children}</main>
+      <main style={{ minHeight: '80vh' }}>{children}</main>
 
-      <footer data-testid="footer">
+      <footer>
         <div className="container">
           <div className="footer-grid">
             <div className="footer-main">
-              <h3 data-testid="text-footer-title">WISDOM</h3>
-              <p data-testid="text-footer-description">
-                Uniting Research, Unlocking Wisdom
+              <h3>WISDOM</h3>
+              <p>
+                A high-impact, multidisciplinary research journal dedicated to advancing knowledge and promoting innovation through rigorous scholarly dialogue.
               </p>
-              <div className="footer-info">
-                <p data-testid="text-footer-issn">ISSN (P): 3108-0499</p>
-                <p data-testid="text-footer-issn">ISSN (E): 3108-351X</p>
-                <p data-testid="text-footer-publisher">Published by Jayasree Publications</p>
+              <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+                <span style={{ fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '1px' }}>Official Identification</span>
+                <div style={{ display: 'flex', gap: '2rem' }}>
+                  <div style={{ fontSize: '0.9rem' }}><strong>ISSN (P):</strong> 3108-0499</div>
+                  <div style={{ fontSize: '0.9rem' }}><strong>ISSN (E):</strong> 3108-351X</div>
+                </div>
               </div>
             </div>
 
             <div className="footer-links">
-              <h4>Quick Links</h4>
+              <h4>Journal Menu</h4>
               <ul>
-                <li><Link href="/about" data-testid="link-footer-about">About Journal</Link></li>
-                <li><Link href="/editorial-board" data-testid="link-footer-editorial">Editorial Board</Link></li>
-                <li><Link href="/call-for-papers" data-testid="link-footer-submission">Call for Papers</Link></li>
-                <li><Link href="/contact" data-testid="link-footer-contact">Contact Us</Link></li>
+                <li><Link href="/about">About WISDOM</Link></li>
+                <li><Link href="/editorial-board">Editorial Leadership</Link></li>
+                <li><Link href="/current-issue">Current Issue</Link></li>
+                <li><Link href="/archives">Digital Archives</Link></li>
+                <li><Link href="/call-for-papers">Submissions</Link></li>
+                <li><Link href="/contact">Support Center</Link></li>
               </ul>
             </div>
 
-            <div className="footer-resources">
-              <h4>Policies</h4>
+            <div className="footer-links">
+              <h4>Scholarly Policies</h4>
               <ul>
-                <li><Link href="/terms-conditions">Terms & Conditions</Link></li>
-                <li><Link href="/privacy-policy">Privacy Policy</Link></li>
-                <li><Link href="/refund-policy">Refund Policy</Link></li>
                 <li><Link href="/peer-review-policy">Peer Review Policy</Link></li>
-                <li><Link href="/cope-ethics">COPE Ethics</Link></li>
+                <li><Link href="/cope-ethics">Publication Ethics (COPE)</Link></li>
                 <li><Link href="/open-access-policy">Open Access Policy</Link></li>
-                <li><Link href="/payment-terms">Payment Terms</Link></li>
-                <li><Link href="/disclaimer">Disclaimer</Link></li>
-                <li><Link href="/copyright-claims">Copyright Claims</Link></li>
+                <li><Link href="/copyright-claims">Copyright Transfer</Link></li>
+                <li><Link href="/disclaimer">Legal Disclaimer</Link></li>
+                <li><Link href="/privacy-policy">Privacy & Data</Link></li>
               </ul>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <p data-testid="text-footer-copyright">
-              &copy; 2026 Jayasree Publications. All rights reserved.
-            </p>
-            <p data-testid="text-footer-copyright">This work is licensed under <a style={{ color: 'rgba(255, 255, 255, 0.6)' }} href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style={{ maxWidth: '1em', maxHeight: '1em', marginLeft: '.2em' }} /><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style={{ maxWidth: '1em', maxHeight: '1em', marginLeft: '.2em' }} /></p>
+            <div className="copyright">
+              &copy; 2026 Jayasree Publications. All scholarly content is preserved for worldwide academic exchange.
+            </div>
+            <div className="license" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style={{ color: 'var(--accent)', fontWeight: 600 }}>CC BY 4.0</a>
+              <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" width="20" />
+              <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" width="20" />
+            </div>
           </div>
         </div>
       </footer>

@@ -13,131 +13,152 @@ export default async function CurrentIssuePage() {
   let current_volume = 1;
   let current_issue = 1;
   let published_month = '';
-  let editor = 'Prof Dr. S S Chatterji';
   
   let articles = [];
 
   try {
     await connectDB();
 
-    // Find the latest volume and issue
     const latestArticle = await Journal.findOne().sort({ volume: -1, issue: -1 }).lean();
     
     if (latestArticle) {
-      current_volume = latestArticle.volume || 1;
-      current_issue = latestArticle.issue || 1;
-      
-      const issueArticles = await Journal.find({ volume: current_volume, issue: current_issue })
-        .sort({ page: 1, published_date: 1 })
-        .lean();
-        
-      articles = issueArticles.map(a => ({
-        topic: a.topic || '',
-        slug: a.slug || '',
-        authors: a.authors || '',
-        affiliations: a.affiliations || '',
-        page: a.page || '',
-        abstract: a.abstract || '',
-        keywords: a.keywords || ''
-      }));
+       current_volume = latestArticle.volume || 1;
+       current_issue = latestArticle.issue || 1;
+       
+       const issueArticles = await Journal.find({ volume: current_volume, issue: current_issue })
+         .sort({ page: 1, published_date: 1 })
+         .lean();
+         
+       articles = issueArticles.map(a => ({
+         topic: a.topic || '',
+         slug: a.slug || '',
+         authors: a.authors || '',
+         affiliations: a.affiliations || '',
+         doi: a.doi || '',
+         page: a.page || '',
+         abstract: a.abstract || '',
+         keywords: a.keywords || ''
+       }));
 
-      if (latestArticle.published_date) {
-        published_month = new Date(latestArticle.published_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-      }
+       if (latestArticle.published_date) {
+         published_month = new Date(latestArticle.published_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+       }
     }
   } catch (err) {
     console.error("Failed to fetch current issue:", err);
   }
 
   const total_articles = articles.length;
-  // Calculate pages end based on data
-  let pages_end = 0;
-  articles.forEach(art => {
-    if (!art.page) return;
-    const match = art.page.match(/-(\d+)$/);
-    if (match) {
-      const endPage = parseInt(match[1]);
-      if (endPage > pages_end) pages_end = endPage;
-    } else {
-      const singlePage = parseInt(art.page);
-      if (!isNaN(singlePage) && singlePage > pages_end) pages_end = singlePage;
-    }
-  });
 
   return (
-    <main>
-        <section className="page-header">
-            <div className="container">
-                <h1>Current Issue</h1>
-                <p>
-                    Volume {current_volume}, Issue {current_issue}
-                    - Latest double-blinded peer-reviewed research articles
-                </p>
-            </div>
-        </section>
-        <section className="content-section">
-            <div className="container">
-                {/* Issue Info */}
-                <div className="content-card" style={{ marginBottom: '2rem', fontSize: '14px' }}>
-                    <h2>Volume {current_volume}, Issue {current_issue}</h2>
-                    <div className="issue-info" style={{ marginTop: '1rem' }}>
-                        <p style={{ margin: '0.5rem 0', fontSize: '0.95rem' }}><strong style={{ color: '#1e40af' }}>Published:</strong> {published_month}</p>
-                        <p style={{ margin: '0.5rem 0', fontSize: '0.95rem' }}><strong style={{ color: '#1e40af' }}>Editor-in-Chief:</strong> {editor}</p>
-                        <p style={{ margin: '0.5rem 0', fontSize: '0.95rem' }}><strong style={{ color: '#1e40af' }}>Total Articles:</strong> {total_articles}</p>
-                        <p style={{ margin: '0.5rem 0', fontSize: '0.95rem' }}><strong style={{ color: '#1e40af' }}>Pages:</strong> 1–{pages_end}</p>
+    <main className="reveal">
+        {/* PRESTIGE HEADER */}
+        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 6rem) 0 6rem', borderBottom: '1px solid var(--border)' }}>
+            <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '4rem', alignItems: 'center' }}>
+                <div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Active Publication</div>
+                    <h1 style={{ fontSize: '4.5rem', marginBottom: '1.5rem', letterSpacing: '-2px' }}>Current Issue</h1>
+                    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                       <div style={{ fontSize: '1.5rem', fontWeight: 700, fontStyle: 'italic', fontFamily: 'var(--font-serif)', color: 'var(--text-secondary)' }}>
+                          Volume {current_volume}, Issue {current_issue}
+                       </div>
+                       <div style={{ height: '30px', width: '1px', background: 'var(--border)' }}></div>
+                       <div style={{ fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                          Released {published_month}
+                       </div>
+                    </div>
+                    <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
+                       <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, background: 'var(--bg-card)' }}>
+                          {total_articles} Scholarly Papers
+                       </div>
+                       <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent)', borderColor: 'var(--accent)' }}>
+                          Double-Blinded Review
+                       </div>
                     </div>
                 </div>
 
-                {/* Articles */}
-                <div className="articles-list">
-                    <h3 style={{ marginBottom: '2rem', color: '#1e293b' }}>Research Articles</h3>
-                    {articles.length === 0 ? (
-                        <p style={{ textAlign: 'center', color: '#666' }}>No articles published in this issue.</p>
-                    ) : (
-                        articles.map((art, index) => {
-                            const authorsArr = art.authors.split(',');
-                            const affilsArr = art.affiliations ? art.affiliations.split(/\r?\n|\r/).filter(a => a.trim() !== '') : [];
+                {/* 📔 JOURNAL COVER VISUAL */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                   <div style={{ width: '240px', height: '320px', background: 'var(--accent)', borderRadius: '4px 12px 12px 4px', boxShadow: '20px 20px 60px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', padding: '2rem' }}>
+                      <div style={{ height: '2px', background: 'white', width: '40px', marginBottom: '1rem' }}></div>
+                      <div style={{ color: 'white', fontSize: '1.5rem', fontWeight: 800, lineHeight: 1, letterSpacing: '2px', marginBottom: '2rem' }}>WISDOM</div>
+                      <div style={{ flex: 1 }}></div>
+                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase' }}>Current Issue</div>
+                      <div style={{ color: 'white', fontSize: '1rem', fontWeight: 700, marginTop: '5px' }}>Vol {current_volume}, Iss {current_issue}</div>
+                   </div>
+                </div>
+            </div>
+        </section>
 
-                            return (
-                                <div className="article-card" key={index} style={{ border: '1px solid #e2e8f0', borderRadius: '10px', padding: '1.5rem', marginBottom: '1.5rem', background: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                                    <h4 className="article-title" style={{ marginBottom: '0.75rem' }}>
-                                        <Link style={{ color: '#930a17', textDecoration: 'none', fontSize: '1.2rem', fontWeight: '600' }} href={`/${art.slug}`}>
-                                            {art.topic}
-                                        </Link>
-                                    </h4>
-                                    <p className="article-authors" style={{ margin: '0.75rem 0', fontSize: '0.95rem' }}>
-                                        <strong style={{ color: '#1e40af' }}>Authors:</strong>{' '}
-                                        {authorsArr.map((author, i) => (
-                                            <span key={i}>
-                                                {author.trim()}<sup>{i + 1}</sup>
-                                                {i < authorsArr.length - 1 ? ', ' : ''}
-                                            </span>
-                                        ))}
+        {/* TABLE OF CONTENTS */}
+        <section style={{ padding: '8rem 0' }}>
+            <div className="container">
+                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '6rem' }}>
+                    
+                    <div className="toc-section">
+                        <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
+                           Manuscript Table of Contents
+                        </h2>
+
+                        {articles.length === 0 ? (
+                            <div className="beauty-card" style={{ textAlign: 'center', padding: '4rem' }}>
+                               <p>No manuscripts are indexed for this cycle.</p>
+                            </div>
+                        ) : (
+                            articles.map((art, index) => (
+                                <div className="article-card reveal" key={index} style={{ marginBottom: '4rem', borderBottom: '1px solid var(--border)', paddingBottom: '3rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                                       <span style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--accent)', letterSpacing: '1px' }}>
+                                          {art.doi ? `DOI: ${art.doi}` : `REF: WSD-${index+101}`}
+                                       </span>
+                                       <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>Page {art.page}</span>
+                                    </div>
+                                    <h3 style={{ marginBottom: '1.25rem', fontFamily: 'var(--font-serif)', fontSize: '1.75rem', color: 'var(--text-primary)' }}>
+                                        <Link href={`/${art.slug}`}>{art.topic}</Link>
+                                    </h3>
+                                    <div style={{ color: 'var(--text-secondary)', fontWeight: 700, fontSize: '1rem', marginBottom: '1.5rem' }}>
+                                        {art.authors}
+                                    </div>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                        {art.abstract}
                                     </p>
-                                    <p className="article-affiliations" style={{ margin: '0.5rem 0', fontSize: '0.9rem', color: '#64748b', lineHeight: '1.6' }}>
-                                        <small>
-                                            {affilsArr.map((affil, i) => (
-                                                <span key={i}>
-                                                    <sup>{i + 1}</sup>{affil}<br />
-                                                </span>
-                                            ))}
-                                        </small>
-                                    </p>
-                                    <p className="article-pages" style={{ margin: '0.75rem 0', fontSize: '0.95rem' }}>
-                                        <strong style={{ color: '#1e40af' }}>Pages:</strong> {art.page}
-                                    </p>
-                                    <p className="article-abstract" style={{ margin: '0.75rem 0', fontSize: '0.95rem', lineHeight: '1.6' }}>
-                                        <strong style={{ color: '#1e40af' }}>Abstract:</strong> {art.abstract}
-                                    </p>
-                                    {art.keywords && (
-                                        <p className="article-keywords" style={{ margin: '0.75rem 0', fontSize: '0.95rem' }}>
-                                            <strong style={{ color: '#1e40af' }}>Keywords:</strong> {art.keywords}
-                                        </p>
-                                    )}
+                                    <Link href={`/${art.slug}`} className="btn" style={{ fontSize: '0.85rem', fontWeight: 800, padding: '0.8rem 1.5rem', background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>
+                                        View Full Record <span>&rarr;</span>
+                                    </Link>
                                 </div>
-                            );
-                        })
-                    )}
+                            ))
+                        )}
+                    </div>
+
+                    <aside className="issue-sidebar">
+                       <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
+                          <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
+                             <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
+                             <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                <p style={{ marginBottom: '1.5rem' }}>
+                                   This edition of WISDOM features multi-disciplinary research addressing critical advancements 
+                                   in management, educational ethics, and transformative technologies.
+                                </p>
+                                <p style={{ marginBottom: '1.5rem' }}>
+                                   Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
+                                   stewards of the journal.
+                                </p>
+                             </div>
+                             <div style={{ marginTop: '2.5rem', pt: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
+                                <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
+                                   <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                   Indexed in Open Repositories
+                                 </div>
+                             </div>
+                          </div>
+
+                          <div style={{ marginTop: '2rem' }}>
+                              <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
+                          </div>
+                       </div>
+                    </aside>
+
                 </div>
             </div>
         </section>

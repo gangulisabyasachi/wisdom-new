@@ -1,60 +1,136 @@
+import React from 'react';
+
 export const metadata = {
-  title: 'Contact Us - WISDOM Journal',
-  description: 'Contact the editorial team of WISDOM Journal for manuscript submissions, inquiries, and editorial support.',
+  title: 'Contact WISDOM Journal - Editorial Support & Inquiries',
+  description: 'Reach out to WISDOM Journal for submission help, editorial inquiries, or institutional collaborations. HQ in Salt Lake, Kolkata.',
 };
 
 export default function ContactPage() {
   return (
-    <main dangerouslySetInnerHTML={{ __html: `
-        <section class="page-header" data-testid="contact-page">
-            <div class="container">
-                <h1 data-testid="text-contact-title">Contact Us</h1>
-                <p data-testid="text-contact-subtitle">
-                    Get in touch with our editorial team for inquiries and support
+    <main className="reveal">
+        {/* HEADER SECTION */}
+        <section style={{ background: 'var(--bg-subtle)', padding: 'calc(var(--nav-height) + 4rem) 0 4rem', borderBottom: '1px solid var(--border)' }}>
+            <div className="container" style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Support Hub</div>
+                <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>Connect with WISDOM</h1>
+                <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+                    Need help with your submission or have an editorial inquiry? Our team is available for global scholarly support.
                 </p>
             </div>
         </section>
 
-        <section class="content-section">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <div class="info-card">
-                            <h3 data-testid="text-editorial-office">Editorial Office</h3>
-                            <div class="contact-item" data-testid="contact-general-inquiries">
-                                <span class="icon">✉️</span>
-                                <div>
-                                    <p style="font-weight: 600; color: #333;">General Inquiries</p>
-                                    <p style="color: #666;">editorial@wisdomj.in</p>
-                                </div>
-                            </div>
+        {/* CONTACT CONTENT */}
+        <section style={{ padding: '6rem 0' }}>
+            <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '4rem' }}>
+                
+                {/* 📝 FUNCTIONAL CONTACT FORM via FormSubmit.co */}
+                <div className="contact-form-section">
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '3rem' }}>Send a Message</h2>
+                    <form 
+                        action="https://formsubmit.co/wisdomjournal25@gmail.com" 
+                        method="POST"
+                        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}
+                    >
+                        {/* FormSubmit.co Config */}
+                        <input type="hidden" name="_captcha" value="false" />
+                        <input type="hidden" name="_template" value="table" />
+                        <input type="hidden" name="_next" value="/contact" />
+                        <input type="hidden" name="_subject" value="New Scholarly Inquiry - WISDOM Journal" />
 
-                            <div class="contact-item" data-testid="contact-phone">
-                                <span class="icon">📞</span>
-                                <div>
-                                    <p style="font-weight: 600; color: #333;">Phone</p>
-                                    <p style="color: #666;">+91-89100 10980</p>
-                                </div>
-                            </div>
-
-                            <div class="contact-item" data-testid="contact-address">
-                                <span class="icon">📍</span>
-                                <div>
-                                    <p style="font-weight: 600; color: #333;">Address</p>
-                                    <p style="color: #666;">
-                                        EE 73/5, Salt Lake, Kolkata 700091<br>West Bengal, India
-                                    </p>
-                                </div>
-                            </div>
+                        <div style={{ gridColumn: 'span 1' }}>
+                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>Full Name</label>
+                            <input 
+                                name="name"
+                                type="text" 
+                                required 
+                                className="form-input" 
+                                placeholder="e.g. Dr. John Doe"
+                                style={{ width: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', color: 'inherit' }} 
+                            />
                         </div>
-                    </div>
-                    
-                    <div class="publisher-image">
-                        <img src="/images/logo.jpeg" alt="Logo of Wisdom Journal" data-testid="img-publisher-building">
-                    </div>
+                        <div style={{ gridColumn: 'span 1' }}>
+                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>Email Address</label>
+                            <input 
+                                name="email"
+                                type="email" 
+                                required 
+                                className="form-input" 
+                                placeholder="scholar@university.edu"
+                                style={{ width: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', color: 'inherit' }} 
+                            />
+                        </div>
+                        <div style={{ gridColumn: 'span 2' }}>
+                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>Subject Inquiry</label>
+                            <input 
+                                name="subject"
+                                type="text" 
+                                required 
+                                className="form-input" 
+                                placeholder="e.g. Manuscript Submission Status"
+                                style={{ width: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', color: 'inherit' }} 
+                            />
+                        </div>
+                        <div style={{ gridColumn: 'span 2' }}>
+                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>Detailed Message</label>
+                            <textarea 
+                                name="message"
+                                required 
+                                rows="6" 
+                                className="form-input" 
+                                placeholder="Please provide your manuscript ID if applicable..."
+                                style={{ width: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', color: 'inherit', resize: 'vertical' }}
+                            ></textarea>
+                        </div>
+                        <div style={{ gridColumn: 'span 2' }}>
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1.25rem' }}>
+                                Send Inquiry To Editor
+                            </button>
+                        </div>
+                    </form>
                 </div>
+
+                {/* 📍 CONTACT INFO HUB */}
+                <aside className="contact-sidebar">
+                   <div className="beauty-card" style={{ margin: 0, padding: '3rem', borderTop: '4px solid var(--accent)' }}>
+                      <h3 style={{ fontSize: '1.25rem', marginBottom: '2.5rem' }}>Editorial Office</h3>
+                      
+                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
+                         <div style={{ fontSize: '1.5rem' }}>✉️</div>
+                         <div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Draft Submissions</div>
+                            <div style={{ fontWeight: 700, color: 'var(--accent)' }}>wisdomjournal25@gmail.com</div>
+                         </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
+                         <div style={{ fontSize: '1.5rem' }}>📞</div>
+                         <div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>Global Support</div>
+                            <div style={{ fontWeight: 700 }}>+91-89100 10980</div>
+                         </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3rem' }}>
+                         <div style={{ fontSize: '1.5rem' }}>📍</div>
+                         <div>
+                            <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>HQ Address</div>
+                            <div style={{ fontWeight: 700, lineHeight: '1.6' }}>
+                                EE 73/5, Salt Lake, Kolkata 700091<br/>West Bengal, India
+                            </div>
+                         </div>
+                      </div>
+
+                      <div style={{ paddingTop: '2.5rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+                         <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>A publishing wing of Jayasree Publications.</div>
+                         <div style={{ width: '100%', height: '150px', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>[ Academic Map Interface ]</span>
+                         </div>
+                      </div>
+                   </div>
+                </aside>
+
             </div>
         </section>
-    ` }} />
+    </main>
   );
 }
