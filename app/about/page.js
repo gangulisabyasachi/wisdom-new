@@ -92,6 +92,10 @@ export default function AboutPage() {
                                         <span style={{ fontWeight: 700 }}>3108-0499</span>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem' }}>
+                                        <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>ISSN (E)</span>
+                                        <span style={{ fontWeight: 700 }}>3108-351X</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem' }}>
                                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Language</span>
                                         <span style={{ fontWeight: 700 }}>English</span>
                                     </div>
