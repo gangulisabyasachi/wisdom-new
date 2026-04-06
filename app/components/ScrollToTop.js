@@ -1,20 +1,60 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [transform, setTransform] = useState({ x: 0, y: 0 });
+  const beaconRef = useRef(null);
+  
+  // High-performance scroll tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      
+      // Visibility threshold
+      setIsVisible(scrollY > 400);
 
-  // Show button when page is scrolled down
-  const toggleVisibility = () => {
-    if (window.scrollY > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
+      // Progress Calculation
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        setProgress((scrollY / scrollHeight) * 100);
+      }
+    };
 
-  // Set the top cordinate to 0, make scrolling smooth
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Magnetic Interaction Logic
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!beaconRef.current || !isVisible) return;
+
+      const { left, top, width, height } = beaconRef.current.getBoundingClientRect();
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      const distance = Math.hypot(mouseX - centerX, mouseY - centerY);
+      const maxDistance = 120; // Magnetic pull radius
+
+      if (distance < maxDistance) {
+        const pullStrength = 15; // Elasticity
+        const x = (mouseX - centerX) / pullStrength;
+        const y = (mouseY - centerY) / pullStrength;
+        setTransform({ x, y });
+      } else {
+        setTransform({ x: 0, y: 0 });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isVisible]);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -22,40 +62,45 @@ export default function ScrollToTop() {
     });
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+  // SVG Progress Circle Geometry
+  const radius = 24;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <>
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          style={{
-            position: 'fixed',
-            bottom: '40px',
-            right: '40px',
-            width: '50px',
-            height: '50px',
-            fontSize: '24px',
-            background: '#930a17',
-            color: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            cursor: 'pointer',
-            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
-            zIndex: 1000,
-            transition: 'opacity 0.3s ease, transform 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-label="Scroll to top"
-        >
-          ↑
-        </button>
-      )}
-    </>
+    <div 
+      className={`scholar-beacon-wrap ${isVisible ? 'visible' : 'hidden'}`}
+      style={{
+        transform: `translate(${transform.x}px, ${transform.y}px)`,
+        transition: transform.x === 0 ? 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)' : 'none'
+      }}
+    >
+      <button
+        ref={beaconRef}
+        onClick={scrollToTop}
+        className="scholar-beacon"
+        aria-label="Scroll to top"
+      >
+        <svg className="beacon-progress-ring" width="60" height="60">
+          <circle 
+            className="ring-background" 
+            cx="30" cy="30" r={radius} 
+          />
+          <circle 
+            className="ring-progress" 
+            cx="30" cy="30" r={radius} 
+            style={{ 
+              strokeDasharray: circumference, 
+              strokeDashoffset: offset 
+            }}
+          />
+        </svg>
+        <div className="beacon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+          </svg>
+        </div>
+      </button>
+    </div>
   );
 }

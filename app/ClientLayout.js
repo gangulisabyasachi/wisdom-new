@@ -1,9 +1,48 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ScrollToTop from './components/ScrollToTop';
+
+// --- MAGNETIC COMPONENT FOR PREMIUM INTERACTION ---
+function MagneticLink({ href, children, className, ariaLabel }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const ref = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const x = (clientX - (left + width / 2)) * 0.35;
+    const y = (clientY - (top + height / 2)) * 0.35;
+    setPosition({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+      aria-label={ariaLabel}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        transition: position.x === 0 ? 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)' : 'none',
+        display: 'inline-flex'
+      }}
+    >
+      {children}
+    </a>
+  );
+}
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
@@ -141,13 +180,46 @@ export default function ClientLayout({ children }) {
             <div className="footer-main">
               <h3>WISDOM</h3>
               <p>
-                A high-impact, multidisciplinary research journal dedicated to advancing knowledge and promoting innovation through rigorous scholarly dialogue.
+                Uniting Research, Unlocking Wisdom
               </p>
-              <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexDirection: 'column' }}>
-                <span style={{ fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '1px' }}>Official Identification</span>
-                <div style={{ display: 'flex', gap: '2rem' }}>
-                  <div style={{ fontSize: '0.9rem' }}><strong>ISSN (P):</strong> 3108-0499</div>
-                  <div style={{ fontSize: '0.9rem' }}><strong>ISSN (E):</strong> 3108-351X</div>
+                            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+                <span style={{ fontSize: '0.8rem', opacity: 0.5, textTransform: 'uppercase', letterSpacing: '2px' }}>Official Identification</span>
+                <div style={{ display: 'flex', gap: '3rem' }}>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><strong>ISSN (P):</strong> 3108-0499</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><strong>ISSN (E):</strong> 3108-351X</div>
+                </div>
+                
+                {/* ORGANIC SOCIAL ISLAND SEPARATOR */}
+                <div className="social-island">
+                  <span style={{ fontSize: '0.75rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem', display: 'block' }}>Social Links</span>
+                  <div className="social-grid-orbital">
+                    <MagneticLink 
+                      href="https://www.facebook.com/profile.php?id=61580071364691" 
+                      className="social-orbital-link facebook" 
+                      ariaLabel="Facebook"
+                    >
+                      <div className="orbital-halo"></div>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="social-icon-orbital"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </MagneticLink>
+
+                    <MagneticLink 
+                      href="https://www.instagram.com/wisdomjournal25/" 
+                      className="social-orbital-link instagram" 
+                      ariaLabel="Instagram"
+                    >
+                      <div className="orbital-halo"></div>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="social-icon-orbital"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </MagneticLink>
+
+                    <MagneticLink 
+                      href="https://www.linkedin.com/company/wisdom-journal/" 
+                      className="social-orbital-link linkedin" 
+                      ariaLabel="LinkedIn"
+                    >
+                      <div className="orbital-halo"></div>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="social-icon-orbital"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    </MagneticLink>
+                  </div>
                 </div>
               </div>
             </div>
