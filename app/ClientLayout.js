@@ -185,8 +185,8 @@ export default function ClientLayout({ children }) {
                             <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexDirection: 'column' }}>
                 <span style={{ fontSize: '0.8rem', opacity: 0.5, textTransform: 'uppercase', letterSpacing: '2px' }}>Official Identification</span>
                 <div style={{ display: 'flex', gap: '3rem' }}>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><strong>ISSN (P):</strong> 3108-0499</div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><strong>ISSN (E):</strong> 3108-351X</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><a href="https://portal.issn.org/resource/ISSN/3108-0499" target="_blank"><strong>ISSN (P):</strong> 3108-0499</a></div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 600 }}><a href="https://portal.issn.org/resource/ISSN/3108-351X" target="_blank"><strong>ISSN (E):</strong> 3108-351X</a></div>
                 </div>
                 
                 {/* ORGANIC SOCIAL ISLAND SEPARATOR */}
