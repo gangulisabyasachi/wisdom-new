@@ -410,6 +410,7 @@ section {
 .publisher-card p {
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
+  text-align: justify;
 }
 
 .publisher-image img {
