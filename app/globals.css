@@ -1219,6 +1219,50 @@ footer::before {
   text-transform: uppercase;
 }
 
+@media (max-width: 768px) {
+  .page-hero-text {
+    font-size: 15vw;
+    letter-spacing: 2vw;
+    top: 75%;
+    opacity: 0.03;
+  }
+  
+  .page-hero h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.2 !important;
+  }
+}
+
+.manuscript-title {
+  font-size: 3.5rem;
+}
+
+.abstract-card {
+  padding: 3rem;
+}
+
+@media (max-width: 768px) {
+  .manuscript-title {
+    font-size: 1.8rem !important;
+  }
+  
+  .abstract-card {
+    padding: 1.5rem !important;
+  }
+}
+
+.article-body img,
+.article-body table {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+.article-body {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 .profile-card-premium {
   background: var(--bg-card);
   border: 1px solid var(--border);

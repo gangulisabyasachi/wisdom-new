@@ -113,7 +113,7 @@ export default async function ArticlePage({ params }) {
             <span>/</span>
             <span>Research Manuscript</span>
           </div>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '2.5rem', lineHeight: '1.1' }}>{article.title}</h1>
+          <h1 className="manuscript-title" style={{ marginBottom: '2.5rem', lineHeight: '1.2' }}>{article.title}</h1>
           <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: '300px' }}>
               <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '0.5rem' }}>{article.authors}</div>
@@ -141,7 +141,7 @@ export default async function ArticlePage({ params }) {
         <div className="container article-detail-grid">
           <div className="article-main-content">
             <ScrollReveal direction="up" delay={0.1}>
-              <div style={{ background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', padding: '2.5rem', borderLeft: '4px solid var(--accent)', marginBottom: '4rem' }}>
+              <div className="abstract-card" style={{ background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', borderLeft: '4px solid var(--accent)', marginBottom: '4rem' }}>
                 <h2 style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '1.5rem', fontStyle: 'italic'  }}>Abstract</h2>
                 <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word' }}>{article.abstract}</p>
               </div>
