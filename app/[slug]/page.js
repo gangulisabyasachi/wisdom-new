@@ -138,12 +138,12 @@ export default async function ArticlePage({ params }) {
       </PageHero>
 
       <section style={{ padding: '4rem 0 8rem' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '4rem' }}>
+        <div className="container article-detail-grid">
           <div className="article-main-content">
             <ScrollReveal direction="up" delay={0.1}>
               <div style={{ background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', padding: '2.5rem', borderLeft: '4px solid var(--accent)', marginBottom: '4rem' }}>
                 <h2 style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '1.5rem', fontStyle: 'italic'  }}>Abstract</h2>
-                <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic' }}>{article.abstract}</p>
+                <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word' }}>{article.abstract}</p>
               </div>
             </ScrollReveal>
 
