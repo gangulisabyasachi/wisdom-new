@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageHero from '../components/PageHero';
+import ScrollReveal from '../components/ScrollReveal';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
 
@@ -76,7 +77,7 @@ export default async function CurrentIssuePage() {
   const total_articles = articles.length;
 
   return (
-    <main className="reveal">
+    <main>
         {/* PRESTIGE HEADER */}
         <PageHero>
             <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '4rem', alignItems: 'center' }}>
@@ -87,10 +88,6 @@ export default async function CurrentIssuePage() {
                        <div style={{ fontSize: '1.5rem', fontWeight: 700, fontStyle: 'italic', fontFamily: 'var(--font-serif)', color: 'var(--text-secondary)' }}>
                           Volume {current_volume}, Issue {current_issue}
                        </div>
-                       {/* <div style={{ height: '30px', width: '1px', background: 'var(--border)' }}></div> */}
-                       {/* <div style={{ fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                          Released {published_month}
-                       </div> */}
                     </div>
                     <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
                        <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, background: 'var(--bg-card)' }}>
@@ -121,67 +118,75 @@ export default async function CurrentIssuePage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '6rem' }}>
                     
                     <div className="toc-section">
-                        <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
-                           Manuscript Table of Contents
-                        </h2>
+                        <ScrollReveal direction="left" delay={0.1}>
+                          <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
+                             Manuscript Table of Contents
+                          </h2>
+                        </ScrollReveal>
 
                         {articles.length === 0 ? (
-                            <div className="beauty-card" style={{ textAlign: 'center', padding: '4rem' }}>
-                               <p>No manuscripts are indexed for this cycle.</p>
-                            </div>
+                            <ScrollReveal direction="up" delay={0.2}>
+                              <div className="beauty-card" style={{ textAlign: 'center', padding: '4rem' }}>
+                                 <p>No manuscripts are indexed for this cycle.</p>
+                              </div>
+                            </ScrollReveal>
                         ) : (
                             articles.map((art, index) => (
-                                <div className="article-card reveal" key={index} style={{ marginBottom: '4rem', borderBottom: '1px solid var(--border)', paddingBottom: '3rem' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                                       <span style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--accent)', letterSpacing: '1px' }}>
-                                          {art.doi ? `DOI: ${art.doi}` : `REF: WSD-${index+101}`}
-                                       </span>
-                                       <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>Page {art.page}</span>
-                                    </div>
-                                    <h3 style={{ marginBottom: '1.25rem', fontFamily: 'var(--font-serif)', fontSize: '1.75rem', color: 'var(--text-primary)' }}>
-                                        <Link href={`/${art.slug}`}>{art.topic}</Link>
-                                    </h3>
-                                    <div style={{ color: 'var(--text-secondary)', fontWeight: 700, fontSize: '1rem', marginBottom: '1.5rem' }}>
-                                        {art.authors}
-                                    </div>
-                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
-                                        {art.abstract}
-                                    </p>
-                                    <Link href={`/${art.slug}`} className="btn" style={{ fontSize: '0.85rem', fontWeight: 800, padding: '0.8rem 1.5rem', background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>
-                                        View Full Record <span>&rarr;</span>
-                                    </Link>
-                                </div>
+                                <ScrollReveal key={index} direction="up" delay={0.1 * (index % 3)}>
+                                  <div className="article-card" style={{ marginBottom: '4rem', borderBottom: '1px solid var(--border)', paddingBottom: '3rem' }}>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+                                         <span style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--accent)', letterSpacing: '1px' }}>
+                                            {art.doi ? `DOI: ${art.doi}` : `REF: WSD-${index+101}`}
+                                         </span>
+                                         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>Page {art.page}</span>
+                                      </div>
+                                      <h3 style={{ marginBottom: '1.25rem', fontFamily: 'var(--font-serif)', fontSize: '1.75rem', color: 'var(--text-primary)' }}>
+                                          <Link href={`/${art.slug}`}>{art.topic}</Link>
+                                      </h3>
+                                      <div style={{ color: 'var(--text-secondary)', fontWeight: 700, fontSize: '1rem', marginBottom: '1.5rem' }}>
+                                          {art.authors}
+                                      </div>
+                                      <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
+                                          {art.abstract}
+                                      </p>
+                                      <Link href={`/${art.slug}`} className="btn" style={{ fontSize: '0.85rem', fontWeight: 800, padding: '0.8rem 1.5rem', background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>
+                                          View Full Record <span>&rarr;</span>
+                                      </Link>
+                                  </div>
+                                </ScrollReveal>
                             ))
                         )}
                     </div>
 
                     <aside className="issue-sidebar">
-                       <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
-                          <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
-                             <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
-                             <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                                <p style={{ marginBottom: '1.5rem' }}>
-                                   This edition of WISDOM features multi-disciplinary research addressing critical advancements 
-                                   in management, educational ethics, and transformative technologies.
-                                </p>
-                                <p style={{ marginBottom: '1.5rem' }}>
-                                   Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
-                                   stewards of the journal.
-                                </p>
-                             </div>
-                             <div style={{ marginTop: '2.5rem', pt: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
-                                <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
-                                   <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                                   Indexed in Open Repositories
+                        <ScrollReveal direction="right" delay={0.3}>
+                          <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
+                              <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
+                                 <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
+                                 <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                    <p style={{ marginBottom: '1.5rem' }}>
+                                       This edition of WISDOM features multi-disciplinary research addressing critical advancements 
+                                       in management, educational ethics, and transformative technologies.
+                                    </p>
+                                    <p style={{ marginBottom: '1.5rem' }}>
+                                       Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
+                                       stewards of the journal.
+                                    </p>
                                  </div>
-                             </div>
-                          </div>
+                                 <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
+                                    <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
+                                       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                       Indexed in Open Repositories
+                                     </div>
+                                 </div>
+                              </div>
 
-                          <div style={{ marginTop: '2rem' }}>
-                              <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
+                              <div style={{ marginTop: '2rem' }}>
+                                  <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
+                              </div>
                           </div>
-                       </div>
+                        </ScrollReveal>
                     </aside>
 
                 </div>

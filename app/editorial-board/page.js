@@ -1,6 +1,6 @@
 import Link from 'next/link';
-
 import PageHero from '../components/PageHero';
+import ScrollReveal from '../components/ScrollReveal';
 
 export const metadata = {
   title: 'Editorial Board - WISDOM Journal',
@@ -117,7 +117,7 @@ export default function EditorialBoardPage() {
         {/* ✨ MODERN HERO SECTION */}
         <PageHero>
             <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-                <div className="stagger-in" style={{ animationDelay: '0.1s' }}>
+                <div>
                     <div style={{ fontSize: '0.9rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '1.5rem' }}>
                         Editorial Stewardship
                     </div>
@@ -135,7 +135,7 @@ export default function EditorialBoardPage() {
         {/* 👑 TIER 1: EDITOR-IN-CHIEF (THE CROWN) */}
         <section style={{ padding: '10rem 0', position: 'relative', zIndex: 2, marginTop: '-5rem' }}>
             <div className="container">
-                <div className="stagger-in" style={{ animationDelay: '0.3s' }}>
+                <ScrollReveal direction="up" delay={0.2}>
                     <div className="profile-card-premium" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 2fr', gap: '5rem', alignItems: 'center', padding: '5rem' }}>
                         <div className="leader-portrait-wrap">
                             <img src="/images/s-s-chatterjee.jpeg" alt="Prof (Dr.) Subhrangsu Shekhar Chatterji" />
@@ -171,32 +171,36 @@ export default function EditorialBoardPage() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </ScrollReveal>
             </div>
         </section>
 
         {/* 📋 TIER 2: MANAGING EDITOR */}
         <section style={{ padding: '6rem 0', background: 'var(--bg-subtle)' }}>
             <div className="container">
-                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Operational Excellence</div>
-                    <h2 style={{ fontSize: '2.5rem' }}>Core Coordination</h2>
-                </div>
+                <ScrollReveal direction="up" delay={0.1}>
+                  <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Operational Excellence</div>
+                      <h2 style={{ fontSize: '2.5rem' }}>Core Coordination</h2>
+                  </div>
+                </ScrollReveal>
                 
-                <div className="stagger-in" style={{ animationDelay: '0.4s', maxWidth: '900px', margin: '0 auto' }}>
-                    <div className="profile-card-premium" style={{ display: 'flex', flexDirection: 'row', gap: '3rem', alignItems: 'center', background: 'var(--bg-card)' }}>
-                        <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '8px solid var(--bg-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                            <img src={managingEditor.image} alt={managingEditor.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Managing Editor</div>
-                            <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>{managingEditor.name}</h3>
-                            <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>{managingEditor.credentials}</p>
-                            <div style={{ padding: '1rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', borderLeft: '3px solid var(--accent)' }}>
-                                {managingEditor.affiliation}
-                            </div>
-                        </div>
-                    </div>
+                <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+                    <ScrollReveal direction="up" delay={0.2}>
+                      <div className="profile-card-premium" style={{ display: 'flex', flexDirection: 'row', gap: '3rem', alignItems: 'center', background: 'var(--bg-card)' }}>
+                          <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '8px solid var(--bg-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                              <img src={managingEditor.image} alt={managingEditor.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                          <div>
+                              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Managing Editor</div>
+                              <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>{managingEditor.name}</h3>
+                              <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>{managingEditor.credentials}</p>
+                              <div style={{ padding: '1rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', borderLeft: '3px solid var(--accent)' }}>
+                                  {managingEditor.affiliation}
+                              </div>
+                          </div>
+                      </div>
+                    </ScrollReveal>
                 </div>
             </div>
         </section>
@@ -204,15 +208,17 @@ export default function EditorialBoardPage() {
         {/* 🎓 TIER 3: DISTINGUISHED MEMBERS */}
         <section style={{ padding: '10rem 0' }}>
             <div className="container">
-                <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>The Board</div>
-                    <h2 style={{ fontSize: '3rem' }}>Distinguished <span className="signature-accent">Members</span></h2>
-                    <p style={{ color: 'var(--text-secondary)', marginTop: '1rem' }}>Global experts from leading research institutions and universities.</p>
-                </div>
+                <ScrollReveal direction="up" delay={0.1}>
+                  <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>The Board</div>
+                      <h2 style={{ fontSize: '3rem' }}>Distinguished <span className="signature-accent">Members</span></h2>
+                      <p style={{ color: 'var(--text-secondary)', marginTop: '1rem' }}>Global experts from leading research institutions and universities.</p>
+                  </div>
+                </ScrollReveal>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '3rem' }}>
                     {boardMembers.map((member, idx) => (
-                        <div key={idx} className="stagger-in" style={{ animationDelay: `${0.5 + (idx * 0.1)}s` }}>
+                        <ScrollReveal key={idx} direction={idx % 2 === 0 ? "left" : "right"} delay={0.1 * (idx % 3)}>
                             <div className="profile-card-premium">
                                 <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
                                     <div style={{ width: '100px', height: '100px', borderRadius: 'var(--radius-md)', overflow: 'hidden', flexShrink: 0, boxShadow: 'var(--shadow-sm)' }}>
@@ -248,7 +254,7 @@ export default function EditorialBoardPage() {
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </ScrollReveal>
                     ))}
                 </div>
             </div>
@@ -257,33 +263,35 @@ export default function EditorialBoardPage() {
         {/* 🛡️ RESPONSIBILITIES: THE PROMISE */}
         <section style={{ padding: '0 0 10rem' }}>
             <div className="container">
-               <div className="stagger-in" style={{ animationDelay: '1.5s', background: 'var(--bg-card)', padding: '5rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ position: 'absolute', top: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at top right, var(--accent-light), transparent)', opacity: 0.5 }}></div>
-                  
-                  <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                        <h2 style={{ fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--accent)' }}>Editorial Stewardship</h2>
-                        <div style={{ height: '2px', width: '40px', background: 'var(--accent)', margin: '1.5rem auto' }}></div>
-                    </div>
+               <ScrollReveal direction="up" delay={0.2}>
+                 <div style={{ background: 'var(--bg-card)', padding: '5rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, right: 0, width: '300px', height: '300px', background: 'radial-gradient(circle at top right, var(--accent-light), transparent)', opacity: 0.5 }}></div>
+                    
+                    <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative' }}>
+                      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                          <h2 style={{ fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--accent)' }}>Editorial Stewardship</h2>
+                          <div style={{ height: '2px', width: '40px', background: 'var(--accent)', margin: '1.5rem auto' }}></div>
+                      </div>
 
-                    <div style={{ display: 'grid', gap: '2rem' }}>
-                        {[
-                            "Ensuring original, double-blinded peer-reviewed content under strict academic independence.",
-                            "Reviewing journal aims, scope, and editorial policies for disciplinary coherence.",
-                            "Overseeing a transparent, fair, and timely review process for all manuscripts.",
-                            "Upholding COPE guidelines and managing scientific integrity effectively.",
-                            "Maintaining metadata accuracy and indexing compliance for global discoverability."
-                        ].map((item, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
-                                <div style={{ width: '40px', height: '40px', background: 'var(--bg-subtle)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                </div>
-                                <span style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 500 }}>{item}</span>
-                            </div>
-                        ))}
+                      <div style={{ display: 'grid', gap: '2rem' }}>
+                          {[
+                              "Ensuring original, double-blinded peer-reviewed content under strict academic independence.",
+                              "Reviewing journal aims, scope, and editorial policies for disciplinary coherence.",
+                              "Overseeing a transparent, fair, and timely review process for all manuscripts.",
+                              "Upholding COPE guidelines and managing scientific integrity effectively.",
+                              "Maintaining metadata accuracy and indexing compliance for global discoverability."
+                          ].map((item, i) => (
+                              <div key={i} style={{ display: 'flex', gap: '25px', alignItems: 'center' }}>
+                                  <div style={{ width: '40px', height: '40px', background: 'var(--bg-subtle)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
+                                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                  </div>
+                                  <span style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 500 }}>{item}</span>
+                              </div>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-               </div>
+                 </div>
+               </ScrollReveal>
             </div>
         </section>
     </main>

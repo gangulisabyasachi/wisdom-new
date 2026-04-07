@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import PageHero from '../components/PageHero';
+import ScrollReveal from '../components/ScrollReveal';
 import { searchArticles, getDistinctFilters } from './actions';
 
 export default function SearchPage() {
@@ -78,7 +79,7 @@ export default function SearchPage() {
   };
 
   return (
-    <main className="reveal">
+    <main>
         {/* HEADER SECTION */}
         <PageHero>
             <div className="container" style={{ textAlign: 'center' }}>
@@ -120,38 +121,42 @@ export default function SearchPage() {
         {/* RESULTS SECTION */}
         <section style={{ padding: '4rem 0 10rem' }}>
             <div className="container" style={{ maxWidth: '950px' }}>
-                <div style={{ marginBottom: '3rem', textAlign: 'center', fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                   {error ? <span style={{ color: 'var(--accent)' }}>{error}</span> : (
-                      <span>
-                         {results.length > 0 ? (
-                            <>Identified <strong>{results.length}</strong> manuscripts in <strong>{searchTime}</strong> seconds</>
-                         ) : (query || filters.vol) ? 'No manuscripts found matching those scholarly parameters.' : 'Enter a query to begin discovery.'}
-                      </span>
-                   )}
-                </div>
+                <ScrollReveal direction="up" delay={0.1}>
+                  <div style={{ marginBottom: '3rem', textAlign: 'center', fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                     {error ? <span style={{ color: 'var(--accent)' }}>{error}</span> : (
+                        <span>
+                           {results.length > 0 ? (
+                              <>Identified <strong>{results.length}</strong> manuscripts in <strong>{searchTime}</strong> seconds</>
+                           ) : (query || filters.vol) ? 'No manuscripts found matching those scholarly parameters.' : 'Enter a query to begin discovery.'}
+                        </span>
+                     )}
+                  </div>
+                </ScrollReveal>
 
                 <div className="results-list">
-                    {results.map((art) => (
-                        <div key={art._id} className="article-card reveal" style={{ animationDelay: '0s' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
-                               <span>Vol {art.volume}, Issue {art.issue} &bull; {art.date}</span>
-                               {art.doi && <span style={{ color: 'var(--accent)' }}>DOI {query ? highlightText(art.doi, query) : art.doi}</span>}
-                            </div>
-                            <h3 style={{ marginBottom: '1rem' }}>
-                                <Link href={`/${art.slug}`} style={{ fontSize: '1.75rem', lineHeight: '1.3', fontFamily: 'var(--font-serif)' }}>
-                                   {query ? highlightText(art.topic, query) : art.topic}
-                                </Link>
-                            </h3>
-                            <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '1.5rem' }}>
-                               {query ? highlightText(art.authors, query) : art.authors}
-                            </div>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.8', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                               {query ? highlightText(art.abstract, query) : art.abstract}
-                            </p>
-                            <div style={{ marginTop: '2.5rem', display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                               <Link href={`/${art.slug}`} className="btn btn-primary" style={{ padding: '0.75rem 1.5rem', fontSize: '0.8rem' }}>Access Full Publication &rarr;</Link>
-                            </div>
-                        </div>
+                    {results.map((art, idx) => (
+                        <ScrollReveal key={art._id} direction="up" delay={0.1 * (idx % 3)}>
+                          <div className="article-card">
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                                 <span>Vol {art.volume}, Issue {art.issue} &bull; {art.date}</span>
+                                 {art.doi && <span style={{ color: 'var(--accent)' }}>DOI {query ? highlightText(art.doi, query) : art.doi}</span>}
+                              </div>
+                              <h3 style={{ marginBottom: '1rem' }}>
+                                  <Link href={`/${art.slug}`} style={{ fontSize: '1.75rem', lineHeight: '1.3', fontFamily: 'var(--font-serif)' }}>
+                                     {query ? highlightText(art.topic, query) : art.topic}
+                                  </Link>
+                              </h3>
+                              <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+                                 {query ? highlightText(art.authors, query) : art.authors}
+                              </div>
+                              <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.8', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                 {query ? highlightText(art.abstract, query) : art.abstract}
+                              </p>
+                              <div style={{ marginTop: '2.5rem', display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                                 <Link href={`/${art.slug}`} className="btn btn-primary" style={{ padding: '0.75rem 1.5rem', fontSize: '0.8rem' }}>Access Full Publication &rarr;</Link>
+                              </div>
+                          </div>
+                        </ScrollReveal>
                     ))}
                 </div>
             </div>

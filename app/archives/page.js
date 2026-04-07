@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
 import PageHero from '../components/PageHero';
+import ScrollReveal from '../components/ScrollReveal';
 
 export const metadata = {
   title: 'Archives | All Volumes & Issues - WISDOM Journal',
@@ -104,7 +105,7 @@ export default async function ArchivesPage({ searchParams }) {
   }
 
   return (
-    <main className="reveal">
+    <main>
         <PageHero>
             <div className="container">
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Electronic Repository</div>
@@ -120,67 +121,75 @@ export default async function ArchivesPage({ searchParams }) {
                 
                 {/* 🧭 SELECTOR SIDEBAR */}
                 <aside className="archive-sidebar">
-                   <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 2rem)' }}>
-                      <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Index Selection</h3>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                         <Link 
-                            href="/archives" 
-                            className={`beauty-card ${!vol ? 'active-filter' : ''}`}
-                            style={{ margin: 0, padding: '1rem 1.5rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between' }}
-                         >
-                            <span>All Volumes</span>
-                            <span>&rarr;</span>
-                         </Link>
-                         
-                         {volumes.map(v => (
-                            <div key={v.number} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                               <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', padding: '0.5rem 0' }}>Volume {v.number}</div>
-                               {v.issues.map(iss => (
-                                  <Link 
-                                    key={iss.number}
-                                    href={`/archives?vol=${v.number}&issue=${iss.number}`}
-                                    className={`beauty-card ${vol == v.number && issue == iss.number ? 'active-filter' : ''}`}
-                                    style={{ margin: 0, padding: '0.75rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                                  >
-                                    <span style={{ fontSize: '0.95rem' }}>Issue {iss.number}</span>
-                                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{iss.count} Papers</span>
-                                  </Link>
-                               ))}
-                            </div>
-                         ))}
+                    <ScrollReveal direction="left" delay={0.1}>
+                      <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 2rem)' }}>
+                        <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Index Selection</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                           <Link 
+                              href="/archives" 
+                              className={`beauty-card ${!vol ? 'active-filter' : ''}`}
+                              style={{ margin: 0, padding: '1rem 1.5rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between' }}
+                           >
+                              <span>All Volumes</span>
+                              <span>&rarr;</span>
+                           </Link>
+                           
+                           {volumes.map(v => (
+                              <div key={v.number} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                 <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', padding: '0.5rem 0' }}>Volume {v.number}</div>
+                                 {v.issues.map(iss => (
+                                    <Link 
+                                      key={iss.number}
+                                      href={`/archives?vol=${v.number}&issue=${iss.number}`}
+                                      className={`beauty-card ${vol == v.number && issue == iss.number ? 'active-filter' : ''}`}
+                                      style={{ margin: 0, padding: '0.75rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                    >
+                                      <span style={{ fontSize: '0.95rem' }}>Issue {iss.number}</span>
+                                      <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{iss.count} Papers</span>
+                                    </Link>
+                                 ))}
+                              </div>
+                           ))}
+                        </div>
                       </div>
-                   </div>
+                    </ScrollReveal>
                 </aside>
 
                 {/* 📚 RESULTS AREA */}
                 <div className="archive-results">
-                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '2px solid var(--accent)', paddingBottom: '1rem', marginBottom: '3rem' }}>
-                      <h2 style={{ fontSize: '1.75rem' }}>{currentSelectionTitle}</h2>
-                      <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{selectedArticles.length} results</span>
-                   </div>
+                   <ScrollReveal direction="up" delay={0.1}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '2px solid var(--accent)', paddingBottom: '1rem', marginBottom: '3rem' }}>
+                        <h2 style={{ fontSize: '1.75rem' }}>{currentSelectionTitle}</h2>
+                        <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{selectedArticles.length} results</span>
+                      </div>
+                   </ScrollReveal>
 
                    {selectedArticles.length === 0 ? (
-                      <div style={{ padding: '6rem', textAlign: 'center', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-lg)' }}>
-                         <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>No manuscripts detected for this index selection.</p>
-                      </div>
+                      <ScrollReveal direction="up" delay={0.2}>
+                         <div style={{ padding: '6rem', textAlign: 'center', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-lg)' }}>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>No manuscripts detected for this index selection.</p>
+                         </div>
+                      </ScrollReveal>
                    ) : (
                       selectedArticles.map((art, idx) => (
-                        <div key={idx} className="article-card">
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                               <span>Volume {art.vol}, Issue {art.issue}</span>
-                               <span>Page {art.page}</span>
-                            </div>
-                            <h3 style={{ marginBottom: '1rem' }}>
-                                <Link href={`/${art.slug}`} style={{ fontSize: '1.4rem' }}>{art.topic}</Link>
-                            </h3>
-                            <div style={{ color: 'var(--accent)', fontWeight: 700, marginBottom: '1.5rem' }}>{art.authors}</div>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.7', marginBottom: '2rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
-                               {art.abstract}
-                            </p>
-                            <Link href={`/${art.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 800, fontSize: '0.9rem' }}>
-                               View Complete Publication <span>&rarr;</span>
-                            </Link>
-                        </div>
+                        <ScrollReveal key={idx} direction="up" delay={0.1 * (idx % 3)}>
+                          <div className="article-card">
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                                 <span>Volume {art.vol}, Issue {art.issue}</span>
+                                 <span>Page {art.page}</span>
+                              </div>
+                              <h3 style={{ marginBottom: '1rem' }}>
+                                  <Link href={`/${art.slug}`} style={{ fontSize: '1.4rem' }}>{art.topic}</Link>
+                              </h3>
+                              <div style={{ color: 'var(--accent)', fontWeight: 700, marginBottom: '1.5rem' }}>{art.authors}</div>
+                              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.7', marginBottom: '2rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', textAlign: 'justify' }}>
+                                 {art.abstract}
+                              </p>
+                              <Link href={`/${art.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 800, fontSize: '0.9rem' }}>
+                                 View Complete Publication <span>&rarr;</span>
+                              </Link>
+                          </div>
+                        </ScrollReveal>
                       ))
                    )}
                 </div>
