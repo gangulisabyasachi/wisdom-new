@@ -151,6 +151,14 @@ export default async function Home() {
                           </div>
                         </ScrollReveal>
                     </div>
+
+                    <ScrollReveal direction="up" delay={0.5}>
+                        <div style={{ marginTop: '5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                             <Link href="/peer-review-policy" className="policy-link-pill">Peer Review Integrity &rarr;</Link>
+                             <Link href="/cope-ethics" className="policy-link-pill">Publication Ethics &rarr;</Link>
+                             <Link href="/open-access-policy" className="policy-link-pill">Open Access Commitment &rarr;</Link>
+                        </div>
+                    </ScrollReveal>
                 </div>
             </section>
 

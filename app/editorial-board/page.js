@@ -111,9 +111,38 @@ export default function EditorialBoardPage() {
     credentials: "LLM (CU), MA in Criminology & Forensic Sc (NALSAR), MA in Sociology (SRU), MA in Psychology (SGVU), Dip in Cyber Law (ASCL)",
     affiliation: "Legal Advocate & Scholar"
   };
+ 
+  const editorialSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "WISDOM Journal Editorial Board",
+    "editor": [
+      {
+        "@type": "Person",
+        "name": "Prof (Dr.) Subhrangsu Shekhar Chatterji",
+        "jobTitle": "Editor-in-Chief",
+        "affiliation": "University of Calcutta",
+        "sameAs": [
+          "https://www.caluniv.ac.in/academic/Law.php"
+        ]
+      },
+      ...boardMembers.map(m => ({
+        "@type": "Person",
+        "name": m.name,
+        "jobTitle": m.role,
+        "affiliation": m.affiliation,
+        "url": m.profile || undefined
+      }))
+    ]
+  };
 
   return (
     <main style={{ background: 'var(--bg)', minHeight: '100vh', position: 'relative' }}>
+        {/* STRUCTURED DATA FOR SEARCH ENGINES */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(editorialSchema) }}
+        />
         {/* ✨ MODERN HERO SECTION */}
         <PageHero>
             <div className="container" style={{ position: 'relative', zIndex: 1 }}>

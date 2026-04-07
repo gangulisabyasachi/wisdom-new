@@ -61,8 +61,51 @@ export default async function ArticlePage({ params }) {
     );
   }
 
+  // PREPARE SCHOLARLY METADATA (JSON-LD)
+  const scholarlySchema = {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": article.title,
+    "description": article.abstract,
+    "author": article.authors.split(',').map(name => ({
+      "@type": "Person",
+      "name": name.trim()
+    })),
+    "datePublished": article.year,
+    "publisher": {
+      "@type": "Organization",
+      "name": "WISDOM Journal",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.wisdomj.in/images/logo.jpeg"
+      }
+    },
+    "isPartOf": {
+      "@type": "PublicationIssue",
+      "issueNumber": article.issue,
+      "isPartOf": {
+        "@type": "PublicationVolume",
+        "volumeNumber": article.volume,
+        "isPartOf": {
+          "@type": "Periodical",
+          "name": "WISDOM Journal",
+          "issn": "3108-351X" 
+        }
+      }
+    },
+    "pagination": article.page,
+    "identifier": article.doi,
+    "url": `https://www.wisdomj.in/${slug}`,
+    "keywords": article.keywords.join(', ')
+  };
+
   return (
     <main>
+      {/* STRUCTURED DATA FOR SEARCH ENGINES */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(scholarlySchema) }}
+      />
       <PageHero>
         <div className="container">
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '2rem', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)' }}>

@@ -88,6 +88,31 @@ export default function AboutPage() {
                             </ScrollReveal>
                         </div>
 
+                        <ScrollReveal direction="up" delay={0.35}>
+                            <div style={{ marginBottom: '4rem' }}>
+                                <h2 style={{ fontSize: '1.75rem', marginBottom: '2rem' }}>Thematic Scope & Disciplines</h2>
+                                <div className="article-body">
+                                    <p>
+                                        WISDOM maintains a broad yet rigorous multidisciplinary focus. We actively curate research that integrates 
+                                        diverse perspectives to solve complex problems in:
+                                    </p>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1.5rem' }}>
+                                        {[
+                                            { title: "Law & Jurisprudence", desc: "Corporate law, constitutional ethics, international legal frameworks." },
+                                            { title: "Social Sciences", desc: "Sociology, political science, and human behavior studies." },
+                                            { title: "Management", desc: "Digital transformation, organizational ethics, and leadership." },
+                                            { title: "Science & Technology", desc: "Interdisciplinary scientific advancements and ethical AI." }
+                                        ].map((item, i) => (
+                                            <div key={i} style={{ padding: '1.5rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
+                                                <h4 style={{ color: 'var(--accent)', fontSize: '1rem', marginBottom: '0.5rem' }}>{item.title}</h4>
+                                                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{item.desc}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollReveal>
+
                         <ScrollReveal direction="up" delay={0.4}>
                           <div style={{ background: 'var(--bg-subtle)', borderRadius: 'var(--radius-lg)', padding: '3.5rem', border: '1px solid var(--border)' }}>
                               <h2 style={{ fontSize: '1.5rem', marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)' }}>Aims & Objectives</h2>

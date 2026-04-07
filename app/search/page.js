@@ -162,9 +162,6 @@ export default function SearchPage() {
             </div>
         </section>
 
-        <style jsx>{`
-            @keyframes spin { to { transform: rotate(360deg); } }
-        `}</style>
     </main>
   );
 }
