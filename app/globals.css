@@ -1159,11 +1159,11 @@ footer::before {
 
 .page-hero-text {
   position: absolute;
-  top: 50%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 20vw;
-  font-weight: 900;
+  font-weight: 950;
   color: var(--accent);
   opacity: 0.02;
   letter-spacing: 5vw;
@@ -1172,6 +1172,7 @@ footer::before {
   z-index: 0;
   font-family: 'Outfit', sans-serif;
   user-select: none;
+  text-transform: uppercase;
 }
 
 .profile-card-premium {
