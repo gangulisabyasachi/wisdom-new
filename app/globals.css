@@ -1450,6 +1450,66 @@ footer::before {
   }
 }
 
+/* 📄 Call For Papers Responsive Layouts */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.guidelines-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) 1fr;
+  gap: 4rem;
+}
+
+.guidelines-inner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.submission-cat-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.apc-cards-grid,
+.hardcopy-charges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .roadmap-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .roadmap-grid,
+  .guidelines-main-grid,
+  .guidelines-inner-grid,
+  .apc-cards-grid,
+  .hardcopy-charges-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .submission-cat-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .responsive-card-padding {
+    padding: 2rem 1.5rem !important;
+  }
+}
+
 /* SCHOLARLY ORBITAL SOCIALS (ORGANIC DESIGN) */
 .social-grid-orbital {
   display: flex;

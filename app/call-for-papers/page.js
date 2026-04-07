@@ -65,7 +65,7 @@ export default function CallForPapersPage() {
           <ScrollReveal direction="up" delay={0.1}>
             <h2 style={{ textAlign: 'center', marginBottom: '4rem', fontSize: '2rem' }}>Publication Roadmap</h2>
           </ScrollReveal>
-          <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+          <div className="roadmap-grid">
             {steps.map((step, idx) => (
               <ScrollReveal key={idx} direction="up" delay={0.1 * (idx + 1)}>
                 <div className="beauty-card" style={{ margin: 0, padding: '2.5rem', textAlign: 'center', borderTop: '4px solid var(--accent)' }}>
@@ -81,14 +81,13 @@ export default function CallForPapersPage() {
 
       {/* GUIDELINES GRID */}
       <section style={{ background: 'var(--bg-subtle)', padding: '6rem 0' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '4rem' }}>
+        <div className="container guidelines-main-grid">
 
             <div className="main-guidelines">
               <ScrollReveal direction="left" delay={0.1}>
-                <div className="beauty-card" style={{ padding: '3.5rem', marginBottom: '3rem' }}>
+                <div className="beauty-card responsive-card-padding" style={{ marginBottom: '3rem' }}>
                   <h2 style={{ fontSize: '1.5rem', marginBottom: '2.5rem', color: 'var(--accent)' }}>1. Manuscript Formatting</h2>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                  <div className="guidelines-inner-grid">
                     <div>
                       <h4 style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '1rem' }}>Typographic Standards</h4>
                       <ul className="guideline-list" style={{ fontSize: '0.95rem' }}>
@@ -112,20 +111,20 @@ export default function CallForPapersPage() {
               </ScrollReveal>
 
               <ScrollReveal direction="left" delay={0.2}>
-                <div className="beauty-card" style={{ padding: '3.5rem' }}>
+                <div className="beauty-card responsive-card-padding">
                   <h2 style={{ fontSize: '1.5rem', marginBottom: '2.5rem', color: 'var(--accent)' }}>2. Submission Categories</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+                    <div className="submission-cat-item">
                       <strong>Research Articles / Long Papers</strong>
-                      <span style={{ color: 'var(--text-muted)' }}>2,500 - 3,000 words</span>
+                      <span>2,500 - 3,000 words</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+                    <div className="submission-cat-item">
                       <strong>Short Articles / Essays</strong>
-                      <span style={{ color: 'var(--text-muted)' }}>1,500 - 2,000 words</span>
+                      <span>1,500 - 2,000 words</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+                    <div className="submission-cat-item">
                       <strong>Case Notes & Commentaries</strong>
-                      <span style={{ color: 'var(--text-muted)' }}>1,500 - 2,000 words</span>
+                      <span>1,500 - 2,000 words</span>
                     </div>
                   </div>
                 </div>
@@ -153,7 +152,6 @@ export default function CallForPapersPage() {
                 </div>
               </ScrollReveal>
             </aside>
-          </div>
         </div>
       </section>
 
@@ -165,7 +163,7 @@ export default function CallForPapersPage() {
               <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Article Processing Charges (APC)</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '4rem' }}>Transparent fee structure for quality dissemination and peer-review maintenance. No fee is required during submission.</p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+              <div className="apc-cards-grid">
                 <ScrollReveal direction="left" delay={0.2}>
                   <div className="beauty-card" style={{ padding: '3rem', borderTop: '8px solid var(--accent)' }}>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Indian Citizen</div>
@@ -195,7 +193,7 @@ export default function CallForPapersPage() {
                       </p>
                     </div>
                   </div>
-                  <div style={{ marginTop: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                  <div className="hardcopy-charges-grid">
                     <div>
                       <div style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '1px', marginBottom: '0.5rem' }}>Domestic Authors</div>
                       <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>₹999 <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 400 }}>+ APC Charges</span></div>
