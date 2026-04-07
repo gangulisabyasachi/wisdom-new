@@ -165,32 +165,32 @@ export default function EditorialBoardPage() {
         <section style={{ padding: '10rem 0', position: 'relative', zIndex: 2, marginTop: '-5rem' }}>
             <div className="container">
                 <ScrollReveal direction="up" delay={0.2}>
-                    <div className="profile-card-premium" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 2fr', gap: '5rem', alignItems: 'center', padding: '5rem' }}>
-                        <div className="leader-portrait-wrap">
+                    <div className="profile-card-premium profile-card-responsive" style={{ padding: '0' }}>
+                        <div className="leader-portrait-wrap responsive-portrait">
                             <img src="/images/s-s-chatterjee.jpeg" alt="Prof (Dr.) Subhrangsu Shekhar Chatterji" />
                             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem', background: 'linear-gradient(to top, rgba(147, 10, 23, 0.9), transparent)', color: 'white', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
                                 Editor-in-Chief
                             </div>
                         </div>
-                        <div>
+                        <div className="responsive-content" style={{ textAlign: 'left' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
                                 <div style={{ height: '1px', flex: 1, background: 'var(--border)' }}></div>
                                 <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px' }}>Leadership Profile</span>
                             </div>
-                            <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Prof (Dr.) <span className="signature-accent">Subhrangsu Shekhar</span> Chatterji</h2>
-                            <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <h2 className="responsive-title" style={{ marginBottom: '1rem', color: 'var(--text-primary)' }}>Prof (Dr.) <span className="signature-accent">Subhrangsu Shekhar</span> Chatterji</h2>
+                            <div className="responsive-credentials" style={{ marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
                                 <span style={{ padding: '4px 12px', background: 'var(--accent-light)', color: 'var(--accent)', borderRadius: '4px', fontSize: '0.9rem' }}>PhD (BHU)</span>
                                 <span>Distinguished Scholar & Jurist</span>
                             </div>
                             
-                            <div style={{ display: 'grid', gap: '1.5rem' }}>
+                            <div className="responsive-stat-list" style={{ display: 'grid', gap: '1.5rem' }}>
                                 {[
                                     { label: "Ex Dean Head & Secretary", val: "Department of Law, University of Calcutta" },
                                     { label: "Ex Vice Chancellor", val: "Panchanan Barma University" },
                                     { label: "Ex Chairman", val: "West Bengal Public Service Commission (WBPSC)" }
                                 ].map((item, i) => (
-                                    <div key={i} style={{ display: 'flex', gap: '20px' }}>
-                                        <div style={{ width: '12px', height: '12px', background: 'var(--accent)', borderRadius: '50%', marginTop: '8px', flexShrink: 0 }}></div>
+                                    <div key={i} className="responsive-stat-item" style={{ display: 'flex', gap: '20px' }}>
+                                        <div style={{ width: '12px', height: '12px', background: 'var(--accent)', borderRadius: '50%', marginTop: '6px', flexShrink: 0 }}></div>
                                         <div>
                                             <div style={{ fontWeight: 800, fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '2px' }}>{item.label}</div>
                                             <div style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>{item.val}</div>
@@ -216,8 +216,8 @@ export default function EditorialBoardPage() {
                 
                 <div style={{ maxWidth: '900px', margin: '0 auto' }}>
                     <ScrollReveal direction="up" delay={0.2}>
-                      <div className="profile-card-premium" style={{ display: 'flex', flexDirection: 'row', gap: '3rem', alignItems: 'center', background: 'var(--bg-card)' }}>
-                          <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '8px solid var(--bg-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                      <div className="profile-card-premium profile-card-responsive managing-editor-card" style={{ padding: '0', background: 'var(--bg-card)' }}>
+                          <div className="responsive-portrait" style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '8px solid var(--bg-subtle)', boxShadow: 'var(--shadow-md)' }}>
                               <img src={managingEditor.image} alt={managingEditor.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           </div>
                           <div>

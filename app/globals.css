@@ -1273,6 +1273,102 @@ footer::before {
   transform: scale(1.08);
 }
 
+/* 📱 High-Performance Responsive Cards */
+.profile-card-responsive {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 0.8fr) 1.2fr;
+  gap: 5rem;
+  align-items: center;
+  padding: 5rem !important;
+  overflow: hidden;
+}
+
+.responsive-title {
+  font-size: 3rem;
+}
+
+.responsive-stat-list {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.responsive-stat-item {
+  display: flex !important;
+  gap: 20px !important;
+  text-align: left !important;
+}
+
+@media (max-width: 992px) {
+  .profile-card-responsive {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem !important;
+    text-align: center;
+  }
+
+  .responsive-content {
+    text-align: center !important;
+  }
+
+  .responsive-portrait {
+    margin: 0 auto;
+    width: 250px !important;
+    height: 250px !important;
+  }
+
+  .responsive-title {
+    font-size: 2.2rem !important;
+  }
+
+  .responsive-credentials {
+    justify-content: center !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .responsive-stat-list {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    max-width: 100%;
+    width: auto !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-card-responsive {
+    padding: 2.5rem 1.5rem !important;
+    gap: 2.5rem;
+  }
+
+  .responsive-portrait {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  .responsive-title {
+    font-size: 1.8rem !important;
+  }
+}
+
+.managing-editor-card {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 3rem;
+  align-items: center;
+  padding: 3rem 4rem !important;
+}
+
+@media (max-width: 768px) {
+  .managing-editor-card {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 2.5rem 1.5rem !important;
+  }
+}
+
 .signature-accent {
   color: var(--accent);
   font-family: var(--font-serif);
