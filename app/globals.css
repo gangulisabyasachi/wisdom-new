@@ -237,20 +237,22 @@ section {
   50% { opacity: 0; }
 }
 
-/* Scroll Indicator */
+/* Scroll Indicator: Pinned Absolute Floating */
 .scroll-indicator-wrapper {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
-  animation: floating 3s ease-in-out infinite;
+  z-index: 1000;
+  animation: floating-subtle 4s ease-in-out infinite;
   cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
 }
 
-@keyframes floating {
+@keyframes floating-subtle {
   0% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 15px); }
+  50% { transform: translate(-50%, 10px); }
   100% { transform: translate(-50%, 0); }
 }
 
@@ -258,45 +260,49 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  gap: 1rem;
+  text-decoration: none !important;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
 }
 
 .scroll-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
   color: var(--text-secondary);
   text-transform: uppercase;
 }
 
 .mouse {
   width: 22px;
-  height: 36px;
+  height: 38px;
   border: 2px solid var(--text-secondary);
   border-radius: 20px;
   position: relative;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .wheel {
   width: 3px;
   height: 6px;
-  background-color: var(--accent);
+  background-color: var(--text-secondary);
   border-radius: 2px;
   position: absolute;
   top: 8px;
   left: 50%;
   transform: translateX(-50%);
-  animation: scrollWheel 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation: scrollWheel-sober 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-@keyframes scrollWheel {
-  0% { transform: translate(-50%, 0); opacity: 0; }
+@keyframes scrollWheel-sober {
+  0% { transform: translate(-50%, -2px); opacity: 0; }
   30% { opacity: 1; }
-  100% { transform: translate(-50%, 15px); opacity: 0; }
+  100% { transform: translate(-50%, 12px); opacity: 0; }
 }
 
 .scroll-arrow-icon {
@@ -307,28 +313,28 @@ section {
 
 .scroll-arrow-icon span {
   display: block;
-  width: 9px;
-  height: 9px;
-  border-bottom: 3px solid var(--accent);
-  border-right: 3px solid var(--accent);
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--text-secondary);
+  border-right: 2px solid var(--text-secondary);
   transform: rotate(45deg);
-  margin: -5px;
-  animation: arrowBounce 2s infinite;
-  transition: border-color 0.3s ease;
+  margin: -4px;
+  animation: arrowBounce-sober 2s infinite;
 }
 
-.scroll-arrow-icon span:nth-child(2) {
-  animation-delay: 0.2s;
-}
+.scroll-arrow-icon span:nth-child(2) { animation-delay: 0.2s; }
+.scroll-arrow-icon span:nth-child(3) { animation-delay: 0.4s; }
 
-.scroll-arrow-icon span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes arrowBounce {
+@keyframes arrowBounce-sober {
   0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
-  50% { opacity: 1; }
+  50% { opacity: 0.8; }
   100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
+}
+
+@keyframes arrowBounce-orbital {
+  0% { opacity: 0; transform: rotate(45deg) translate(-10px, -10px); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(10px, 10px); }
 }
 
 .scroll-indicator:hover .mouse {
@@ -621,7 +627,39 @@ footer::before {
 
 
 
-/* Helper Animations */
+/* --- ADVANCED SCROLL REVEAL SYSTEM --- */
+.scroll-reveal {
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) rotate(0) !important;
+}
+
+.reveal-up { transform: translateY(40px); }
+.reveal-down { transform: translateY(-40px); }
+.reveal-left { transform: translateX(40px); }
+.reveal-right { transform: translateX(-40px); }
+
+/* Staggered Reveal Utilities */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+
+/* Subtle Parallax Movement */
+.parallax-wrap {
+  position: relative;
+}
+
+.parallax-element {
+  transition: transform 0.1s linear;
+}
+
+/* Legacy Reveal support for backwards compatibility */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
