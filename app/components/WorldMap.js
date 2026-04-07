@@ -129,10 +129,10 @@ const WorldMap = () => {
       </div>
 
       <div className="map-overlay">
-        <div className="presence-label">LIVE RESEARCH TRACE</div>
+        <div className="presence-label">GLOBAL SCHOLARLY NETWORK</div>
         <div className="presence-stats">
           <span className="pulse-indicator"></span>
-          REAL-TIME NODES: {liveNodes.length}
+          ACTIVE NODES: {liveNodes.length}
         </div>
       </div>
     </div>
