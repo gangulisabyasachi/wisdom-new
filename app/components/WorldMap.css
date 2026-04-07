@@ -1,0 +1,140 @@
+/* ==========================================================================
+   GLOBAL PRESENCE MAP (SCHOLARLY ORBITAL THEME)
+   ========================================================================== */
+
+.world-presence-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: rgba(10, 15, 25, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.world-presence-container.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.map-wrapper {
+  flex: 1;
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: radial-gradient(circle at center, rgba(30, 50, 90, 0.15) 0%, transparent 70%);
+}
+
+.presence-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(0, 100, 255, 0.1));
+}
+
+.map-base {
+  /* Premium Dark Map Style */
+  filter: invert(1) brightness(0.4) sepia(1) hue-rotate(185deg) saturate(1.5);
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+.world-presence-container:hover .map-base {
+  opacity: 0.9;
+}
+
+/* Beacon Styles */
+.hub-dot {
+  fill: #00ccff;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: heartbeat 2.5s ease-in-out infinite;
+}
+
+.hub-glow {
+  fill: rgba(100, 180, 255, 0.3);
+  filter: blur(2px);
+}
+
+.user-dot {
+  fill: #00ccff;
+  filter: drop-shadow(0 0 5px #00ccff);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.user-pulse, .user-pulse-outer {
+  fill: rgba(0, 204, 255, 0.3);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: beacon-pulse 2s infinite ease-out;
+}
+
+.user-pulse-outer {
+  animation-delay: 0.5s;
+  opacity: 0.2;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px #00ccff); opacity: 0.8; }
+  15% { transform: scale(1.3); filter: drop-shadow(0 0 10px #00ccff); opacity: 1; }
+  30% { transform: scale(1); filter: drop-shadow(0 0 2px #00ccff); opacity: 0.8; }
+  45% { transform: scale(1.2); filter: drop-shadow(0 0 6px #00ccff); opacity: 0.9; }
+  60% { transform: scale(1); filter: drop-shadow(0 0 2px #00ccff); opacity: 0.8; }
+  100% { transform: scale(1); filter: drop-shadow(0 0 2px #00ccff); opacity: 0.8; }
+}
+
+@keyframes beacon-pulse {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Map Overlay & Labels */
+.map-overlay {
+  padding: 10px 15px;
+  background: rgba(15, 25, 45, 0.6);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.presence-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.presence-stats {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 11px;
+  color: #00ccff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-indicator {
+  width: 6px;
+  height: 6px;
+  background: #00ccff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ccff;
+  animation: led-pulse 1.5s infinite alternate;
+}
+
+@keyframes led-pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}

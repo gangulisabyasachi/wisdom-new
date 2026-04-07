@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ScrollToTop from './components/ScrollToTop';
+import WorldMap from './components/WorldMap';
 
 // --- MAGNETIC COMPONENT FOR PREMIUM INTERACTION ---
 function MagneticLink({ href, children, className, ariaLabel }) {
@@ -246,6 +247,11 @@ export default function ClientLayout({ children }) {
                 <li><Link href="/disclaimer">Legal Disclaimer</Link></li>
                 <li><Link href="/privacy-policy">Privacy & Data</Link></li>
               </ul>
+            </div>
+
+            <div className="footer-presence">
+              <h4>Global Presence</h4>
+              <WorldMap />
             </div>
           </div>
 
