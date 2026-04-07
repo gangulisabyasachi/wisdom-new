@@ -3,7 +3,7 @@ import PageHero from '../components/PageHero';
 import ScrollReveal from '../components/ScrollReveal';
 import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
-import JournalRepository from '../components/JournalRepository';
+import ScholarlyArticlesList from '../components/ScholarlyArticlesList';
 
 export const metadata = {
   title: 'Current Issue - WISDOM Journal',
@@ -64,7 +64,9 @@ export default async function CurrentIssuePage() {
          doi: a.doi || '',
          page: a.page || '',
          abstract: a.abstract || '',
-         keywords: a.keywords || ''
+         keywords: a.keywords || '',
+         vol: a.volume,
+         issue: a.issue
        }));
 
        if (latestArticle.published_date) {
@@ -115,8 +117,44 @@ export default async function CurrentIssuePage() {
 
         {/* TABLE OF CONTENTS REPOSITORY */}
         <section style={{ padding: '8rem 0' }}>
-            <div className="container">
-                <JournalRepository initialArticles={articles} />
+            <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '6rem' }}>
+                <div className="toc-section">
+                   <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
+                      Manuscript Table of Contents
+                   </h2>
+                   <ScholarlyArticlesList articles={articles} />
+                </div>
+
+                <aside className="issue-sidebar">
+                    <ScrollReveal direction="right" delay={0.3}>
+                      <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
+                        <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
+                          <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
+                          <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                            <p style={{ marginBottom: '1.5rem' }}>
+                              This edition of WISDOM features multi-disciplinary research addressing critical advancements 
+                              in management, educational ethics, and transformative technologies.
+                            </p>
+                            <p style={{ marginBottom: '1.5rem' }}>
+                              Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
+                              stewards of the journal.
+                            </p>
+                          </div>
+                          <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
+                            <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
+                              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                              Indexed in Open Repositories
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ marginTop: '2rem' }}>
+                          <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                </aside>
             </div>
         </section>
     </main>
