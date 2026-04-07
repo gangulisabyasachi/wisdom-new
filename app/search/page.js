@@ -137,9 +137,9 @@ export default function SearchPage() {
                     {results.map((art, idx) => (
                         <ScrollReveal key={art._id} direction="up" delay={0.1 * (idx % 3)}>
                           <div className="article-card">
-                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                              <div className="article-meta-flex" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.5px', gap: '1rem', flexWrap: 'wrap' }}>
                                  <span>Vol {art.volume}, Issue {art.issue} &bull; {art.date}</span>
-                                 {art.doi && <span style={{ color: 'var(--accent)' }}>DOI {query ? highlightText(art.doi, query) : art.doi}</span>}
+                                 {art.doi && <span style={{ color: 'var(--accent)', wordBreak: 'break-all', textAlign: 'right' }}>DOI {query ? highlightText(art.doi, query) : art.doi}</span>}
                               </div>
                               <h3 style={{ marginBottom: '1rem' }}>
                                   <Link href={`/${art.slug}`} style={{ fontSize: '1.75rem', lineHeight: '1.3', fontFamily: 'var(--font-serif)' }}>
