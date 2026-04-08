@@ -3,6 +3,7 @@ import { connectDB } from '../../lib/db';
 import Journal from '../../lib/models/Journal';
 import PageHero from '../components/PageHero';
 import ScrollReveal from '../components/ScrollReveal';
+import CitationBox from '../components/CitationBox';
 
 export default async function ArticlePage({ params }) {
   const { slug } = await params;
@@ -237,6 +238,10 @@ export default async function ArticlePage({ params }) {
                     ))}
                   </div>
                 </div>
+              </ScrollReveal>
+
+              <ScrollReveal direction="right" delay={0.6}>
+                <CitationBox text={`${article.authors}, '${article.title}' [${article.year}] ${article.volume}(${article.issue}) WISDOM Journal ${article.page}`} />
               </ScrollReveal>
             </div>
           </aside>
