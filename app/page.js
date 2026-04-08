@@ -133,21 +133,21 @@ export default async function Home() {
                     <div className="highlights-grid">
                         <ScrollReveal direction="up" delay={0.2} className="stagger-1">
                             <div className="highlight-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>📖</div>
+                                <span className="material-icon" style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>menu_book</span>
                                 <h3>Rigorous Peer Review</h3>
                                 <p>Our double-blinded review process ensures every published manuscript meets high academic integrity.</p>
                             </div>
                         </ScrollReveal>
                         <ScrollReveal direction="up" delay={0.3} className="stagger-2">
                             <div className="highlight-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>🌐</div>
+                                <span className="material-icon" style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>public</span>
                                 <h3>Limitless Scope</h3>
                                 <p>From Social Sciences and Law to Applied Sciences and Global Management Research.</p>
                             </div>
                         </ScrollReveal>
                         <ScrollReveal direction="up" delay={0.4} className="stagger-3">
                             <div className="highlight-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>⚡</div>
+                                <span className="material-icon" style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>bolt</span>
                                 <h3>Impact & Access</h3>
                                 <p>Every article is published under CC BY 4.0, maximizing reach and collaborative potential.</p>
                             </div>
