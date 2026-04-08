@@ -5,6 +5,58 @@ import PageHero from '../components/PageHero';
 import ScrollReveal from '../components/ScrollReveal';
 import CitationBox from '../components/CitationBox';
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  try {
+    await connectDB();
+    const article = await Journal.findOne({ slug }, { topic: 1, abstract: 1, keywords: 1 }).lean();
+    if (article) {
+      // Truncate abstract for SEO description (exactly 160 chars as requested)
+      const cleanAbstract = article.abstract ? article.abstract.replace(/\s+/g, ' ').trim() : '';
+      const description = cleanAbstract.length > 160 
+        ? cleanAbstract.substring(0, 157) + '...' 
+        : cleanAbstract || `Read the full research manuscript "${article.topic}" on WISDOM Journal.`;
+
+      // Combine article keywords with default scholarly keywords
+      const defaultKeywords = "WISDOM Journal, peer-reviewed, research manuscript, open access, scholarly publication";
+      const combinedKeywords = article.keywords 
+        ? `${article.keywords}, ${defaultKeywords}`
+        : defaultKeywords;
+
+      return {
+        title: `${article.topic} - WISDOM`,
+        description: description,
+        keywords: combinedKeywords,
+        openGraph: {
+          title: `${article.topic} - WISDOM`,
+          description: description,
+          url: `/${slug}`,
+          siteName: 'WISDOM Journal',
+          images: [
+            {
+              url: '/images/logo.jpeg',
+              width: 1200,
+              height: 630,
+              alt: `WISDOM Journal Manuscript - ${article.topic}`,
+            },
+          ],
+          locale: 'en_US',
+          type: 'article',
+        },
+        twitter: {
+          card: 'summary_large_image',
+          title: `${article.topic} - WISDOM`,
+          description: description,
+          images: ['/images/logo.jpeg'],
+        },
+      };
+    }
+  } catch (err) {
+    console.error("Metadata fetch error:", err);
+  }
+  return { title: 'Article Details - WISDOM' };
+}
+
 export default async function ArticlePage({ params }) {
   const { slug } = await params;
   let article = null;

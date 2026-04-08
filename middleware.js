@@ -29,7 +29,15 @@ export default async function middleware(req) {
     return NextResponse.redirect(new URL('/admin', req.nextUrl));
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+
+  // STRENGTHEN SCHOLARLY SECURITY HEADERS
+  response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+  return response;
 }
 
 export const config = {
