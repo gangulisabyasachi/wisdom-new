@@ -147,14 +147,14 @@ export default function EditorialBoardPage() {
         <PageHero>
             <div className="container" style={{ position: 'relative', zIndex: 1 }}>
                 <div>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '1.5rem' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '5px', marginBottom: '2rem' }}>
                         Editorial Stewardship
                     </div>
-                    <h1 style={{ fontSize: 'clamp(3rem, 8vw, 5rem)', marginBottom: '1.5rem', lineHeight: 1.1 }}>
-                        Scholarly <span className="signature-accent">Leadership</span>
+                    <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem, 10vw, 6rem)', marginBottom: '1.5rem', lineHeight: 1.05, fontWeight: 500 }}>
+                        Scholarly <span className="signature-accent" style={{ fontStyle: 'italic' }}>Leadership</span>
                     </h1>
-                    <div style={{ height: '4px', width: '80px', background: 'var(--accent)', margin: '2rem auto' }}></div>
-                    <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}>
+                    <div style={{ height: '2px', width: '100px', background: 'var(--accent)', margin: '2.5rem auto' }}></div>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.4rem', color: 'var(--text-secondary)', maxWidth: '850px', margin: '0 auto', lineHeight: 1.7, fontStyle: 'italic' }}>
                         A distinguished assembly of global scholars overseeing rigorous multidisciplinary review and scientific integrity.
                     </p>
                 </div>
@@ -173,14 +173,14 @@ export default function EditorialBoardPage() {
                             </div>
                         </div>
                         <div className="responsive-content" style={{ textAlign: 'left' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                                <span style={{ fontSize: '0.7rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '3px' }}>Dean's Vision</span>
                                 <div style={{ height: '1px', flex: 1, background: 'var(--border)' }}></div>
-                                <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px' }}>Leadership Profile</span>
                             </div>
-                            <h2 className="responsive-title" style={{ marginBottom: '1rem', color: 'var(--text-primary)' }}>Prof (Dr.) <span className="signature-accent">Subhrangsu Shekhar</span> Chatterji</h2>
-                            <div className="responsive-credentials" style={{ marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                                <span style={{ padding: '4px 12px', background: 'var(--accent-light)', color: 'var(--accent)', borderRadius: '4px', fontSize: '0.9rem' }}>PhD (BHU)</span>
-                                <span>Distinguished Scholar & Jurist</span>
+                            <h2 className="responsive-title" style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', marginBottom: '1.5rem', color: 'var(--text-primary)', fontWeight: 500 }}>Prof (Dr.) <span className="signature-accent" style={{ fontStyle: 'italic' }}>Subhrangsu Shekhar</span> Chatterji</h2>
+                            <div className="responsive-credentials" style={{ marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+                                <span style={{ padding: '6px 16px', border: '1px solid var(--accent)', color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>PhD (BHU)</span>
+                                <span style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontStyle: 'italic', color: 'var(--text-secondary)' }}>Distinguished Scholar & Jurist</span>
                             </div>
                             
                             <div className="responsive-stat-list" style={{ display: 'grid', gap: '1.5rem' }}>

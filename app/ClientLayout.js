@@ -99,6 +99,7 @@ export default function ClientLayout({ children }) {
     { name: 'Call for Papers', href: '/call-for-papers' },
     { name: 'Contact', href: '/contact' },
     { name: 'Search', href: '/search' },
+    { name: 'Submit Paper', href: '/call-for-papers', isCTA: true },
   ];
 
   return (
@@ -125,18 +126,43 @@ export default function ClientLayout({ children }) {
           </Link>
 
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            {navLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className={`nav-link ${pathname === link.href ? 'active' : ''}`}
-              >
-                {link.name}
-              </Link>
+            {navLinks.map((link, i) => (
+              link.isCTA ? (
+                <Link 
+                  key={`nav-cta-${i}`} 
+                  href={link.href} 
+                  className="btn btn-primary nav-cta-btn" 
+                  style={{ 
+                    animationDelay: `${0.2 + (i * 0.1)}s`, 
+                    padding: '0.75rem 1.75rem', 
+                    fontSize: '0.75rem', 
+                    marginLeft: '1rem',
+                    borderRadius: '4px', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1px', 
+                    fontWeight: 800, 
+                    border: '2px solid var(--accent)', 
+                    background: 'transparent', 
+                    color: 'var(--accent)', 
+                    boxShadow: 'none',
+                    opacity: 0,
+                    display: 'inline-block',
+                    animation: 'navItemReveal 1.4s var(--ease) forwards'
+                  }}
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <Link 
+                  key={`nav-link-${i}`} 
+                  href={link.href} 
+                  className={`nav-link ${pathname === link.href ? 'active' : ''}`}
+                  style={{ animationDelay: `${0.2 + (i * 0.1)}s` }}
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
-            <Link href="/call-for-papers" className="btn btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.8rem', marginLeft: '1rem' }}>
-              Submit Paper
-            </Link>
           </div>
 
           <button 
@@ -151,7 +177,7 @@ export default function ClientLayout({ children }) {
         </nav>
         
         <style jsx>{`
-          @media (max-width: 968px) {
+          @media (max-width: 1250px) {
             .nav-menu {
               position: fixed;
               top: var(--nav-height);

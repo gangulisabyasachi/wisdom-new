@@ -166,11 +166,11 @@ export default async function ArticlePage({ params }) {
             <span>/</span>
             <span>Research Manuscript</span>
           </div>
-          <h1 className="manuscript-title" style={{ marginBottom: '2.5rem', lineHeight: '1.2' }}>{article.title}</h1>
-          <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
+          <h1 className="manuscript-title" style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 500, marginBottom: '2.5rem', lineHeight: '1.2' }}>{article.title}</h1>
+          <div style={{ display: 'flex', gap: '4rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
             <div style={{ flex: 1, minWidth: '300px' }}>
-              <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--accent)', marginBottom: '0.5rem' }}>{article.authors}</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6' }}>{article.affiliations}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent)', marginBottom: '0.75rem' }}>{article.authors}</div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6', maxWidth: '600px' }}>{article.affiliations}</div>
             </div>
             {article.pdf_path && (
               <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -179,10 +179,10 @@ export default async function ArticlePage({ params }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"
-                  style={{ display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 30px var(--accent-light)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '1rem 2rem', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, boxShadow: '0 10px 30px var(--accent-light)' }}
                 >
                   <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 16L7 11H10V4H14V11H17L12 16ZM19 18H5V16H3V18C3 19.1 3.9 20 5 20H19C20.1 20 21 19.1 21 18V16H19V18Z" /></svg>
-                  Download Manuscript PDF
+                  Download PDF
                 </a>
               </div>
             )}
@@ -194,9 +194,9 @@ export default async function ArticlePage({ params }) {
         <div className="container article-detail-grid">
           <div className="article-main-content">
             <ScrollReveal direction="up" delay={0.1}>
-              <div className="abstract-card" style={{ background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', borderLeft: '4px solid var(--accent)', marginBottom: '4rem' }}>
-                <h2 style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '1.5rem', fontStyle: 'italic'  }}>Abstract</h2>
-                <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word' }}>{article.abstract}</p>
+              <div className="abstract-card" style={{ background: 'var(--bg-subtle)', padding: '3rem', borderRadius: '4px', borderLeft: '6px solid var(--accent)', marginBottom: '4rem', boxShadow: 'var(--shadow-md)' }}>
+                <h2 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--accent)', marginBottom: '1.5rem', fontWeight: 800 }}>Abstract</h2>
+                <p style={{ fontSize: '1.2rem', lineHeight: '1.9', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word', fontFamily: 'var(--font-body)' }}>{article.abstract}</p>
               </div>
             </ScrollReveal>
 
