@@ -28,9 +28,31 @@ export default function AddJournalPage() {
     body: ''
   });
 
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')     // Replace spaces with -
+      .replace(/[^\w-]+/g, '')  // Remove all non-word chars
+      .replace(/--+/g, '-')     // Replace multiple - with single -
+      .replace(/^-+/, '')       // Trim - from start of text
+      .replace(/-+$/, '');      // Trim - from end of text
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    setFormData(prev => {
+      const newState = { ...prev, [name]: value };
+      
+      // Auto-generate hyphenated slug if the topic is being edited
+      if (name === 'topic') {
+        newState.slug = slugify(value);
+      }
+      
+      return newState;
+    });
   };
 
   const handleSubmit = async (e) => {
