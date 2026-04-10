@@ -196,17 +196,23 @@ export default async function ArticlePage({ params }) {
             <ScrollReveal direction="up" delay={0.1}>
               <div className="abstract-card" style={{ background: 'var(--bg-subtle)', padding: '3rem', borderRadius: '4px', borderLeft: '6px solid var(--accent)', marginBottom: '4rem', boxShadow: 'var(--shadow-md)' }}>
                 <h2 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--accent)', marginBottom: '1.5rem', fontWeight: 800 }}>Abstract</h2>
-                <p style={{ fontSize: '1.2rem', lineHeight: '1.9', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word', fontFamily: 'var(--font-body)' }}>{article.abstract}</p>
+                <p style={{ fontSize: '1.2rem', lineHeight: '2.2', color: 'var(--text-primary)', textAlign: 'justify', fontStyle: 'italic', wordBreak: 'break-word', fontFamily: 'var(--font-body)' }}>{article.abstract}</p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.2}>
-              <div className="article-teaser-container shadow-sm">
-                <div className="article-body" style={{ textAlign: 'justify', fontSize: '1.05rem', lineHeight: '1.8' }}>
+              <div className="article-teaser-container" style={{ marginBottom: '4rem' }}>
+                <div className="article-body" style={{ 
+                  textAlign: 'justify', 
+                  fontSize: '1.2rem', 
+                  color: 'var(--text-primary)',
+                  fontFamily: 'var(--font-body)'
+                }}>
                   <div dangerouslySetInnerHTML={{ __html: article.body }} />
                 </div>
               </div>
             </ScrollReveal>
+
 
             <ScrollReveal direction="up" delay={0.3}>
               <div className="manuscript-access-card">

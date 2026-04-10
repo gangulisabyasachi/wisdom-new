@@ -40,6 +40,9 @@ export default function AddJournalPage() {
       .replace(/-+$/, '');      // Trim - from end of text
   };
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
@@ -61,13 +64,16 @@ export default function AddJournalPage() {
     
     const rawForm = e.target;
     const submissionData = new FormData(rawForm);
-    // Note: 'body' is already in submissionData from the hidden input 
-    // inside RichTextEditor, so we don't need to manually set it from state.
 
     try {
       const result = await createJournal(submissionData);
       if (result.success) {
-        router.push('/admin/journals');
+        setToastMsg("Manuscript created successfully! Redirecting to editor...");
+        setShowToast(true);
+        // Stay in context: Move to the edit page of the new record instead of the list
+        setTimeout(() => {
+          router.push(`/admin/journals/edit/${result.id}`);
+        }, 1500);
       } else {
         alert("Failed to create manuscript: " + result.error);
       }
@@ -79,7 +85,29 @@ export default function AddJournalPage() {
   };
 
   return (
-    <div className="reveal" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="reveal" style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
+      
+      {/* 🌟 Professional Admin Success Toast */}
+      {showToast && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: '#059669',
+          color: 'white',
+          padding: '1rem 2rem',
+          borderRadius: '8px',
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          animation: 'slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}>
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span style={{ fontWeight: 600 }}>{toastMsg}</span>
+        </div>
+      )}
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem', gap: '1.5rem' }}>
         <Link href="/admin/journals" className="admin-btn admin-btn-outline">← Back</Link>
         <h1 className="admin-page-title" style={{ margin: 0 }}>Add New Manuscript</h1>

@@ -45,11 +45,17 @@ export const metadata = {
 export const revalidate = 60;
 
 export default async function ArchivesPage({ searchParams }) {
-  const { vol, issue } = await searchParams;
+  const { vol, issue, sort } = await searchParams;
   
   let volumes = [];
   let selectedArticles = [];
   let currentSelectionTitle = "Full Repository Index";
+
+  // Determine Sort Logic
+  let sortObj = { _id: -1 }; // Default: Latest Entry
+  if (sort === 'oldest') sortObj = { _id: 1 };
+  if (sort === 'alpha_asc') sortObj = { topic: 1 };
+  if (sort === 'alpha_desc') sortObj = { topic: -1 };
 
   try {
     await connectDB();
@@ -65,7 +71,6 @@ export default async function ArchivesPage({ searchParams }) {
       { $sort: { "_id.vol": -1, "_id.issue": -1 } }
     ]);
 
-    // Group issues by Volume for the selector UI
     const volMap = {};
     allIssueData.forEach(item => {
       const v = item._id.vol || 1;
@@ -90,7 +95,7 @@ export default async function ArchivesPage({ searchParams }) {
         }
     }
 
-    const rawArticles = await Journal.find(filter).sort({ volume: -1, issue: -1, page: 1 }).lean();
+    const rawArticles = await Journal.find(filter).sort(sortObj).lean();
     selectedArticles = rawArticles.map(a => ({
       topic: a.topic || '',
       slug: a.slug || '',
@@ -105,67 +110,127 @@ export default async function ArchivesPage({ searchParams }) {
     console.error("Failed to fetch archives:", err);
   }
 
+  const archived_total = selectedArticles.length;
+
   return (
     <main>
         <PageHero>
             <div className="container">
                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>Electronic Repository</div>
-                <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>Scholarly Archives</h1>
+                <h1 style={{ fontSize: '4.5rem', marginBottom: '1.5rem', letterSpacing: '-2px' }}>Archives</h1>
                 <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '700px' }}>
                     Browse our complete history of peer-reviewed multidisciplinary research by Volume and Issue.
                 </p>
             </div>
         </PageHero>
 
-        <section style={{ padding: '4rem 0' }}>
-            <div className="container" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '4rem' }}>
-                
-                {/* 🧭 SELECTOR SIDEBAR */}
-                <aside className="archive-sidebar">
-                    <ScrollReveal direction="left" delay={0.1}>
-                      <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 2rem)' }}>
-                        <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Index Selection</h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                           <Link 
-                               href="/archives" 
-                               className={`beauty-card ${!vol ? 'active-filter' : ''}`}
-                               style={{ margin: 0, padding: '1rem 1.5rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between' }}
-                            >
-                               <span>All Volumes</span>
-                               <span>&rarr;</span>
-                            </Link>
-                           
-                           {volumes.map(v => (
-                               <div key={v.number} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', padding: '0.5rem 0' }}>Volume {v.number}</div>
-                                  {v.issues.map(iss => (
-                                     <Link 
-                                       key={iss.number}
-                                       href={`/archives?vol=${v.number}&issue=${iss.number}`}
-                                       className={`beauty-card ${vol == v.number && issue == iss.number ? 'active-filter' : ''}`}
-                                       style={{ margin: 0, padding: '0.75rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                                     >
-                                       <span style={{ fontSize: '0.95rem' }}>Issue {iss.number}</span>
-                                       <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{iss.count} Papers</span>
-                                     </Link>
-                                  ))}
-                               </div>
-                           ))}
-                        </div>
-                      </div>
-                    </ScrollReveal>
-                </aside>
+        <section style={{ padding: '8rem 0' }}>
+            <div className="container">
+                <div style={{ marginBottom: '6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)' }}>
+                        Institutional Repository Index
+                    </div>
+                    
+                    {/* 🛥️ UNIQUE ELITE SEGMENTED DOCK */}
+                    <div style={{ 
+                        background: 'rgba(15, 20, 30, 0.05)', 
+                        padding: '0.5rem', 
+                        borderRadius: '100px', 
+                        display: 'flex', 
+                        gap: '0.25rem', 
+                        border: '1px solid var(--border)',
+                        position: 'relative',
+                        backdropFilter: 'blur(10px)'
+                    }}>
+                        {[
+                            { id: 'latest', label: 'Latest Publication', icon: 'auto_awesome' },
+                            { id: 'oldest', label: 'Default', icon: 'history' },
+                            { id: 'alpha_asc', label: 'Topic A to Z', icon: 'sort_by_alpha' },
+                            { id: 'alpha_desc', label: 'Topic Z to A', icon: 'filter_list' }
+                        ].map((opt) => {
+                            const isActive = sort === opt.id || (!sort && opt.id === 'latest');
+                            return (
+                                <Link 
+                                    key={opt.id}
+                                    href={`/archives?${vol ? `vol=${vol}&issue=${issue}&` : ''}sort=${opt.id}`}
+                                    style={{
+                                        padding: '0.85rem 1.75rem',
+                                        borderRadius: '100px',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 800,
+                                        textTransform: 'none',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        background: 'transparent',
+                                        color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
+                                        position: 'relative',
+                                        zIndex: 2
+                                    }}
+                                >
+                                    <span className="material-icon" style={{ 
+                                        fontSize: '1.2rem',
+                                        color: isActive ? 'var(--accent)' : 'var(--text-muted)',
+                                        transition: 'all 0.4s ease'
+                                    }}>{opt.icon}</span>
+                                    <span style={{ letterSpacing: '0.5px' }}>{opt.label}</span>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
 
-                {/* 📚 RESULTS AREA */}
-                <div className="archive-results">
-                   <ScrollReveal direction="up" delay={0.1}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '2px solid var(--accent)', paddingBottom: '1rem', marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)' }}>{currentSelectionTitle}</h2>
-                        <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{selectedArticles.length} manuscripts</span>
-                      </div>
-                   </ScrollReveal>
+                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 3fr', gap: '6rem' }}>
+                    
+                    {/* 🧭 SELECTOR SIDEBAR */}
+                    <aside className="archive-sidebar">
+                        <ScrollReveal direction="left" delay={0.1}>
+                          <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 2rem)' }}>
+                            <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Index Selection</h3>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                               <Link 
+                                   href="/archives" 
+                                   className={`beauty-card ${!vol ? 'active-filter' : ''}`}
+                                   style={{ margin: 0, padding: '1rem 1.5rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between' }}
+                                >
+                                   <span>All Volumes</span>
+                                   <span>&rarr;</span>
+                                </Link>
+                               
+                               {volumes.map(v => (
+                                   <div key={v.number} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                      <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', padding: '0.5rem 0' }}>Volume {v.number}</div>
+                                      {v.issues.map(iss => (
+                                         <Link 
+                                           key={iss.number}
+                                           href={`/archives?vol=${v.number}&issue=${iss.number}`}
+                                           className={`beauty-card ${vol == v.number && issue == iss.number ? 'active-filter' : ''}`}
+                                           style={{ margin: 0, padding: '0.75rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                         >
+                                           <span style={{ fontSize: '0.95rem' }}>Issue {iss.number}</span>
+                                           <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{iss.count} Papers</span>
+                                         </Link>
+                                      ))}
+                                   </div>
+                               ))}
+                            </div>
+                          </div>
+                        </ScrollReveal>
+                    </aside>
 
-                   <ScholarlyArticlesList articles={selectedArticles} />
+                    {/* 📚 RESULTS AREA */}
+                    <div className="archive-results">
+                       <ScrollReveal direction="up" delay={0.1}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '2px solid var(--accent)', paddingBottom: '1rem', marginBottom: '3rem' }}>
+                            <h2 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)' }}>{currentSelectionTitle}</h2>
+                            <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{selectedArticles.length} manuscripts</span>
+                          </div>
+                       </ScrollReveal>
+
+                       <ScholarlyArticlesList articles={selectedArticles} />
+                    </div>
                 </div>
             </div>
         </section>

@@ -1,7 +1,7 @@
 'use server';
 
-import { connectDB } from '../../../lib/db';
-import Journal from '../../../lib/models/Journal';
+import { connectDB } from '@/lib/db';
+import Journal from '@/lib/models/Journal';
 import { revalidatePath } from 'next/cache';
 
 /**
@@ -113,6 +113,59 @@ export async function deleteJournal(id) {
     return { success: true };
   } catch (error) {
     console.error("Delete Failed:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * UPDATE JOURNAL ACTION
+ * Non-redirecting update for high-fidelity writing experience.
+ */
+export async function updateJournalAction(id, formData) {
+  try {
+    await connectDB();
+    const { writeFile, mkdir } = await import('fs/promises');
+    const { join } = await import('path');
+
+    const topic = formData.get('topic');
+    const slug = formData.get('slug');
+    const pdfFile = formData.get('pdf_file');
+    let pdfPath = formData.get('pdf_path');
+
+    if (pdfFile && pdfFile.size > 0) {
+      const bytes = await pdfFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const uploadDir = join(process.cwd(), 'public', 'uploads');
+      await mkdir(uploadDir, { recursive: true });
+      const fileName = `${slug || 'manuscript'}-${Date.now()}.pdf`;
+      const path = join(uploadDir, fileName);
+      await writeFile(path, buffer);
+      pdfPath = `/uploads/${fileName}`;
+    }
+
+    const updateData = {
+      topic,
+      authors: formData.get('authors'),
+      affiliations: formData.get('affiliations'),
+      abstract: formData.get('abstract'),
+      body: formData.get('body'),
+      citation: formData.get('citation'),
+      keywords: formData.get('keywords'),
+      doi: formData.get('doi'),
+      slug,
+      volume: Number(formData.get('volume')),
+      issue: Number(formData.get('issue')),
+      page: formData.get('page'),
+      pdf_path: pdfPath,
+      published_date: formData.get('published_date') ? new Date(formData.get('published_date')) : null,
+    };
+
+    await Journal.findByIdAndUpdate(id, updateData);
+    revalidatePath('/admin/journals');
+    revalidatePath(`/${slug}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Update Failed:", error);
     return { success: false, error: error.message };
   }
 }

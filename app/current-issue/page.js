@@ -36,16 +36,24 @@ export const metadata = {
 
 export const revalidate = 60;
 
-export default async function CurrentIssuePage() {
+export default async function CurrentIssuePage({ searchParams }) {
+  const { sort } = await searchParams;
+  
   let current_volume = 1;
   let current_issue = 1;
   let published_month = '';
-  
   let articles = [];
+
+  // Determine Sort Logic
+  let sortObj = { _id: -1 }; // Default: Latest Entry
+  if (sort === 'oldest') sortObj = { _id: 1 };
+  if (sort === 'date_desc') sortObj = { published_date: -1 };
+  if (sort === 'date_asc') sortObj = { published_date: 1 };
+  if (sort === 'alpha_asc') sortObj = { topic: 1 };
+  if (sort === 'alpha_desc') sortObj = { topic: -1 };
 
   try {
     await connectDB();
-
     const latestArticle = await Journal.findOne().sort({ volume: -1, issue: -1 }).lean();
     
     if (latestArticle) {
@@ -53,7 +61,7 @@ export default async function CurrentIssuePage() {
        current_issue = latestArticle.issue || 1;
        
        const issueArticles = await Journal.find({ volume: current_volume, issue: current_issue })
-         .sort({ page: 1, published_date: 1 })
+         .sort(sortObj)
          .lean();
          
        articles = issueArticles.map(a => ({
@@ -92,14 +100,6 @@ export default async function CurrentIssuePage() {
                           Volume {current_volume}, Issue {current_issue}
                        </div>
                     </div>
-                    <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
-                       <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, background: 'var(--bg-card)' }}>
-                          {total_articles} Scholarly Papers
-                       </div>
-                       <div className="beauty-card" style={{ margin: 0, padding: '0.75rem 1.5rem', fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent)', borderColor: 'var(--accent)' }}>
-                          Double-Blinded Review
-                       </div>
-                    </div>
                 </div>
 
                 {/* 📔 JOURNAL COVER VISUAL */}
@@ -117,44 +117,102 @@ export default async function CurrentIssuePage() {
 
         {/* TABLE OF CONTENTS REPOSITORY */}
         <section style={{ padding: '8rem 0' }}>
-            <div className="container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '6rem' }}>
-                <div className="toc-section">
-                   <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
-                      Manuscript Table of Contents
-                   </h2>
-                   <ScholarlyArticlesList articles={articles} />
+            <div className="container">
+                
+                <div style={{ marginBottom: '6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)' }}>
+                        Repository Reordering
+                    </div>
+                    
+                    {/* 🛥️ UNIQUE ELITE SEGMENTED DOCK */}
+                    <div style={{ 
+                        background: 'rgba(15, 20, 30, 0.05)', 
+                        padding: '0.5rem', 
+                        borderRadius: '100px', 
+                        display: 'flex', 
+                        gap: '0.25rem',
+                        border: '1px solid var(--border)',
+                        position: 'relative',
+                        backdropFilter: 'blur(10px)'
+                    }}>
+                        {[
+                            { id: 'latest', label: 'Latest Publication', icon: 'auto_awesome' },
+                            { id: 'oldest', label: 'Default', icon: 'history' },
+                            { id: 'alpha_asc', label: 'Thematic A-Z', icon: 'sort_by_alpha' },
+                            { id: 'alpha_desc', label: 'Thematic Z-A', icon: 'filter_list' }
+                        ].map((opt) => {
+                            const isActive = sort === opt.id || (!sort && opt.id === 'latest');
+                            return (
+                                <Link 
+                                    key={opt.id}
+                                    href={`/current-issue?sort=${opt.id}`}
+                                    style={{
+                                        padding: '0.85rem 1.75rem',
+                                        borderRadius: '100px',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 800,
+                                        textDecoration: 'none',
+                                        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        background: 'transparent',
+                                        color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
+                                        position: 'relative',
+                                        zIndex: 2
+                                    }}
+                                >
+                                    <span className="material-icon" style={{ 
+                                        fontSize: '1.2rem',
+                                        color: isActive ? 'var(--accent)' : 'var(--text-muted)',
+                                        transition: 'all 0.4s ease'
+                                    }}>{opt.icon}</span>
+                                    <span style={{ letterSpacing: '0.5px' }}>{opt.label}</span>
+                                </Link>
+                            );
+                        })}
+                    </div>
                 </div>
 
-                <aside className="issue-sidebar">
-                    <ScrollReveal direction="right" delay={0.3}>
-                      <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
-                        <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
-                          <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
-                          <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                            <p style={{ marginBottom: '1.5rem' }}>
-                              This edition of WISDOM features multi-disciplinary research addressing critical advancements 
-                              in management, educational ethics, and transformative technologies.
-                            </p>
-                            <p style={{ marginBottom: '1.5rem' }}>
-                              Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
-                              stewards of the journal.
-                            </p>
-                          </div>
-                          <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
-                            <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
-                              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                              Indexed in Open Repositories
+                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) 1fr', gap: '6rem' }}>
+                    <div className="toc-section">
+                       <h2 style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '4px', color: 'var(--text-muted)', marginBottom: '4rem', fontWeight: 900, borderLeft: '4px solid var(--accent)', paddingLeft: '1.5rem' }}>
+                          Manuscript Table of Contents
+                       </h2>
+                       <ScholarlyArticlesList articles={articles} />
+                    </div>
+
+                    <aside className="issue-sidebar">
+                        <ScrollReveal direction="right" delay={0.3}>
+                          <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 4rem)' }}>
+                            <div className="beauty-card" style={{ padding: '3rem', margin: 0 }}>
+                              <h4 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--accent)', marginBottom: '2rem' }}>About this Issue</h4>
+                              <div className="article-body" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                <p style={{ marginBottom: '1.5rem' }}>
+                                  This edition of WISDOM features multi-disciplinary research addressing critical advancements 
+                                  in management, educational ethics, and transformative technologies.
+                                </p>
+                                <p style={{ marginBottom: '1.5rem' }}>
+                                  Every paper has undergone rigorous double-blinded peer evaluation by internal and external 
+                                  stewards of the journal.
+                                </p>
+                              </div>
+                              <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '1rem' }}>Global Status</div>
+                                <div style={{ display: 'flex', gap: '8px', color: '#059669', fontSize: '0.85rem', fontWeight: 700 }}>
+                                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                  Indexed in Open Repositories
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style={{ marginTop: '2rem' }}>
+                              <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
                             </div>
                           </div>
-                        </div>
-
-                        <div style={{ marginTop: '2rem' }}>
-                          <Link href="/archives" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>Explore Archives</Link>
-                        </div>
-                      </div>
-                    </ScrollReveal>
-                </aside>
+                        </ScrollReveal>
+                    </aside>
+                </div>
             </div>
         </section>
     </main>

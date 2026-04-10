@@ -20,79 +20,169 @@ export default function RichTextEditor({ name, initialValue = '', onChange }) {
   };
 
   return (
-    <div className="custom-editor-wrapper" style={{ border: '2px solid var(--admin-border)', borderRadius: '10px', overflow: 'hidden', background: 'white' }}>
-      <div className="editor-toolbar" style={{ background: '#f8fafc', padding: '10px 15px', borderBottom: '2px solid var(--admin-border)', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+    <div className="word-editor-environment" style={{ 
+      background: '#f1f5f9', 
+      borderRadius: '12px', 
+      border: '1px solid #cbd5e1', 
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+    }}>
+      {/* MS Word Dynamic Ribbon */}
+      <div className="editor-ribbon" style={{ 
+        background: '#ffffff', 
+        padding: '12px 20px', 
+        borderBottom: '1px solid #e2e8f0', 
+        display: 'flex', 
+        gap: '6px', 
+        flexWrap: 'wrap', 
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
+      }}>
         
-        <select onChange={(e) => execCmd('formatBlock', e.target.value)} defaultValue="P" className="toolbar-select">
-          <option value="P">Paragraph (Normal)</option>
-          <option value="H1">Heading 1</option>
-          <option value="H2">Heading 2</option>
-          <option value="H3">Heading 3</option>
-          <option value="BLOCKQUOTE">Quote</option>
+        {/* Style selection group */}
+        <select onChange={(e) => execCmd('formatBlock', e.target.value)} defaultValue="P" className="ribbon-select" title="Text Style">
+          <option value="P">Normal Text</option>
+          <option value="H1">HEADING 1 (16px)</option>
+          <option value="H2">HEADING 2 (14px)</option>
+          <option value="H3">HEADING 3 (12px)</option>
+          <option value="BLOCKQUOTE">Scholarly Quote</option>
         </select>
         
-        <div style={{ width: '1px', background: '#ccc', margin: '0 5px' }}></div>
+        <div className="ribbon-divider"></div>
 
-        <button type="button" onClick={() => execCmd('bold')} className="toolbar-btn" title="Bold"><b>B</b></button>
-        <button type="button" onClick={() => execCmd('italic')} className="toolbar-btn" title="Italic"><i>I</i></button>
-        <button type="button" onClick={() => execCmd('underline')} className="toolbar-btn" title="Underline"><u>U</u></button>
+        <div className="ribbon-btn-group">
+          <button type="button" onClick={() => execCmd('bold')} className="ribbon-btn" title="Bold (Ctrl+B)"><b>B</b></button>
+          <button type="button" onClick={() => execCmd('italic')} className="ribbon-btn" title="Italic (Ctrl+I)"><i>I</i></button>
+          <button type="button" onClick={() => execCmd('underline')} className="ribbon-btn" title="Underline (Ctrl+U)"><u>U</u></button>
+        </div>
+
+        <div className="ribbon-divider"></div>
+
+        <div className="ribbon-btn-group">
+          <button type="button" onClick={() => execCmd('insertUnorderedList')} className="ribbon-btn" title="Bullet Points">•</button>
+          <button type="button" onClick={() => execCmd('insertOrderedList')} className="ribbon-btn" title="Numbered List">1.</button>
+        </div>
         
-        <div style={{ width: '1px', background: '#ccc', margin: '0 5px' }}></div>
+        <div className="ribbon-divider"></div>
 
-        <button type="button" onClick={() => execCmd('insertUnorderedList')} className="toolbar-btn">• List</button>
-        <button type="button" onClick={() => execCmd('insertOrderedList')} className="toolbar-btn">1. List</button>
-        
-        <div style={{ width: '1px', background: '#ccc', margin: '0 5px' }}></div>
+        <div className="ribbon-btn-group">
+          <button type="button" onClick={() => {
+              const url = prompt('Enter Citation/Link URL:');
+              if (url) execCmd('createLink', url);
+          }} className="ribbon-btn" title="Insert Hyperlink">🔗</button>
+          <button type="button" onClick={() => execCmd('unlink')} className="ribbon-btn" title="Remove Link">⌿</button>
+        </div>
 
-        <button type="button" onClick={() => {
-            const url = prompt('Enter link URL (e.g., https://google.com):');
-            if (url) execCmd('createLink', url);
-        }} className="toolbar-btn">🌐 Link</button>
-        <button type="button" onClick={() => execCmd('unlink')} className="toolbar-btn">Unlink</button>
+        <div className="ribbon-divider"></div>
+
+        <button type="button" onClick={() => execCmd('removeFormat')} className="ribbon-btn ribbon-btn-danger" title="Standardize Formatting">⌫ Clear</button>
       </div>
 
-      <div 
-        ref={editorRef}
-        contentEditable={true}
-        suppressContentEditableWarning={true}
-        onInput={handleInput}
-        onBlur={handleInput}
-        className="editor-content-area"
-        style={{ minHeight: '350px', padding: '1.5rem', outline: 'none', lineHeight: '1.6', fontSize: '1rem', color: '#333' }}
-        dangerouslySetInnerHTML={{ __html: initialValue }}
-      />
+      {/* The "Page" Canvas */}
+      <div className="editor-page-scroller" style={{ 
+        padding: '40px 20px', 
+        maxHeight: '650px', 
+        overflowY: 'auto',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <div className="editor-paper-sheet" style={{
+            background: '#ffffff',
+            width: '100%',
+            maxWidth: '850px',
+            minHeight: '1100px', /* Mimic A4 aspect */
+            padding: '60px 80px', /* Generous manuscript margins */
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+            borderRadius: '2px',
+            position: 'relative'
+        }}>
+          <div 
+            ref={editorRef}
+            contentEditable={true}
+            suppressContentEditableWarning={true}
+            onInput={handleInput}
+            onBlur={handleInput}
+            className="editor-content-area"
+            style={{ 
+                outline: 'none', 
+                minHeight: '1000px',
+                color: '#1e293b'
+            }}
+            dangerouslySetInnerHTML={{ __html: initialValue }}
+          />
+        </div>
+      </div>
       
-      {/* Hidden DOM input bridges the pure JS textarea payload directly to the Next.js Server Action form securely */}
+      {/* Hidden bridge to Server Actions */}
       <input type="hidden" name={name} ref={hiddenInputRef} defaultValue={initialValue} />
       
       <style jsx>{`
-        .toolbar-btn {
-          background: white; 
-          border: 1px solid #cbd5e1; 
-          border-radius: 6px; 
-          padding: 6px 12px; 
+        .ribbon-btn-group {
+          display: flex;
+          background: #f8fafc;
+          border-radius: 6px;
+          border: 1px solid #e2e8f0;
+          padding: 2px;
+        }
+        .ribbon-btn {
+          background: transparent; 
+          border: none;
+          border-radius: 4px; 
+          padding: 6px 14px; 
           cursor: pointer; 
-          color: #333; 
+          color: #475569; 
           font-size: 0.9rem;
+          font-weight: 500;
           transition: all 0.2s;
         }
-        .toolbar-btn:hover { 
+        .ribbon-btn:hover { 
           background: #e2e8f0; 
-          border-color: #94a3b8;
+          color: #0f172a;
         }
-        .toolbar-select { 
-          padding: 6px 10px; 
-          border: 1px solid #cbd5e1; 
+        .ribbon-btn-danger {
+          color: var(--accent);
+          border: 1px solid #fee2e2;
+          background: #fef2f2;
+        }
+        .ribbon-btn-danger:hover {
+          background: #fee2e2;
+          color: var(--accent-hover);
+        }
+        .ribbon-select { 
+          padding: 8px 12px; 
+          border: 1px solid #e2e8f0; 
           border-radius: 6px; 
-          background: white; 
+          background: #f8fafc; 
           cursor: pointer;
-          font-family: inherit;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #475569;
+          outline: none;
         }
-        .editor-content-area {
-            font-family: 'Outfit', sans-serif;
+        .ribbon-select:hover {
+          border-color: #cbd5e1;
+          color: #1e293b;
         }
-        .editor-content-area:focus {
-            background: #fdfdfd;
+        .ribbon-divider {
+          width: 1px; 
+          height: 24px; 
+          background: #e2e8f0; 
+          margin: 0 4px;
+        }
+        .editor-page-scroller::-webkit-scrollbar {
+          width: 8px;
+        }
+        .editor-page-scroller::-webkit-scrollbar-track {
+          background: #f1f5f9;
+        }
+        .editor-page-scroller::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 10px;
         }
       `}</style>
     </div>
